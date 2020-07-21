@@ -7,13 +7,13 @@ def test_import():
     """
     Test import of the package.
     """
-    import nocaselist  # noqa: F401 pylint: disable=import-outside-toplevel
-    assert nocaselist
+    import nocasedict  # noqa: F401 pylint: disable=import-outside-toplevel
+    assert nocasedict
 
 
 def test_versioning():
     """
     Test import of the package.
     """
-    import nocaselist  # noqa: F401 pylint: disable=import-outside-toplevel
-    assert nocaselist.__version__
+    import nocasedict  # noqa: F401 pylint: disable=import-outside-toplevel
+    assert nocasedict.__version__
