@@ -70,6 +70,7 @@ extensions = [
     'sphinx.ext.coverage',
     'sphinx.ext.viewcode',   # disabed, raises anexception
     'sphinx.ext.ifconfig',
+    'python_docs_theme',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -210,13 +211,15 @@ viewcode_import = True
 
 # The theme to use for HTML and HTML Help pages.
 # See https://www.sphinx-doc.org/en/stable/theming.html for built-in themes.
-html_theme = "classic"
+html_theme = 'python_docs_theme'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.
 # See https://www.sphinx-doc.org/en/stable/theming.html for the options
 # available for built-in themes.
 html_theme_options = {
+    'collapsiblesidebar': True,
+    'issues_url': 'https://github.com/pywbem/nocasedict/issues',
 }
 
 # Add any paths that contain custom themes here, relative to this directory.
@@ -241,7 +244,7 @@ html_theme_options = {
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+# html_static_path = ['_static']
 
 # Add any extra paths that contain custom files (such as robots.txt or
 # .htaccess) here, relative to this directory. These files are copied
@@ -257,7 +260,14 @@ html_static_path = ['_static']
 #html_use_smartypants = True
 
 # Custom sidebar templates, maps document names to template names.
-#html_sidebars = {}
+html_sidebars = {
+    '**': [
+        'localtoc.html',
+        'globaltoc.html',
+        'relations.html',
+        'sourcelink.html',
+    ]
+}
 
 # Additional templates that should be rendered to pages, maps page names to
 # template names.
@@ -279,7 +289,7 @@ html_static_path = ['_static']
 #html_show_sphinx = True
 
 # If true, "(C) Copyright ..." is shown in the HTML footer. Default is True.
-#html_show_copyright = True
+html_show_copyright = False
 
 # If true, an OpenSearch description file will be output, and all pages will
 # contain a <link> tag referring to it.  The value of this option must be the
