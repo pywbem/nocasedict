@@ -35,11 +35,6 @@ packaging>=17.0
 pluggy>=0.7.1; python_version >= '2.7' and python_version <= '3.6'
 pluggy>=0.13.0; python_version >= '3.7'
 
-# six (used by virtualenv, tox, probably others)
-# virtualenv 20.0 requires six>=1.12.0 on py>=3.8
-# tox 3.17 requires six>=1.14.0
-six>=1.14.0
-
 # pathlib2 (used by virtualenv on py<3.4 on non-Windows)
 pathlib2<3,>=2.3.3; python_version < '3.4' and sys_platform != 'win32'
 
