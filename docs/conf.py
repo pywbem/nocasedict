@@ -97,7 +97,7 @@ project = u'nocasedict'
 author = u"Andreas Maier"
 
 # The short description of the package.
-_short_description = u"A case-insensitive dictionary for Python"
+_short_description = u"A case-insensitive ordered dictionary for Python"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -116,6 +116,9 @@ release = version
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
 language = None
+
+# By default, highlight as Python 3.
+highlight_language = 'python3'
 
 # There are two options for replacing |today|: either, you set today to some
 # non-false value, then it is used:
@@ -427,7 +430,7 @@ autoclass_content = "both"
 # Selects if automatically documented members are sorted alphabetically
 # (value 'alphabetical'), by member type (value 'groupwise') or by source
 # order (value 'bysource'). The default is alphabetical.
-autodoc_member_order = "bysource"
+autodoc_member_order = "alphabetical"
 
 # This value is a list of autodoc directive options (flags) that should be
 # automatically applied to all autodoc directives. The supported options
@@ -481,9 +484,9 @@ autodoc_mock_imports = []
 #       to datatypes of function parameters can be controlled.
 #
 intersphinx_mapping = {
-  'py': ('https://docs.python.org/2/', None), # agnostic to Python version
-  'py2': ('https://docs.python.org/2', None), # specific to Python 2
-  'py3': ('https://docs.python.org/3', None), # specific to Python 3
+  'py': ('https://docs.python.org/3', None), # default is Python 3
+  'py2': ('https://docs.python.org/2', None),
+  'py3': ('https://docs.python.org/3', None),
 }
 
 intersphinx_cache_limit = 5

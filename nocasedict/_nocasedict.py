@@ -51,85 +51,86 @@ __all__ = ['NocaseDict']
 
 
 class NocaseDict(object):
+    # pylint: disable=line-too-long
     """
-    Yet another implementation of a case-insensitive dictionary.
+    A case-insensitive, ordered, and case-preserving, dictionary.
 
-    Whenever keys are looked up, that is done case-insensitively. Whenever
-    keys are returned, they are returned with the lexical case that was
-    originally specified. The dictionary preserves the order of its items
-    (on all supported Python versions).
+    The dictionary is case-insensitive: Whenever items of the dictionary are
+    looked up by key or key values are compared, that is done
+    case-insensitively. The case-insensitivity is defined by performing the
+    lookup or comparison on the result of the ``lower()`` method on the key
+    value. Therefore, objects used as keys must support the ``lower()`` method.
+    If a key object does not do that, :exc:`py:TypeError` is raised.
 
-    Except for the case-insensitivity of its keys, it behaves like the built-in
-    :class:`~py:collections.OrderedDict`.
+    The dictionary is ordered: The dictionary maintains the order in which items
+    were added for all Python versions supported by this package. This is
+    consistent with the ordering behavior of the built-in :class:`py:dict`
+    class starting with Python 3.7.
 
-    In addition to the methods listed, the dictionary supports:
+    The dictionary is case-preserving: Whenever key values are returned, they
+    have the lexical case that was originally specified when adding or updating
+    the item.
 
-      * Retrieval of values based on key: `val = d[key]`
+    The implementation maintains a dictionary with the lower-cased keys, and
+    items that are a tuple (original key, value).
 
-      * Assigning values for a key: `d[key] = val`
+    Except for the case-insensitivity of its keys, the
+    :class:`~nocasedict.NocaseDict` class behaves like the built-in
+    :class:`py:dict` class starting with Python 3.7 (where it is guaranteed to
+    be ordered), so its documentation applies completely.
 
-      * Deleting a key/value pair: `del d[key]`
+    The provided key and value objects are not copied when they are added to
+    the new dictionary, i.e. the dictionary will reference the provided
+    objects.
 
-      * Equality comparison (`==`, `!=`)
-
-      * Ordering comparison (`<`, `<=`, `>=`, `>`)
-
-      * Containment test: `key in d`
-
-      * For loops: `for key in d`
-
-      * Determining length: `len(d)`
-    """
+    The following documentation is provided only for explicit documentation of
+    the case-insensitive and ordering behavior.
+    """  # noqa E401
+    # pylint: enable=line-too-long
 
     def __init__(self, *args, **kwargs):
         """
-        Initialize the new dictionary from input arguments.
+        Parameters:
 
-        This happens in two steps:
+          *args : An optional single positional argument that must be a
+            :term:`py:mapping`, an :term:`py:iterable`, or `None.`
 
-        In the first step, an initial set of items is added to the new
-        dictionary, from the positional argument(s):
+            If not provided or provided as `None`, the dictionary initialized
+            from the positional arguments will be empty.
 
-          * If no positional argument is provided, or if one argument with the
-            value `None` is provided, the new dictionary will be empty in this
-            step.
+            For mapping objects, the dictionary will be initialized with the
+            key-value pairs from the mapping object, preserving the iteration
+            order of the mapping object.
 
-          * If one positional argument of tuple or list type is provided, the
-            items in that iterable must be tuples of key and value. These
-            key/value pairs will be added to the new dictionary without copying
-            them, preserving their order in the list.
+            For iterable objects, the dictionary will be initialized with the
+            items from the iterable in iteration order. If a key occurs more
+            than once (case-insensitively), the last value for that key becomes
+            the corresponding value in the dictionary. Each item in the iterable
+            must be one of:
 
-          * If one positional argument of dictionary kind (dict, OrderedDict,
-            NocaseDict) is provided, its key/value pairs are added to the new
-            dictionary without copying them, preserving their order in case of
-            OrderedDict or NocaseDict. Because dict types inherently do not
-            preserve order, the resulting order of items in the new dictionary
-            will be arbitrary in that case.
+            * an iterable with exactly two items. The first item is used as the
+              key, and the second item as the value.
 
-          * Otherwise, `TypeError` is raised.
+            * an object with a ``name`` attribute. The value of the ``name``
+              attribute is used as the key, and the object itself as the value.
 
-        In the second step, the new dictionary is updated from any provided
-        keyword arguments, without copying them, for each keyword argument
-        using its name as a key and its value as a value. Note that Python
-        before version 3.6 uses standard dict objects for passing keyword
-        arguments, so the resulting order of items in the new dictionary will
-        be arbitrary. From Python 3.6 on, keyword arguments will be passed
-        in the order specified, so they will be added to the new dictionary
-        in the order specified, from left to right.
+          **kwargs : Optional keyword arguments representing key-value pairs to
+            add to the dictionary initialized from the positional argument.
 
-        Summary w.r.t. preservation of item order: In order to preserve the
-        order of items used to initialize a new NocaseDict object, only the
-        following approaches can be used across all Python versions supported
-        by this package:
+            Starting with Python 3.7, the order of keyword arguments
+            as specified by the caller is preserved in the new dictionary.
 
-        * Passing a list or a tuple of key/value pairs as a single positional
-          argument.
-        * Passing an OrderedDict or NocaseDict object as a single positional
-          argument.
+            If a key being added is already present (case-insensitively) from
+            the positional argument, the value from the keyword argument
+            replaces the value from the positional argument.
 
-        A UserWarning will be issued if the provided init parameters will
-        cause the order of provided items not to be preserved when adding them
-        to the new dictionary.
+        To summarize, only the following types of init arguments allow defining
+        the order of items in the new dictionary across all Python versions
+        supported by this package: Passing an iterable, an ordered mapping, or
+        `None` as a single positional argument, and passing at most one keyword
+        argument. A :exc:`py:UserWarning` will be issued if the provided
+        arguments cause the order of provided items not to be preserved in the
+        new dictionary.
         """
 
         # The internal dictionary, with lower case keys. An item in this dict
@@ -189,7 +190,7 @@ class NocaseDict(object):
                     UserWarning, stacklevel=2)
             self.update(kwargs)
 
-    # Basic accessor and settor methods
+    # Basic accessor and setter methods
 
     def _real_key(self, key):
         """
@@ -201,8 +202,8 @@ class NocaseDict(object):
                 return key.lower()
             except AttributeError:
                 type_error = TypeError(
-                    "NocaseDict key {0!r} must be a string, but is {1}".
-                    format(key, type(key)))
+                    "NocaseDict key {0!r} of type {1} does not have a lower() "
+                    "method".format(key, type(key)))
                 type_error.__cause__ = None  # Suppress 'During handling..'
                 raise type_error
 
@@ -212,14 +213,26 @@ class NocaseDict(object):
         raise TypeError(
             "NocaseDict key None (unnamed key) is not allowed for this object")
 
+    # __getattribute__(self, name) - inherited
+
+    # __reversed__(self) - TODO: Investigate - see issue #6
+
+    # __sizeof__(self) - inherited
+
+    # pop(self, key [,default]) - TODO: Investigate - see issue #6
+
+    # popitem(self) - TODO: Investigate - see issue #6
+
     def __getitem__(self, key):
         """
-        Invoked when retrieving the value for a key, using `val = d[key]`.
+        Return the value of the item with an existing key (looked up
+        case-insensitively).
 
-        The key is looked up case-insensitively. Raises `KeyError` if the
-        specified key does not exist. Note that __setitem__() ensures that
-        only string typed keys will exist, so the key type is not tested here
-        and specifying non-string typed keys will simply lead to a KeyError.
+        Invoked when using e.g.: ``value = ncd[key]``
+
+        Raises:
+          TypeError: Key does not have a ``lower()`` method.
+          KeyError: Key does not exist (case-insensitively).
         """
         k = self._real_key(key)
         try:
@@ -231,25 +244,27 @@ class NocaseDict(object):
 
     def __setitem__(self, key, value):
         """
-        Invoked when assigning a value for a key using `d[key] = val`.
+        Update the value of the item with an existing key (looked up
+        case-insensitively), or if an item with the key does not exist, add an
+        item with the specified key and value.
 
-        The key is looked up case-insensitively. If the key does not exist,
-        it is added with the new value. Otherwise, its value is overwritten
-        with the new value.
+        Invoked when using e.g.: ``ncd[key] = value``
 
-        Raises `TypeError` if the specified key does not have string type.
+        Raises:
+          TypeError: Key does not have a ``lower()`` method.
         """
         k = self._real_key(key)
         self._data[k] = (key, value)
 
     def __delitem__(self, key):
         """
-        Invoked when deleting a key/value pair using `del d[key]`.
+        Delete the item with an existing key (looked up case-insensitively).
 
-        The key is looked up case-insensitively. Raises `KeyError` if the
-        specified key does not exist. Note that __setitem__() ensures that
-        only string typed keys will exist, so the key type is not tested here
-        and specifying non-string typed keys will simply lead to a KeyError.
+        Invoked when using: ``del ncd[key]``
+
+        Raises:
+          TypeError: Key does not have a ``lower()`` method.
+          KeyError: Key does not exist (case-insensitively).
         """
         k = self._real_key(key)
         try:
@@ -261,27 +276,32 @@ class NocaseDict(object):
 
     def __len__(self):
         """
-        Invoked when determining the number of key/value pairs in the
-        dictionary using `len(d)`.
+        Return the number of items in the dictionary.
+
+        Invoked when using: ``len(ncd)``
         """
         return len(self._data)
 
     def __contains__(self, key):
         """
-        Invoked when determining whether a specific key is in the dictionary
-        using `key in d`.
+        Return a boolean indicating whether the dictionary contains an item
+        with the key (looked up case-insensitively).
 
-        The key is looked up case-insensitively.
+        Invoked when using: ``key in ncd``
+
+        Raises:
+          TypeError: Key does not have a ``lower()`` method.
         """
         k = self._real_key(key)
         return k in self._data
 
     def get(self, key, default=None):
         """
-        Get the value for a specific key, or the specified default value if
-        the key does not exist.
+        Return the value of the item with an existing key (looked up
+        case-insensitively), or if the key does not exist, a default value.
 
-        The key is looked up case-insensitively.
+        Raises:
+          TypeError: Key does not have a ``lower()`` method.
         """
         try:
             return self[key]
@@ -290,10 +310,12 @@ class NocaseDict(object):
 
     def setdefault(self, key, default):
         """
-        Assign the specified default value for a specific key if the key did
-        not exist and return the value for the key.
+        If an item with the key (looked up case-insensitively) does not exist,
+        add an item with that key and the specified default value, and return
+        the value of the item with the key.
 
-        The key is looked up case-insensitively.
+        Raises:
+          TypeError: Key does not have a ``lower()`` method.
         """
         if key not in self:
             self[key] = default
@@ -303,20 +325,22 @@ class NocaseDict(object):
 
     def keys(self):
         """
-        Return a copied list of the dictionary keys, in their original case.
+        Return a copied list of the dictionary keys (in the original lexical
+        case) in the preserved order.
         """
         return list(self.iterkeys())
 
     def values(self):
         """
-        Return a copied list of the dictionary values.
+        Return a copied list of the dictionary values in the preserved order.
         """
         return list(self.itervalues())
 
     def items(self):
         """
-        Return a copied list of the dictionary items, where each item is a
-        tuple of its original key and its value.
+        Return a copied list of the dictionary items in the preserved order,
+        where each item is a tuple of its key (in the original lexical case)
+        and its value.
         """
         return list(self.iteritems())
 
@@ -324,35 +348,35 @@ class NocaseDict(object):
 
     def iterkeys(self):
         """
-        Return an iterator through the dictionary keys in their original
-        case, preserving the original order of items.
+        Return an iterator through the dictionary keys (in the original lexical
+        case) in the preserved order.
         """
         for item in six.iteritems(self._data):
             yield item[1][0]
 
     def itervalues(self):
         """
-        Return an iterator through the dictionary values, preserving the
-        original order of items.
+        Return an iterator through the dictionary values in the preserved
+        order.
         """
         for item in six.iteritems(self._data):
             yield item[1][1]
 
     def iteritems(self):
         """
-        Return an iterator through the dictionary items, where each item is a
-        tuple of its original key and its value, preserving the original order
-        of items.
+        Return an iterator through the dictionary items in the preserved order,
+        where each item is a tuple of its key (in the original lexical case)
+        and its value.
         """
         for item in six.iteritems(self._data):
             yield item[1]
 
     def __iter__(self):
         """
-        Invoked when iterating through the dictionary using `for key in d`.
+        Return an iterator through the dictionary keys (in the original lexical
+        case) in the preserved order.
 
-        The returned keys have their original case, and preserve the original
-        order of items.
+        Invoked when using: ``for key in ncd``
         """
         return self.iterkeys()
 
@@ -360,14 +384,11 @@ class NocaseDict(object):
 
     def __repr__(self):
         """
-        Return a string representation of the object that is suitable for
+        Return a string representation of the dictionary that is suitable for
         debugging.
 
-        The order of dictionary items in the result is the preserved order of
-        adding or deleting items.
-
-        The lexical case of the keys in the result is the preserved lexical
-        case.
+        The order of dictionary items is the preserved order, and the keys are
+        in the original lexical case.
         """
         items = ["{0!r}: {1!r}".format(key, value)
                  for key, value in self.iteritems()]
@@ -376,10 +397,11 @@ class NocaseDict(object):
 
     def update(self, *args, **kwargs):
         """
-        Update the dictionary from key/value pairs. If an item for a key
-        exists in the dictionary, its value is updated. If an item for a key
-        does not exist, it is added to the dictionary at the end.
-        The provided keys and values are stored in the dictionary without
+        Update the dictionary from key/value pairs. If an item for a key exists
+        in the dictionary (looked up case-insensitively), its value is updated.
+        If an item for a key does not exist, it is added to the dictionary.
+
+        The provided key and values are stored in the dictionary without
         being copied.
 
         Each positional argument can be:
@@ -394,9 +416,13 @@ class NocaseDict(object):
 
         The updates are performed first for the positional arguments in the
         iteration order of their iterables, and then for the keyword arguments.
-        Note that before Python 3.4, keyword arguments are passed to this
-        method as a standard dict, so the order of updates for the keyword
-        arguments is not preserved.
+
+        Starting with Python 3.7, the order of keyword arguments as specified
+        by the caller is preserved and is used to update the dictionary items
+        in that order.
+
+        Raises:
+          TypeError: Key does not have a ``lower()`` method.
         """
         for mapping in args:
             if hasattr(mapping, 'items'):
@@ -442,10 +468,19 @@ class NocaseDict(object):
 
     def __eq__(self, other):
         """
-        Invoked when two dictionaries are compared with the `==` operator.
+        Return a boolean indicating whether the dictionary and the other
+        dictionary are equal, by matching items (case-insensitively) based on
+        their keys, and then comparing the values of matching items for
+        equality.
 
-        The comparison is based on matching key/value pairs.
-        The keys are looked up case-insensitively.
+        The other dictionary may be a :class:`NocaseDict` object or any other
+        mapping. In all cases, the matching of keys takes place
+        case-insensitively.
+
+        Invoked when using e.g.: ``ncd == other``
+
+        Raises:
+          TypeError: Key does not have a ``lower()`` method.
         """
         # Issue #1062: Could compare hash values for better performance
         for key, self_value in self.iteritems():
@@ -461,9 +496,17 @@ class NocaseDict(object):
 
     def __ne__(self, other):
         """
-        Invoked when two dictionaries are compared with the `!=` operator.
+        Return a boolean indicating whether the dictionary and the other
+        dictionary are not equal, by negating the equality test.
 
-        Implemented by delegating to the `==` operator.
+        The other dictionary may be a :class:`NocaseDict` object or any other
+        mapping. In all cases, the matching of keys takes place
+        case-insensitively.
+
+        Invoked when using e.g.: ``ncd != other``
+
+        Raises:
+          TypeError: Key does not have a ``lower()`` method.
         """
         return not self == other
 
@@ -477,27 +520,40 @@ class NocaseDict(object):
             format(op, type(self), type(other)))
 
     def __lt__(self, other):
+        # TODO: Implement or not - see issue #10
         self.__raise_ordering_not_supported(other, '<')
 
     def __gt__(self, other):
+        # TODO: Implement or not - see issue #10
         self.__raise_ordering_not_supported(other, '>')
 
     def __ge__(self, other):
+        # TODO: Implement or not - see issue #10
         self.__raise_ordering_not_supported(other, '>=')
 
     def __le__(self, other):
+        # TODO: Implement or not - see issue #10
         self.__raise_ordering_not_supported(other, '<=')
 
     def __hash__(self):
+        # TODO: Implement or not - see issue #10
         """
-        Hash this NocaseDict object, case-insensitively w.r.t. to its keys.
+        Return a hash value for the dictionary based on the lower-cased keys
+        and the values of its items.
 
-        Background: In order to compare sets of objects, the objects must be
-        hashable (See https://docs.python.org/2/glossary.html#term-hashable).
-        The condition from that definition that is not satisfied by the
-        default hash function of objects (which is based on id()), is that
-        hashable objects which compare equal must have the same hash value.
-        This method ensures that that condition is satisfied.
+        This results in a case-insensitive hash value, i.e. two dictionaries
+        that differ only in the lexical case of their keys will have the same
+        hash value.
+
+        This makes :class:`NocaseDict` objects usable as a dictionary key and
+        as a set member, because these data structures use the hash value
+        internally.
+        Note that :class:`NocaseDict` objects are mutable, so reliable use of
+        the hash value requires that the objects are not modified while the
+        hash value is used (for example, while the :class:`NocaseDict` object
+        is in a set).
+        See `hashable <https://docs.python.org/3/glossary.html#term-hashable>`_
+        for more details.
         """
         fs = frozenset([(k, self._data[k][1]) for k in self._data])
         return hash(fs)

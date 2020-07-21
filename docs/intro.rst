@@ -4,16 +4,29 @@
 Introduction
 ============
 
-.. contents:: Chapter Contents
-   :depth: 2
-
 
 .. _`Functionality`:
 
 Functionality
 -------------
 
-TBD
+Class :class:`nocasedict.NocaseDict` is a case-insensitive ordered dictionary
+that preserves the lexical case of its keys.
+
+Example:
+
+.. code-block:: bash
+
+    $ python
+    >>> from nocasedict import NocaseDict
+
+    >>> dict1 = NocaseDict({'Alpha': 1, 'Beta': 2})
+
+    >>> dict1['ALPHA']  # Any lookup or comparison by key is case-insensitive
+    1
+
+    >>> print(dict1)  # Any access of keys is case-preserving
+    NocaseDict({'Alpha': 1, 'Beta': 2})
 
 
 .. _`Installation`:
@@ -21,20 +34,20 @@ TBD
 Installation
 ------------
 
-TBD
-
 
 .. _`Supported environments`:
 
 Supported environments
 ^^^^^^^^^^^^^^^^^^^^^^
 
-Pywbem is supported in these environments:
+The package does not have any dependencies on the type of operating system and
+is regularly tested in CI systems on the following operating systems:
 
-* Operating Systems: Linux, Windows (native, and with UNIX-like environments),
-  OS-X
+* Ubuntu, native Windows, CygWin, OS-X / macOS
 
-* Python: 2.7, 3.4, and higher
+The package is supported on the following Python versions:
+
+* Python: 2.7, 3.4 and all higher 3.x versions
 
 
 .. _`Installing`:
@@ -107,9 +120,6 @@ it to):
 
     $ python -c "import nocasedict; print('ok')"
     ok
-
-In case of trouble with the installation, see the :ref:`Troubleshooting`
-section.
 
 
 .. _`Package version`:
@@ -200,9 +210,6 @@ the nocasedict project, by version type:
 
 Python namespaces
 -----------------
-
-TBD - describe the python namespaces to clarify what is for external use
-and what is internal.
 
 This documentation describes only the external APIs of the
 nocasedict project, and omits any internal symbols and
