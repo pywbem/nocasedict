@@ -1,5 +1,5 @@
-nocasedict - A case-insensitive dictionary for Python
-===============================
+nocasedict - A case-insensitive ordered dictionary for Python
+=============================================================
 
 .. image:: https://badge.fury.io/py/nocasedict.svg
     :target: https://pypi.python.org/pypi/nocasedict/
@@ -9,10 +9,7 @@ nocasedict - A case-insensitive dictionary for Python
     :target: https://travis-ci.org/github/pywbem/nocasedict/builds
     :alt: Travis test status (master)
 
-.. # Update the URL in the Appveyor image link below to match the
-.. # "SVG branchimage URL" from the "master branch status badge" section on
-.. # the Settings -> Badges page of the project on Appveyor.
-.. image:: https://ci.appveyor.com/api/projects/status/UPDATE-THIS/branch/master?svg=true
+.. image:: https://ci.appveyor.com/api/projects/status/d13osi3pxfduj4ap/branch/master?svg=true
     :target: https://ci.appveyor.com/project/andy-maier/nocasedict/history
     :alt: Appveyor test status (master)
 
@@ -28,13 +25,30 @@ nocasedict - A case-insensitive dictionary for Python
 Overview
 --------
 
-TBD
+Class ``NocaseDict`` is a case-insensitive ordered dictionary that preserves
+the lexical case of its keys.
+
+Example:
+
+.. code-block:: bash
+
+    $ python
+    >>> from nocasedict import NocaseDict
+
+    >>> dict1 = NocaseDict({'Alpha': 1, 'Beta': 2})
+
+    >>> dict1['ALPHA']  # Any lookup or comparison by key is case-insensitive
+    1
+
+    >>> print(dict1)  # Any access of keys is case-preserving
+    NocaseDict({'Alpha': 1, 'Beta': 2})
+
 
 Installation
 ------------
 
-To install the latest released version of the nocasedict
-package into your active Python environment:
+To install the latest released version of the nocasedict package into your
+active Python environment:
 
 .. code-block:: bash
 
@@ -42,40 +56,27 @@ package into your active Python environment:
 
 This will also install any prerequisite Python packages.
 
-For more details and alternative ways to install, see
-`Installation`_.
+For more details and alternative ways to install, see `Installation`_.
 
 .. _Installation: https://nocasedict.readthedocs.io/en/stable/intro.html#installation
+
 
 Documentation
 -------------
 
-* `Documentation for latest released version <https://nocasedict.readthedocs.io/en/stable/>`_
+* `Documentation <https://nocasedict.readthedocs.io/en/stable/>`_
+
 
 Change History
 --------------
 
-* `Change history for latest released version <https://nocasedict.readthedocs.io/en/stable/changes.html>`_
+* `Change history <https://nocasedict.readthedocs.io/en/stable/changes.html>`_
 
-Quick Start
------------
-
-The following simple example script lists the namespaces and the Interop
-namespace in a particular WBEM server:
-
-.. code-block:: python
-
-    #!/usr/bin/env python
-
-    import nocasedict
-
-    ... (tbd) ...
 
 Contributing
 ------------
 
-For information on how to contribute to the
-nocasedict project, see
+For information on how to contribute to the nocasedict project, see
 `Contributing <https://nocasedict.readthedocs.io/en/stable/development.html#contributing>`_.
 
 
@@ -83,4 +84,5 @@ License
 -------
 
 The nocasedict project is provided under the
-`GNU General Public License v3 <https://raw.githubusercontent.com/pywbem/nocasedict/master/LICENSE>`_.
+`GNU Lesser General Public License (LGPL) version 2.1 <https://raw.githubusercontent.com/pywbem/nocasedict/master/LICENSE>`_,
+or (at your option) any later version.

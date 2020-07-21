@@ -1,16 +1,15 @@
 
-nocasedict - A case-insensitive dictionary for Python
-********************************************************************************
+nocasedict - A case-insensitive ordered dictionary for Python
+*************************************************************
 
-TBD
-
-The general project web site is: https://github.com/pywbem/nocasedict
+The project web site is: https://github.com/pywbem/nocasedict
 
 .. toctree::
    :maxdepth: 2
    :numbered:
 
    intro.rst
+   reference.rst
    development.rst
    appendix.rst
    changes.rst

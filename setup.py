@@ -167,7 +167,7 @@ setuptools.setup(
     cmdclass={
         'test': test,
     },
-    description="A case-insensitive dictionary for Python",
+    description="A case-insensitive ordered dictionary for Python",
     long_description=read_file('README.rst'),
     long_description_content_type='text/x-rst',
     license="GNU General Public License v3",
