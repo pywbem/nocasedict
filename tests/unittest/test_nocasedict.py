@@ -185,9 +185,19 @@ TESTCASES_NOCASEDICT_INIT = [
 
     # Error cases
     (
-        "String type as positional arg",
+        "String as positional arg (items cannot be unpacked into k,v)",
         dict(
             init_args=('illegal',),
+            init_kwargs={},
+            exp_dict=None,
+            verify_order=None,
+        ),
+        ValueError, None, True
+    ),
+    (
+        "Integer as positional arg (not iterable)",
+        dict(
+            init_args=(42,),
             init_kwargs={},
             exp_dict=None,
             verify_order=None,
@@ -195,7 +205,7 @@ TESTCASES_NOCASEDICT_INIT = [
         TypeError, None, True
     ),
     (
-        "Two positional args",
+        "Two positional args (too many args)",
         dict(
             init_args=(list(), list()),
             init_kwargs={},
@@ -203,6 +213,50 @@ TESTCASES_NOCASEDICT_INIT = [
             verify_order=None,
         ),
         TypeError, None, True
+    ),
+    (
+        "List as positional arg, whose item has only one item (cannot be "
+        "unpacked into k,v)",
+        dict(
+            init_args=([('Dog',)],),
+            init_kwargs={},
+            exp_dict=None,
+            verify_order=None,
+        ),
+        ValueError, None, True
+    ),
+    (
+        "List as positional arg, whose item has too many items (cannot be "
+        "unpacked into k,v)",
+        dict(
+            init_args=([('Dog', 'Cat', 'bad')],),
+            init_kwargs={},
+            exp_dict=None,
+            verify_order=None,
+        ),
+        ValueError, None, True
+    ),
+    (
+        "Tuple as positional arg, whose item has only one item (cannot be "
+        "unpacked into k,v)",
+        dict(
+            init_args=((('Dog',),),),
+            init_kwargs={},
+            exp_dict=None,
+            verify_order=None,
+        ),
+        ValueError, None, True
+    ),
+    (
+        "Tuple as positional arg, whose item has too many items (cannot be "
+        "unpacked into k,v)",
+        dict(
+            init_args=((('Dog', 'Cat', 'bad'),),),
+            init_kwargs={},
+            exp_dict=None,
+            verify_order=None,
+        ),
+        ValueError, None, True
     ),
 ]
 
@@ -1576,6 +1630,50 @@ TESTCASES_NOCASEDICT_UPDATE = [
             exp_obj=NocaseDict([('Dog', 'Cat')]),
         ),
         None, None, True
+    ),
+    (
+        "Empty dict, with list as positional arg, "
+        "whose item has only one item (cannot be unpacked into k,v)",
+        dict(
+            obj=NocaseDict(),
+            args=[[('Dog',)]],
+            kwargs={},
+            exp_obj=None,
+        ),
+        ValueError, None, True
+    ),
+    (
+        "Empty dict, with list as positional arg, "
+        "whose item has too many items (cannot be unpacked into k,v)",
+        dict(
+            obj=NocaseDict(),
+            args=[[('Dog', 'Cat', 'bad')]],
+            kwargs={},
+            exp_obj=None,
+        ),
+        ValueError, None, True
+    ),
+    (
+        "Empty dict, with tuple as positional arg, "
+        "whose item has only one item (cannot be unpacked into k,v)",
+        dict(
+            obj=NocaseDict(),
+            args=[(('Dog',),)],
+            kwargs={},
+            exp_obj=None,
+        ),
+        ValueError, None, True
+    ),
+    (
+        "Empty dict, with tuple as positional arg, "
+        "whose item has too many items (cannot be unpacked into k,v)",
+        dict(
+            obj=NocaseDict(),
+            args=[(('Dog', 'Cat', 'bad'),)],
+            kwargs={},
+            exp_obj=None,
+        ),
+        ValueError, None, True
     ),
 
     # Non-empty NocaseDict, insert new value
