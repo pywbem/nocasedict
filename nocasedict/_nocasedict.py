@@ -30,8 +30,22 @@ from __future__ import print_function, absolute_import
 import sys
 import warnings
 from collections import OrderedDict
+try:
+    from collections.abc import Mapping
+except ImportError:
+    from collections import Mapping
+try:
+    from collections.abc import UserDict
+except ImportError:
+    UserDict = Mapping  # only used for type checking
 
 import six
+
+# Starting with Python 3.7, the standard dict is guaranteed to be ordered.
+# Note: In CPython, that already happened in 3.6, but it was not guaranteed
+# for all implementations.
+# pylint: disable=invalid-name
+ODict = dict if sys.version_info[0:2] >= (3, 7) else OrderedDict
 
 __all__ = ['NocaseDict']
 
@@ -120,59 +134,58 @@ class NocaseDict(object):
 
         # The internal dictionary, with lower case keys. An item in this dict
         # is the tuple (original key, value).
-        self._data = OrderedDict()
+        self._data = ODict()
 
         # Flag indicating whether unnamed keys (a key of `None`) is allowed.
         # Can be set to allow unnamed keys.
         self.allow_unnamed_keys = False
 
-        # In by far the most cases, NocaseDict objects are created without
-        # any init parameters.
-
         # Step 1: Add a single positional argument
         if args:
             if len(args) > 1:
                 raise TypeError(
-                    "Too many positional arguments for NocaseDict "
-                    "initialization: {0} (1 allowed)".format(len(args)))
+                    "NocaseDict expected at most 1 argument, got {n}".
+                    format(n=len(args)))
             arg = args[0]
-            if isinstance(arg, (list, tuple)):
-                # Initialize from tuple/list of key/value pairs or CIM objects
-                for item in arg:
+            if isinstance(arg, (NocaseDict, Mapping, UserDict)):
+                # It is a mapping/dictionary.
+                # pylint: disable=unidiomatic-typecheck
+                if type(arg) is dict and ODict is not dict:
+                    warnings.warn(
+                        "Initializing a NocaseDict object from type {t} before "
+                        "Python 3.7 is not guaranteed to preserve order "
+                        "of items".format(t=type(arg)),
+                        UserWarning, stacklevel=2)
+                self.update(arg)
+            elif arg is None:
+                pass
+            else:
+                # The following raises TypeError if not iterable
+                for i, item in enumerate(arg):
                     try:
                         # CIM object
                         key = item.name
                         value = item
                     except AttributeError:
                         # key, value pair
-                        key, value = item
+                        try:
+                            key, value = item
+                        except ValueError as exc:
+                            value_error = ValueError(
+                                "Cannot unpack NocaseDict init item #{i} of "
+                                "type {t} into key, value: {exc}".
+                                format(i=i, t=type(item), exc=exc))
+                            value_error.__cause__ = None  # Suppress 'During..'
+                            raise value_error
                     self[key] = value
-            elif isinstance(arg, (OrderedDict, NocaseDict)):
-                # Initialize from OrderedDict/NocaseDict object
-                self.update(arg)
-            elif isinstance(arg, dict):
-                # Initialize from dict object
-                if len(arg) > 1 and sys.version_info[0:2] < (3, 7):
-                    warnings.warn(
-                        "Initializing a NocaseDict object from {0} before "
-                        "Python 3.7 will not preserve order of items".
-                        format(type(arg)),
-                        UserWarning, stacklevel=2)
-                self.update(arg)
-            elif arg is None:
-                # Leave empty
-                pass
-            else:
-                raise TypeError(
-                    "Invalid type for NocaseDict initialization: {0} ({1})".
-                    format(arg.__class__.__name__, type(arg)))
 
         # Step 2: Add any keyword arguments
         if kwargs:
-            if len(kwargs) > 1 and sys.version_info[0:2] < (3, 7):
+            if len(kwargs) > 1 and ODict is not dict:
                 warnings.warn(
                     "Initializing a NocaseDict object from keyword arguments "
-                    "before Python 3.7 will not preserve order of items",
+                    "before Python 3.7 is not guaranteed to preserve order "
+                    "of items",
                     UserWarning, stacklevel=2)
             self.update(kwargs)
 
@@ -187,9 +200,11 @@ class NocaseDict(object):
             try:
                 return key.lower()
             except AttributeError:
-                raise TypeError(
+                type_error = TypeError(
                     "NocaseDict key {0!r} must be a string, but is {1}".
                     format(key, type(key)))
+                type_error.__cause__ = None  # Suppress 'During handling..'
+                raise type_error
 
         if self.allow_unnamed_keys:
             return None
@@ -210,7 +225,9 @@ class NocaseDict(object):
         try:
             return self._data[k][1]
         except KeyError:
-            raise KeyError("Key {0!r} not found".format(key))
+            key_error = KeyError("Key {0!r} not found".format(key))
+            key_error.__cause__ = None  # Suppress 'During handling..'
+            raise key_error
 
     def __setitem__(self, key, value):
         """
@@ -238,7 +255,9 @@ class NocaseDict(object):
         try:
             del self._data[k]
         except KeyError:
-            raise KeyError("Key {0!r} not found".format(key))
+            key_error = KeyError("Key {0!r} not found".format(key))
+            key_error.__cause__ = None  # Suppress 'During handling..'
+            raise key_error
 
     def __len__(self):
         """
@@ -381,11 +400,20 @@ class NocaseDict(object):
         """
         for mapping in args:
             if hasattr(mapping, 'items'):
-                for key, value in mapping.items():
-                    self[key] = value
+                items = mapping.items()
             else:
-                for key, value in mapping:
-                    self[key] = value
+                items = mapping
+            for i, item in enumerate(items):
+                try:
+                    key, value = item
+                except ValueError as exc:
+                    value_error = ValueError(
+                        "Cannot unpack NocaseDict update item #{i} of "
+                        "type {t} into key, value: {exc}".
+                        format(i=i, t=type(item), exc=exc))
+                    value_error.__cause__ = None  # Suppress 'During handling..'
+                    raise value_error
+                self[key] = value
         for key, value in kwargs.items():
             self[key] = value
 
