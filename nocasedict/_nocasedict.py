@@ -31,9 +31,9 @@ import sys
 import warnings
 from collections import OrderedDict
 try:
-    from collections.abc import Mapping
+    from collections.abc import Mapping, MutableMapping
 except ImportError:
-    from collections import Mapping
+    from collections import Mapping, MutableMapping
 try:
     from collections.abc import UserDict
 except ImportError:
@@ -67,7 +67,7 @@ def _real_key(key):
     return None
 
 
-class NocaseDict(object):
+class NocaseDict(MutableMapping):
     # pylint: disable=line-too-long
     """
     A case-insensitive, ordered, and case-preserving, dictionary.
@@ -88,8 +88,14 @@ class NocaseDict(object):
     have the lexical case that was originally specified when adding or updating
     the item.
 
-    The implementation maintains a dictionary with the lower-cased keys, and
-    items that are a tuple (original key, value).
+    The :class:`~nocasedict.NocaseDict` class is derived from the abstract base
+    class :class:`py:MutableMapping`, and not from the :class:`py:dict` class.
+    Reason is the unique implementation of :class:`~nocasedict.NocaseDict`,
+    which maintains a single dictionary with the lower-cased keys, and values
+    that are a tuple (original key, value). This supports key based lookup
+    with a single dictionary lookup.
+    Users that need to test whether an object is a dictionary should do that
+    with `isinstance(obj, Mapping)` or  `isinstance(obj, MutableMapping)`
 
     Except for the case-insensitivity of its keys, the
     :class:`~nocasedict.NocaseDict` class behaves like the built-in
@@ -109,27 +115,24 @@ class NocaseDict(object):
         """
         Parameters:
 
-          *args : An optional single positional argument that must be a
-            :term:`py:mapping`, an :term:`py:iterable`, or `None.`
+          *args : An optional single positional argument that is used to
+            initialize the dictionary in iteration order of the specified
+            object. The argument must be one of:
 
-            If not provided or provided as `None`, the dictionary initialized
-            from the positional arguments will be empty.
+            - a dictionary object, or more generally an object that supports
+              subscription by key and has a method ``keys()`` returning an
+              iterable of keys.
 
-            For mapping objects, the dictionary will be initialized with the
-            key-value pairs from the mapping object, preserving the iteration
-            order of the mapping object.
+            - an iterable. If a key occurs more than once (case-insensitively),
+              the last value for that key becomes the corresponding value in
+              the dictionary. Each item in the iterable must be one of:
 
-            For iterable objects, the dictionary will be initialized with the
-            items from the iterable in iteration order. If a key occurs more
-            than once (case-insensitively), the last value for that key becomes
-            the corresponding value in the dictionary. Each item in the iterable
-            must be one of:
+              * an iterable with exactly two items. The first item is used as
+                the key, and the second item as the value.
 
-            * an iterable with exactly two items. The first item is used as the
-              key, and the second item as the value.
-
-            * an object with a ``name`` attribute. The value of the ``name``
-              attribute is used as the key, and the object itself as the value.
+              * an object with a ``name`` attribute. The value of the ``name``
+                attribute is used as the key, and the object itself as the
+                value.
 
           **kwargs : Optional keyword arguments representing key-value pairs to
             add to the dictionary initialized from the positional argument.
@@ -143,11 +146,15 @@ class NocaseDict(object):
 
         To summarize, only the following types of init arguments allow defining
         the order of items in the new dictionary across all Python versions
-        supported by this package: Passing an iterable, an ordered mapping, or
-        `None` as a single positional argument, and passing at most one keyword
+        supported by this package: Passing an iterable or an ordered mapping
+        as a single positional argument, and passing at most one keyword
         argument. A :exc:`py:UserWarning` will be issued if the provided
-        arguments cause the order of provided items not to be preserved in the
-        new dictionary.
+        arguments cause the order of provided items not to be preserved.
+
+        Raises:
+          TypeError: Key does not have a ``lower()`` method.
+          TypeError: Expected at most 1 positional argument, got {n}.
+          ValueError: Cannot unpack positional argument item #{i}.
         """
 
         # The internal dictionary, with lower case keys. An item in this dict
@@ -158,7 +165,7 @@ class NocaseDict(object):
         if args:
             if len(args) > 1:
                 raise TypeError(
-                    "NocaseDict expected at most 1 argument, got {n}".
+                    "Expected at most 1 positional argument, got {n}".
                     format(n=len(args)))
             arg = args[0]
             if isinstance(arg, (NocaseDict, Mapping, UserDict)):
@@ -166,13 +173,11 @@ class NocaseDict(object):
                 # pylint: disable=unidiomatic-typecheck
                 if type(arg) is dict and ODict is not dict:
                     warnings.warn(
-                        "Initializing a NocaseDict object from type {t} before "
-                        "Python 3.7 is not guaranteed to preserve order "
-                        "of items".format(t=type(arg)),
+                        "Before Python 3.7, initializing a NocaseDict object "
+                        "from a dict object is not guaranteed to preserve the "
+                        "order of its items",
                         UserWarning, stacklevel=2)
                 self.update(arg)
-            elif arg is None:
-                pass
             else:
                 # The following raises TypeError if not iterable
                 for i, item in enumerate(arg):
@@ -186,8 +191,8 @@ class NocaseDict(object):
                             key, value = item
                         except ValueError as exc:
                             value_error = ValueError(
-                                "Cannot unpack NocaseDict init item #{i} of "
-                                "type {t} into key, value: {exc}".
+                                "Cannot unpack positional argument item #{i} "
+                                "of type {t} into key, value: {exc}".
                                 format(i=i, t=type(item), exc=exc))
                             value_error.__cause__ = None  # Suppress 'During..'
                             raise value_error
@@ -197,9 +202,9 @@ class NocaseDict(object):
         if kwargs:
             if len(kwargs) > 1 and ODict is not dict:
                 warnings.warn(
-                    "Initializing a NocaseDict object from keyword arguments "
-                    "before Python 3.7 is not guaranteed to preserve order "
-                    "of items",
+                    "Before Python 3.7, initializing a NocaseDict object from "
+                    "more than one keyword argument is not guaranteed to "
+                    "preserve their order",
                     UserWarning, stacklevel=2)
             self.update(kwargs)
 
@@ -300,7 +305,7 @@ class NocaseDict(object):
         except KeyError:
             return default
 
-    def setdefault(self, key, default):
+    def setdefault(self, key, default=None):
         """
         If an item with the key (looked up case-insensitively) does not exist,
         add an item with that key and the specified default value, and return
@@ -388,52 +393,74 @@ class NocaseDict(object):
         return "{0.__class__.__name__}({{{1}}})".format(self, items_str)
 
     def update(self, *args, **kwargs):
+        # pylint: disable=arguments-differ,signature-differs
+        # Note: The signature in Python 3 is: update(self, other=(), /, **kwds)
+        #       Since the / marker cannot be used in Python 2, the *args
+        #       approach has the same effect, i.e. to ensure that the
+        #       parameter can only be specified as a keyword argument.
         """
-        Update the dictionary from key/value pairs. If an item for a key exists
-        in the dictionary (looked up case-insensitively), its value is updated.
-        If an item for a key does not exist, it is added to the dictionary.
+        Update the dictionary from key/value pairs.
 
-        The provided key and values are stored in the dictionary without
-        being copied.
+        If an item for a key exists in the dictionary (looked up
+        case-insensitively), its value is updated. If an item for a key does
+        not exist, it is added to the dictionary.
 
-        Each positional argument can be:
+        The provided key and value objects will be referenced from the
+        dictionary without being copied.
 
-          * an object with a method `items()` that returns an
-            :term:`py:iterable` of tuples containing key and value.
+        Parameters:
 
-          * an object without such a method, that is an :term:`py:iterable` of
-            tuples containing key and value.
+          *args : An optional single positional argument that must be one of:
 
-        Each keyword argument is a key/value pair.
+            - a dictionary object, or more generally an object that supports
+              subscription by key and has a method ``keys()`` returning an
+              iterable of keys.
 
-        The updates are performed first for the positional arguments in the
-        iteration order of their iterables, and then for the keyword arguments.
+            - an iterable. Each item in the iterable must be an iterable with
+              exactly two items. The first item is used as the key, and the
+              second item as the value. If a key occurs more than once
+              (case-insensitively), the last value for that key becomes the
+              corresponding value in the dictionary.
 
-        Starting with Python 3.7, the order of keyword arguments as specified
-        by the caller is preserved and is used to update the dictionary items
-        in that order.
+          **kwargs : Optional keyword arguments representing key-value pairs to
+            add to the dictionary.
+
+            Starting with Python 3.7, the order of keyword arguments as
+            specified by the caller is preserved.
+
+            If a key being added is already present (case-insensitively) from
+            the positional argument, the value from the keyword argument
+            replaces the value from the positional argument.
 
         Raises:
           TypeError: Key does not have a ``lower()`` method.
+          TypeError: Expected at most 1 positional argument, got {n}.
+          ValueError: Cannot unpack positional argument item #{i}.
         """
-        for mapping in args:
-            if hasattr(mapping, 'items'):
-                items = mapping.items()
-            else:
-                items = mapping
-            for i, item in enumerate(items):
-                try:
-                    key, value = item
-                except ValueError as exc:
-                    value_error = ValueError(
-                        "Cannot unpack NocaseDict update item #{i} of "
-                        "type {t} into key, value: {exc}".
-                        format(i=i, t=type(item), exc=exc))
-                    value_error.__cause__ = None  # Suppress 'During handling..'
-                    raise value_error
-                self[key] = value
-        for key, value in kwargs.items():
-            self[key] = value
+        if args:
+            if len(args) > 1:
+                raise TypeError(
+                    "Expected at most 1 positional argument, got {n}".
+                    format(n=len(args)))
+            other = args[0]
+            try:
+                for key in other.keys():
+                    self[key] = other[key]
+            except AttributeError:
+                for i, item in enumerate(other):
+                    try:
+                        key, value = item
+                    except ValueError as exc:
+                        value_error = ValueError(
+                            "Cannot unpack positional argument item #{i} of "
+                            "type {t} into key, value: {exc}".
+                            format(i=i, t=type(item), exc=exc))
+                        value_error.__cause__ = None  # Suppress 'During..'
+                        raise value_error
+                    self[key] = value
+
+        for key in kwargs:
+            self[key] = kwargs[key]
 
     def clear(self):
         """

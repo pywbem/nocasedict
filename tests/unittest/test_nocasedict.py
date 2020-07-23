@@ -87,14 +87,14 @@ TESTCASES_NOCASEDICT_INIT = [
         None, None, True
     ),
     (
-        "Empty dict from None as positional arg",
+        "Empty dict from None as positional arg (not iterable)",
         dict(
             init_args=(None,),
             init_kwargs={},
             exp_dict=OrderedDict(),
             verify_order=True,
         ),
-        None, None, not TEST_AGAINST_DICT
+        TypeError, None, True
     ),
     (
         "Empty dict from empty list as positional arg",
@@ -1602,6 +1602,16 @@ TESTCASES_NOCASEDICT_UPDATE = [
             exp_obj=NocaseDict(),
         ),
         None, None, True
+    ),
+    (
+        "Empty dict, with two positional arguments (too many args)",
+        dict(
+            obj=NocaseDict(),
+            args=[dict(a=1), dict(b=2)],
+            kwargs={},
+            exp_obj=None,
+        ),
+        TypeError, None, True
     ),
     (
         "Empty dict, with integer key in update args (no lower / success)",
