@@ -50,6 +50,23 @@ ODict = dict if sys.version_info[0:2] >= (3, 7) else OrderedDict
 __all__ = ['NocaseDict']
 
 
+def _real_key(key):
+    """
+    Return the normalized key to be used for the internal dictionary,
+    from the input key.
+    """
+    if key is not None:
+        try:
+            return key.lower()
+        except AttributeError:
+            type_error = TypeError(
+                "NocaseDict key {0!r} of type {1} does not have a lower() "
+                "method".format(key, type(key)))
+            type_error.__cause__ = None  # Suppress 'During handling..'
+            raise type_error
+    return None
+
+
 class NocaseDict(object):
     # pylint: disable=line-too-long
     """
@@ -137,10 +154,6 @@ class NocaseDict(object):
         # is the tuple (original key, value).
         self._data = ODict()
 
-        # Flag indicating whether unnamed keys (a key of `None`) is allowed.
-        # Can be set to allow unnamed keys.
-        self.allow_unnamed_keys = False
-
         # Step 1: Add a single positional argument
         if args:
             if len(args) > 1:
@@ -192,27 +205,6 @@ class NocaseDict(object):
 
     # Basic accessor and setter methods
 
-    def _real_key(self, key):
-        """
-        Return the normalized key to be used for the internal dictionary,
-        from the input key.
-        """
-        if key is not None:
-            try:
-                return key.lower()
-            except AttributeError:
-                type_error = TypeError(
-                    "NocaseDict key {0!r} of type {1} does not have a lower() "
-                    "method".format(key, type(key)))
-                type_error.__cause__ = None  # Suppress 'During handling..'
-                raise type_error
-
-        if self.allow_unnamed_keys:
-            return None
-
-        raise TypeError(
-            "NocaseDict key None (unnamed key) is not allowed for this object")
-
     # __getattribute__(self, name) - inherited
 
     # __reversed__(self) - TODO: Investigate - see issue #6
@@ -234,7 +226,7 @@ class NocaseDict(object):
           TypeError: Key does not have a ``lower()`` method.
           KeyError: Key does not exist (case-insensitively).
         """
-        k = self._real_key(key)
+        k = _real_key(key)
         try:
             return self._data[k][1]
         except KeyError:
@@ -253,7 +245,7 @@ class NocaseDict(object):
         Raises:
           TypeError: Key does not have a ``lower()`` method.
         """
-        k = self._real_key(key)
+        k = _real_key(key)
         self._data[k] = (key, value)
 
     def __delitem__(self, key):
@@ -266,7 +258,7 @@ class NocaseDict(object):
           TypeError: Key does not have a ``lower()`` method.
           KeyError: Key does not exist (case-insensitively).
         """
-        k = self._real_key(key)
+        k = _real_key(key)
         try:
             del self._data[k]
         except KeyError:
@@ -292,7 +284,7 @@ class NocaseDict(object):
         Raises:
           TypeError: Key does not have a ``lower()`` method.
         """
-        k = self._real_key(key)
+        k = _real_key(key)
         return k in self._data
 
     def get(self, key, default=None):
