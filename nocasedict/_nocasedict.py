@@ -31,13 +31,9 @@ import sys
 import warnings
 from collections import OrderedDict
 try:
-    from collections.abc import Mapping, MutableMapping
+    from collections.abc import MutableMapping
 except ImportError:
-    from collections import Mapping, MutableMapping
-try:
-    from collections.abc import UserDict
-except ImportError:
-    UserDict = Mapping  # only used for type checking
+    from collections import MutableMapping
 
 import six
 
@@ -52,8 +48,11 @@ __all__ = ['NocaseDict']
 
 def _real_key(key):
     """
-    Return the normalized key to be used for the internal dictionary,
-    from the input key.
+    Return a case-insensitive form of the input key, or `None` if the input key
+    is `None`.
+
+    The input key object must have a ``lower()`` method (e.g. be a string)
+    or be `None`.
     """
     if key is not None:
         try:
@@ -130,9 +129,10 @@ class NocaseDict(MutableMapping):
               * an iterable with exactly two items. The first item is used as
                 the key, and the second item as the value.
 
-              * an object with a ``name`` attribute. The value of the ``name``
-                attribute is used as the key, and the object itself as the
-                value.
+              * If the :func:`~nocasedict.KeyableBy` mixin is used, an object
+                with a key attribute named as specified in its ``key_attr``
+                argument. The value of the key attribute is used as the key,
+                and the object itself as the value.
 
           **kwargs : Optional keyword arguments representing key-value pairs to
             add to the dictionary initialized from the positional argument.
@@ -161,52 +161,7 @@ class NocaseDict(MutableMapping):
         # is the tuple (original key, value).
         self._data = ODict()
 
-        # Step 1: Add a single positional argument
-        if args:
-            if len(args) > 1:
-                raise TypeError(
-                    "Expected at most 1 positional argument, got {n}".
-                    format(n=len(args)))
-            arg = args[0]
-            if isinstance(arg, (NocaseDict, Mapping, UserDict)):
-                # It is a mapping/dictionary.
-                # pylint: disable=unidiomatic-typecheck
-                if type(arg) is dict and ODict is not dict:
-                    warnings.warn(
-                        "Before Python 3.7, initializing a NocaseDict object "
-                        "from a dict object is not guaranteed to preserve the "
-                        "order of its items",
-                        UserWarning, stacklevel=2)
-                self.update(arg)
-            else:
-                # The following raises TypeError if not iterable
-                for i, item in enumerate(arg):
-                    try:
-                        # CIM object
-                        key = item.name
-                        value = item
-                    except AttributeError:
-                        # key, value pair
-                        try:
-                            key, value = item
-                        except ValueError as exc:
-                            value_error = ValueError(
-                                "Cannot unpack positional argument item #{i} "
-                                "of type {t} into key, value: {exc}".
-                                format(i=i, t=type(item), exc=exc))
-                            value_error.__cause__ = None  # Suppress 'During..'
-                            raise value_error
-                    self[key] = value
-
-        # Step 2: Add any keyword arguments
-        if kwargs:
-            if len(kwargs) > 1 and ODict is not dict:
-                warnings.warn(
-                    "Before Python 3.7, initializing a NocaseDict object from "
-                    "more than one keyword argument is not guaranteed to "
-                    "preserve their order",
-                    UserWarning, stacklevel=2)
-            self.update(kwargs)
+        self.update(*args, **kwargs)
 
     # Basic accessor and setter methods
 
@@ -350,6 +305,13 @@ class NocaseDict(MutableMapping):
         """
         return list(self.iterkeys())
 
+    def keys_nocase(self):
+        """
+        Return a copied list of the case-insensitive dictionary keys in the
+        preserved order.
+        """
+        return list(self._data.keys())
+
     def values(self):
         """
         Return a copied list of the dictionary values in the preserved order.
@@ -439,11 +401,17 @@ class NocaseDict(MutableMapping):
               subscription by key and has a method ``keys()`` returning an
               iterable of keys.
 
-            - an iterable. Each item in the iterable must be an iterable with
-              exactly two items. The first item is used as the key, and the
-              second item as the value. If a key occurs more than once
-              (case-insensitively), the last value for that key becomes the
-              corresponding value in the dictionary.
+            - an iterable. If a key occurs more than once (case-insensitively),
+              the last value for that key becomes the corresponding value in
+              the dictionary. Each item in the iterable must be one of:
+
+              * an iterable with exactly two items. The first item is used as
+                the key, and the second item as the value.
+
+              * If the :func:`~nocasedict.KeyableBy` mixin is used, an object
+                with a key attribute named as specified in its ``key_attr``
+                argument. The value of the key attribute is used as the key,
+                and the object itself as the value.
 
           **kwargs : Optional keyword arguments representing key-value pairs to
             add to the dictionary.
@@ -467,23 +435,50 @@ class NocaseDict(MutableMapping):
                     format(n=len(args)))
             other = args[0]
             try:
+                # Try mapping / dictionary
                 for key in other.keys():
                     self[key] = other[key]
+                # pylint: disable=unidiomatic-typecheck
+                if type(other) is dict and ODict is not dict:
+                    warnings.warn(
+                        "Before Python 3.7, initializing or updating a "
+                        "NocaseDict object from a dict object is not "
+                        "guaranteed to preserve the order of its items",
+                        UserWarning, stacklevel=2)
             except AttributeError:
+                # Expecting an iterable
+                try:
+                    # Try whether KeyableBy() mixin was used
+                    key_attr = self.nocasedict_KeyableBy_key_attr
+                except AttributeError:
+                    key_attr = None
+                # The following raises TypeError if not iterable:
                 for i, item in enumerate(other):
-                    try:
-                        key, value = item
-                    except ValueError as exc:
-                        value_error = ValueError(
-                            "Cannot unpack positional argument item #{i} of "
-                            "type {t} into key, value: {exc}".
-                            format(i=i, t=type(item), exc=exc))
-                        value_error.__cause__ = None  # Suppress 'During..'
-                        raise value_error
+                    if key_attr and hasattr(item, key_attr):
+                        # Is a keyable object
+                        key = getattr(item, key_attr)
+                        value = item
+                    else:
+                        # Expecting key, value pair
+                        try:
+                            key, value = item
+                        except ValueError as exc:
+                            value_error = ValueError(
+                                "Cannot unpack positional argument item #{i} "
+                                "of type {t} into key, value: {exc}".
+                                format(i=i, t=type(item), exc=exc))
+                            value_error.__cause__ = None  # Suppress 'During..'
+                            raise value_error
                     self[key] = value
 
         for key in kwargs:
             self[key] = kwargs[key]
+        if len(kwargs) > 1 and ODict is not dict:
+            warnings.warn(
+                "Before Python 3.7, initializing or updating a NocaseDict "
+                "object from more than one keyword argument is not guaranteed "
+                "to preserve their order",
+                UserWarning, stacklevel=2)
 
     def clear(self):
         """
@@ -572,29 +567,6 @@ class NocaseDict(MutableMapping):
 
     def __le__(self, other):
         self._raise_ordering_not_supported(other, '<=')
-
-    def __hash__(self):
-        # TODO: Implement or not - see issue #10
-        """
-        Return a hash value for the dictionary based on the lower-cased keys
-        and the values of its items.
-
-        This results in a case-insensitive hash value, i.e. two dictionaries
-        that differ only in the lexical case of their keys will have the same
-        hash value.
-
-        This makes :class:`NocaseDict` objects usable as a dictionary key and
-        as a set member, because these data structures use the hash value
-        internally.
-        Note that :class:`NocaseDict` objects are mutable, so reliable use of
-        the hash value requires that the objects are not modified while the
-        hash value is used (for example, while the :class:`NocaseDict` object
-        is in a set).
-        See `hashable <https://docs.python.org/3/glossary.html#term-hashable>`_
-        for more details.
-        """
-        fs = frozenset([(k, self._data[k][1]) for k in self._data])
-        return hash(fs)
 
 
 # Remove methods that should only be present in a particular Python version

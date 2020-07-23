@@ -4,12 +4,11 @@
 API Reference
 =============
 
+
 .. _`Class NocaseDict`:
 
 Class NocaseDict
 ----------------
-
-.. automodule:: nocasedict._nocasedict
 
 .. autoclass:: nocasedict.NocaseDict
    :members:
@@ -31,3 +30,34 @@ Class NocaseDict
       :attributes:
 
    .. rubric:: Details
+
+
+.. _`Class HashableMixin`:
+
+Class HashableMixin
+-------------------
+
+.. autoclass:: nocasedict.HashableMixin
+   :members:
+   :special-members: __hash__
+
+   .. rubric:: Methods
+
+   .. autoautosummary:: nocasedict.HashableMixin
+      :methods:
+      :nosignatures:
+
+   .. rubric:: Attributes
+
+   .. autoautosummary:: nocasedict.HashableMixin
+      :attributes:
+
+   .. rubric:: Details
+
+
+.. _`Function KeyableByMixin`:
+
+Function KeyableByMixin
+-----------------------
+
+.. autofunc:: nocasedict.KeyableByMixin

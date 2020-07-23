@@ -50,11 +50,10 @@ TESTDICT_WARNS_KWARGS = \
 _OMIT_ARG = object()
 
 
-class NonComparable(object):
+class NonEquatable(object):
     # pylint: disable=too-few-public-methods
     """
-    Class that raises TypeError when comparing its objects for equality or
-    when hashing its objects.
+    Class that raises TypeError when comparing its objects for equality.
     """
 
     def __eq__(self, other):
@@ -62,9 +61,6 @@ class NonComparable(object):
 
     def __ne__(self, other):
         raise TypeError("Cannot compare %s to %s" % (type(self), type(other)))
-
-    def __hash__(self):
-        raise TypeError("Cannot hash %s" % type(self))
 
 
 TESTCASES_NOCASEDICT_INIT = [
@@ -2369,9 +2365,9 @@ def test_NocaseDict_copy(testcase,
         assert now_value == org_value
 
 
-TESTCASES_NOCASEDICT_EQUAL_HASH = [
+TESTCASES_NOCASEDICT_EQUAL = [
 
-    # Testcases for NocaseDict.__hash__(), __eq__(), __ne__()
+    # Testcases for NocaseDict.__eq__(), __ne__()
 
     # Each list item is a testcase tuple with these items:
     # * desc: Short testcase description.
@@ -2591,62 +2587,21 @@ TESTCASES_NOCASEDICT_EQUAL_HASH = [
         ),
         None, None, True
     ),
-]
-
-TESTCASES_NOCASEDICT_EQUAL = [
-
-    # Testcases for NocaseDict.__eq__(), __ne__()
-
-    # Each list item is a testcase tuple with these items:
-    # * desc: Short testcase description.
-    # * kwargs: Keyword arguments for the test function:
-    #   * obj1: NocaseDict object #1 to use.
-    #   * obj2: NocaseDict object #2 to use.
-    #   * exp_obj_equal: Expected equality of the objects.
-    # * exp_exc_types: Expected exception type(s), or None.
-    # * exp_warn_types: Expected warning type(s), or None.
-    # * condition: Boolean condition for testcase to run, or 'pdb' for debugger
-
     (
         "A value raises TypeError when compared (and equal still succeeds)",
         dict(
             obj1=NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            obj2=NocaseDict([('Budgie', NonComparable()), ('Dog', 'Cat')]),
+            obj2=NocaseDict([('Budgie', NonEquatable()), ('Dog', 'Cat')]),
             exp_obj_equal=False,
         ),
         TypeError if TEST_AGAINST_DICT else None, None, True
     ),
 ]
 
-TESTCASES_NOCASEDICT_HASH = [
-
-    # Testcases for NocaseDict.__hash__() / hash(ncd)
-
-    # Each list item is a testcase tuple with these items:
-    # * desc: Short testcase description.
-    # * kwargs: Keyword arguments for the test function:
-    #   * obj1: NocaseDict object #1 to use.
-    #   * obj2: NocaseDict object #2 to use.
-    #   * exp_obj_equal: Expected equality of the objects.
-    # * exp_exc_types: Expected exception type(s), or None.
-    # * exp_warn_types: Expected warning type(s), or None.
-    # * condition: Boolean condition for testcase to run, or 'pdb' for debugger
-
-    (
-        "A value raises TypeError when compared (and hash fails)",
-        dict(
-            obj1=NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            obj2=NocaseDict([('Budgie', NonComparable()), ('Dog', 'Cat')]),
-            exp_obj_equal=False,
-        ),
-        TypeError, None, True
-    ),
-]
-
 
 @pytest.mark.parametrize(
     "desc, kwargs, exp_exc_types, exp_warn_types, condition",
-    TESTCASES_NOCASEDICT_EQUAL_HASH + TESTCASES_NOCASEDICT_EQUAL)
+    TESTCASES_NOCASEDICT_EQUAL)
 @simplified_test_function
 def test_NocaseDict_eq(testcase,
                        obj1, obj2, exp_obj_equal):
@@ -2671,7 +2626,7 @@ def test_NocaseDict_eq(testcase,
 
 @pytest.mark.parametrize(
     "desc, kwargs, exp_exc_types, exp_warn_types, condition",
-    TESTCASES_NOCASEDICT_EQUAL_HASH + TESTCASES_NOCASEDICT_EQUAL)
+    TESTCASES_NOCASEDICT_EQUAL)
 @simplified_test_function
 def test_NocaseDict_ne(testcase,
                        obj1, obj2, exp_obj_equal):
@@ -2692,36 +2647,6 @@ def test_NocaseDict_ne(testcase,
 
     assert ne1 != exp_obj_equal
     assert ne2 != exp_obj_equal
-
-
-@pytest.mark.parametrize(
-    "desc, kwargs, exp_exc_types, exp_warn_types, condition",
-    TESTCASES_NOCASEDICT_EQUAL_HASH + TESTCASES_NOCASEDICT_HASH)
-@simplified_test_function
-def test_NocaseDict_hash(testcase,
-                         obj1, obj2, exp_obj_equal):
-    """
-    Test function for NocaseDict.__hash__() / hash(ncd)
-    """
-
-    if TEST_AGAINST_DICT:
-        pytest.skip("dict is not hashable")
-
-    # Double check they are different objects
-    assert id(obj1) != id(obj2)
-
-    # The code to be tested
-    hash1 = hash(obj1)
-    hash2 = hash(obj2)
-
-    # Ensure that exceptions raised in the remainder of this function
-    # are not mistaken as expected exceptions
-    assert testcase.exp_exc_types is None
-
-    if exp_obj_equal:
-        assert hash1 == hash2
-    else:
-        assert hash1 != hash2
 
 
 TESTCASES_NOCASEDICT_ORDERING = [
