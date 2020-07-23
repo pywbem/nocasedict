@@ -7,6 +7,8 @@ import sys
 
 from ._version import __version__  # noqa: F401
 from ._nocasedict import *  # noqa: F403,F401
+from ._hashable import *  # noqa: F403,F401
+from ._keyableby import *  # noqa: F403,F401
 
 _PY_M = sys.version_info[0]
 _PY_N = sys.version_info[1]
