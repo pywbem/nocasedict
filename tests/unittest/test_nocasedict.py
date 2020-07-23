@@ -41,7 +41,7 @@ TESTDICT_SUPPORTS_NONSTRING_KWARGS = \
 
 # Indicates the dict being tested issues UserWarning about unordered kwargs
 TESTDICT_WARNS_KWARGS = \
-    not TEST_AGAINST_DICT and sys.version_info[0:2] == (2, 7)
+    not TEST_AGAINST_DICT and sys.version_info[0:2] < (3, 7)
 
 
 class NonComparable(object):
@@ -344,16 +344,16 @@ TESTCASES_NOCASEDICT_GETITEM = [
 
     # Empty NocaseDict
     (
-        "Empty dict, with None key (invalid type / not found)",
+        "Empty dict, with None key (not found)",
         dict(
             obj=NocaseDict(),
             key=None,
             exp_value=None,
         ),
-        KeyError if TEST_AGAINST_DICT else TypeError, None, True
+        KeyError, None, True
     ),
     (
-        "Empty dict, with integer key (invalid type / not found)",
+        "Empty dict, with integer key (no lower / not found)",
         dict(
             obj=NocaseDict(),
             key=1234,
@@ -382,13 +382,13 @@ TESTCASES_NOCASEDICT_GETITEM = [
 
     # Non-empty NocaseDict
     (
-        "Non-empty dict, with None key (invalid type / not found)",
+        "Non-empty dict, with None key (not found)",
         dict(
             obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
             key=None,
             exp_value=None,
         ),
-        KeyError if TEST_AGAINST_DICT else TypeError, None, True
+        KeyError, None, True
     ),
     (
         "Non-empty dict, with empty string key (not found)",
@@ -483,16 +483,16 @@ TESTCASES_NOCASEDICT_SETITEM = [
 
     # Empty NocaseDict
     (
-        "Empty dict, with None key (invalid type / success)",
+        "Empty dict, with None key",
         dict(
             obj=NocaseDict(),
             key=None,
             value=None,
         ),
-        None if TEST_AGAINST_DICT else TypeError, None, True
+        None, None, True
     ),
     (
-        "Empty dict, with integer key (invalid type / success)",
+        "Empty dict, with integer key (no lower / success)",
         dict(
             obj=NocaseDict(),
             key=1234,
@@ -521,13 +521,13 @@ TESTCASES_NOCASEDICT_SETITEM = [
 
     # Non-empty NocaseDict
     (
-        "Non-empty dict, with None key (invalid type / success)",
+        "Non-empty dict, with None key",
         dict(
             obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
             key=None,
             value='Kitten',
         ),
-        None if TEST_AGAINST_DICT else TypeError, None, True
+        None, None, True
     ),
     (
         "Non-empty dict, with empty string key",
@@ -625,15 +625,15 @@ TESTCASES_NOCASEDICT_DELITEM = [
 
     # Empty NocaseDict
     (
-        "Empty dict, with None key (invalid type / not found)",
+        "Empty dict, with None key (not found)",
         dict(
             obj=NocaseDict(),
             key=None,
         ),
-        KeyError if TEST_AGAINST_DICT else TypeError, None, True
+        KeyError, None, True
     ),
     (
-        "Empty dict, with integer key (invalid type / not found)",
+        "Empty dict, with integer key (no lower / not found)",
         dict(
             obj=NocaseDict(),
             key=1234,
@@ -659,12 +659,12 @@ TESTCASES_NOCASEDICT_DELITEM = [
 
     # Non-empty NocaseDict
     (
-        "Non-empty dict, with None key (invalid type / not found)",
+        "Non-empty dict, with None key (not found)",
         dict(
             obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
             key=None,
         ),
-        KeyError if TEST_AGAINST_DICT else TypeError, None, True
+        KeyError, None, True
     ),
     (
         "Non-empty dict, with empty non-existing string key (not found)",
@@ -808,16 +808,16 @@ TESTCASES_NOCASEDICT_CONTAINS = [
 
     # Empty NocaseDict
     (
-        "Empty dict, with None key (invalid type / not contained)",
+        "Empty dict, with None key",
         dict(
             obj=NocaseDict(),
             key=None,
-            exp_result=False if TEST_AGAINST_DICT else None,
+            exp_result=False,
         ),
-        None if TEST_AGAINST_DICT else TypeError, None, True
+        None, None, True
     ),
     (
-        "Empty dict, with integer key (invalid type / not contained)",
+        "Empty dict, with integer key (no lower / success)",
         dict(
             obj=NocaseDict(),
             key=1234,
@@ -846,13 +846,13 @@ TESTCASES_NOCASEDICT_CONTAINS = [
 
     # Non-empty NocaseDict
     (
-        "Non-empty dict, with None key (invalid type / not contained)",
+        "Non-empty dict, with non-existing None key",
         dict(
             obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
             key=None,
-            exp_result=False if TEST_AGAINST_DICT else None,
+            exp_result=False,
         ),
-        None if TEST_AGAINST_DICT else TypeError, None, True
+        None, None, True
     ),
     (
         "Non-empty dict, with empty non-existing string key (not found)",
@@ -947,17 +947,17 @@ TESTCASES_NOCASEDICT_GET = [
 
     # Empty NocaseDict
     (
-        "Empty dict, with None key (invalid type / defaulted)",
+        "Empty dict, with None key",
         dict(
             obj=NocaseDict(),
             key=None,
             default=None,
             exp_value=None,
         ),
-        None if TEST_AGAINST_DICT else TypeError, None, True
+        None, None, True
     ),
     (
-        "Empty dict, with integer key (invalid type / defaulted)",
+        "Empty dict, with integer key (no lower / success)",
         dict(
             obj=NocaseDict(),
             key=1234,
@@ -1009,14 +1009,14 @@ TESTCASES_NOCASEDICT_GET = [
 
     # Non-empty NocaseDict
     (
-        "Non-empty dict, with None key (invalid type / defaulted)",
+        "Non-empty dict, with None key",
         dict(
             obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
             key=None,
             default=None,
             exp_value=None,
         ),
-        None if TEST_AGAINST_DICT else TypeError, None, True
+        None, None, True
     ),
     (
         "Non-empty dict, with empty string key (defaulted without default)",
@@ -1145,17 +1145,17 @@ TESTCASES_NOCASEDICT_SETDEFAULT = [
 
     # Empty NocaseDict
     (
-        "Empty dict, with None key (invalid type / not found)",
+        "Empty dict, with None key",
         dict(
             obj=NocaseDict(),
             key=None,
             default=None,
             exp_value=None,
         ),
-        None if TEST_AGAINST_DICT else TypeError, None, True
+        None, None, True
     ),
     (
-        "Empty dict, with integer key (invalid type / not found)",
+        "Empty dict, with integer key (no lower / success)",
         dict(
             obj=NocaseDict(),
             key=1234,
@@ -1207,14 +1207,14 @@ TESTCASES_NOCASEDICT_SETDEFAULT = [
 
     # Non-empty NocaseDict
     (
-        "Non-empty dict, with None key (invalid type / success)",
+        "Non-empty dict, with None key",
         dict(
             obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
             key=None,
             default=None,
             exp_value=None,
         ),
-        None if TEST_AGAINST_DICT else TypeError, None, True
+        None, None, True
     ),
     (
         "Non-empty dict, with empty string key (defaulted without default)",
@@ -1604,8 +1604,7 @@ TESTCASES_NOCASEDICT_UPDATE = [
         None, None, True
     ),
     (
-        "Empty dict, with integer key in update args (invalid type / "
-        "success)",
+        "Empty dict, with integer key in update args (no lower / success)",
         dict(
             obj=NocaseDict(),
             args=[[(1234, 'Invalid')]],
@@ -1732,7 +1731,7 @@ TESTCASES_NOCASEDICT_UPDATE = [
 
     # Non-empty NocaseDict, insert new value
     (
-        "Non-empty dict, with integer key in update args (invalid type)",
+        "Non-empty dict, with integer key in update args (no lower / success)",
         dict(
             obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
             args=[[(1234, 'Invalid')]],
