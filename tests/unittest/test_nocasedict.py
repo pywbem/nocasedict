@@ -8,6 +8,10 @@ import sys
 import os
 import re
 from collections import OrderedDict
+try:
+    from collections.abc import KeysView, ValuesView, ItemsView
+except ImportError:
+    from collections import KeysView, ValuesView, ItemsView
 import pytest
 
 from ..utils.simplified_test_function import simplified_test_function
@@ -45,6 +49,9 @@ TESTDICT_SUPPORTS_NONSTRING_KWARGS = \
 # Indicates the dict being tested issues UserWarning about unordered kwargs
 TESTDICT_WARNS_KWARGS = \
     not TEST_AGAINST_DICT and sys.version_info[0:2] < (3, 7)
+
+# Indicates the dict supports the iter..() and view..() methods
+TESTDICT_SUPPORTS_ITER_VIEW = sys.version_info[0:2] == (2, 7)
 
 # Used as indicator not to pass an argument in the testcases.
 _OMIT_ARG = object()
@@ -1664,6 +1671,14 @@ TESTCASES_NOCASEDICT_ITEMS = [
         None, None, True
     ),
     (
+        "Dict with one item",
+        dict(
+            obj=NocaseDict([('Dog', 'Cat')]),
+            exp_items=[('Dog', 'Cat')],
+        ),
+        None, None, True
+    ),
+    (
         "Dict with two items",
         dict(
             obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
@@ -1686,16 +1701,37 @@ def test_NocaseDict_keys(testcase, obj, exp_items):
     # The code to be tested
     act_keys = obj.keys()
 
+    # Also test iterating through the result
+    act_keys_list = list(act_keys)
+
+    # Test that second iteration is possible
+    act_keys_list2 = list(act_keys)
+
+    if not PY2:
+
+        # Test __contained__() of the returned view
+        for key in act_keys_list:
+            assert key in act_keys
+
+        # Test __repr__() of the returned view
+        assert re.match(r'^dict_keys\(.*\)$', repr(act_keys))
+
     # Ensure that exceptions raised in the remainder of this function
     # are not mistaken as expected exceptions
     assert testcase.exp_exc_types is None
 
-    if TESTDICT_IS_ORDERED:
-        exp_keys = [item[0] for item in exp_items]
-        assert list(act_keys) == exp_keys
+    if PY2:
+        assert isinstance(act_keys, list)
     else:
-        exp_keys = sorted([item[0] for item in exp_items])
-        assert sorted(act_keys) == exp_keys
+        assert isinstance(act_keys, KeysView)
+
+    exp_keys = [item[0] for item in exp_items]
+    if TESTDICT_IS_ORDERED:
+        assert act_keys_list == exp_keys
+        assert act_keys_list2 == exp_keys
+    else:
+        assert sorted(act_keys_list) == sorted(exp_keys)
+        assert sorted(act_keys_list2) == sorted(exp_keys)
 
 
 @pytest.mark.parametrize(
@@ -1710,16 +1746,37 @@ def test_NocaseDict_values(testcase, obj, exp_items):
     # The code to be tested
     act_values = obj.values()
 
+    # Also test iterating through the result
+    act_values_list = list(act_values)
+
+    # Test that second iteration is possible
+    act_values_list2 = list(act_values)
+
+    if not PY2:
+
+        # Test __contained__() of the returned view
+        for value in act_values_list:
+            assert value in act_values
+
+        # Test __repr__() of the returned view
+        assert re.match(r'^dict_values\(.*\)$', repr(act_values))
+
     # Ensure that exceptions raised in the remainder of this function
     # are not mistaken as expected exceptions
     assert testcase.exp_exc_types is None
 
-    if TESTDICT_IS_ORDERED:
-        exp_values = [item[1] for item in exp_items]
-        assert list(act_values) == exp_values
+    if PY2:
+        assert isinstance(act_values, list)
     else:
-        exp_values = sorted([item[1] for item in exp_items])
-        assert sorted(act_values) == exp_values
+        assert isinstance(act_values, ValuesView)
+
+    exp_values = [item[1] for item in exp_items]
+    if TESTDICT_IS_ORDERED:
+        assert act_values_list == exp_values
+        assert act_values_list2 == exp_values
+    else:
+        assert sorted(act_values_list) == sorted(exp_values)
+        assert sorted(act_values_list2) == sorted(exp_values)
 
 
 @pytest.mark.parametrize(
@@ -1734,14 +1791,36 @@ def test_NocaseDict_items(testcase, obj, exp_items):
     # The code to be tested
     act_items = obj.items()
 
+    # Also test iterating through the result
+    act_items_list = list(act_items)
+
+    # Test that second iteration is possible
+    act_items_list2 = list(act_items)
+
+    if not PY2:
+
+        # Test __contained__() of the returned view
+        for item in act_items_list:
+            assert item in act_items
+
+        # Test __repr__() of the returned view
+        assert re.match(r'^dict_items\(.*\)$', repr(act_items))
+
     # Ensure that exceptions raised in the remainder of this function
     # are not mistaken as expected exceptions
     assert testcase.exp_exc_types is None
 
-    if TESTDICT_IS_ORDERED:
-        assert list(act_items) == exp_items
+    if PY2:
+        assert isinstance(act_items, list)
     else:
-        assert sorted(act_items) == sorted(exp_items)
+        assert isinstance(act_items, ItemsView)
+
+    if TESTDICT_IS_ORDERED:
+        assert act_items_list == exp_items
+        assert act_items_list2 == exp_items
+    else:
+        assert sorted(act_items_list) == sorted(exp_items)
+        assert sorted(act_items_list2) == sorted(exp_items)
 
 
 @pytest.mark.parametrize(
@@ -1753,8 +1832,10 @@ def test_NocaseDict_iterkeys(testcase, obj, exp_items):
     Test function for NocaseDict.iterkeys()
     """
 
-    if TEST_AGAINST_DICT:
-        pytest.skip("dict does not have iterkeys() method")
+    if not TESTDICT_SUPPORTS_ITER_VIEW:
+        pytest.skip("Test dictionary does not support iterkeys() method")
+
+    assert PY2
 
     # The code to be tested
     act_keys = []
@@ -1766,7 +1847,10 @@ def test_NocaseDict_iterkeys(testcase, obj, exp_items):
     assert testcase.exp_exc_types is None
 
     exp_keys = [item[0] for item in exp_items]
-    assert act_keys == exp_keys
+    if TESTDICT_IS_ORDERED:
+        assert act_keys == exp_keys
+    else:
+        assert sorted(act_keys) == sorted(exp_keys)
 
 
 @pytest.mark.parametrize(
@@ -1778,8 +1862,10 @@ def test_NocaseDict_itervalues(testcase, obj, exp_items):
     Test function for NocaseDict.itervalues()
     """
 
-    if TEST_AGAINST_DICT:
-        pytest.skip("dict does not have itervalues() method")
+    if not TESTDICT_SUPPORTS_ITER_VIEW:
+        pytest.skip("Test dictionary does not support itervalues() method")
+
+    assert PY2
 
     # The code to be tested
     act_values = []
@@ -1791,7 +1877,10 @@ def test_NocaseDict_itervalues(testcase, obj, exp_items):
     assert testcase.exp_exc_types is None
 
     exp_values = [item[1] for item in exp_items]
-    assert act_values == exp_values
+    if TESTDICT_IS_ORDERED:
+        assert act_values == exp_values
+    else:
+        assert sorted(act_values) == sorted(exp_values)
 
 
 @pytest.mark.parametrize(
@@ -1803,8 +1892,10 @@ def test_NocaseDict_iteritems(testcase, obj, exp_items):
     Test function for NocaseDict.iteritemss()
     """
 
-    if TEST_AGAINST_DICT:
-        pytest.skip("dict does not have iteritems() method")
+    if not TESTDICT_SUPPORTS_ITER_VIEW:
+        pytest.skip("Test dictionary does not support iteritems() method")
+
+    assert PY2
 
     # The code to be tested
     act_items = []
@@ -1815,7 +1906,144 @@ def test_NocaseDict_iteritems(testcase, obj, exp_items):
     # are not mistaken as expected exceptions
     assert testcase.exp_exc_types is None
 
-    assert act_items == exp_items
+    if TESTDICT_IS_ORDERED:
+        assert act_items == exp_items
+    else:
+        assert sorted(act_items) == sorted(exp_items)
+
+
+@pytest.mark.parametrize(
+    "desc, kwargs, exp_exc_types, exp_warn_types, condition",
+    TESTCASES_NOCASEDICT_ITEMS)
+@simplified_test_function
+def test_NocaseDict_viewkeys(testcase, obj, exp_items):
+    """
+    Test function for NocaseDict.viewkeys() (PY2 only)
+    """
+
+    if not TESTDICT_SUPPORTS_ITER_VIEW:
+        pytest.skip("Test dictionary does support viewkeys() method")
+
+    assert PY2
+
+    # The code to be tested
+    act_keys = obj.viewkeys()
+
+    # Also test iterating through the result
+    act_keys_list = list(act_keys)
+
+    # Test that second iteration is possible
+    act_keys_list2 = list(act_keys)
+
+    # Test __contained__() of the returned view
+    for key in act_keys_list:
+        assert key in act_keys
+
+    # Test __repr__() of the returned view
+    assert re.match(r'^dict_keys\(.*\)$', repr(act_keys))
+
+    # Ensure that exceptions raised in the remainder of this function
+    # are not mistaken as expected exceptions
+    assert testcase.exp_exc_types is None
+
+    assert isinstance(act_keys, KeysView)
+
+    exp_keys = [item[0] for item in exp_items]
+    if TESTDICT_IS_ORDERED:
+        assert act_keys_list == exp_keys
+        assert act_keys_list2 == exp_keys
+    else:
+        assert sorted(act_keys_list) == sorted(exp_keys)
+        assert sorted(act_keys_list2) == sorted(exp_keys)
+
+
+@pytest.mark.parametrize(
+    "desc, kwargs, exp_exc_types, exp_warn_types, condition",
+    TESTCASES_NOCASEDICT_ITEMS)
+@simplified_test_function
+def test_NocaseDict_viewvalues(testcase, obj, exp_items):
+    """
+    Test function for NocaseDict.viewvalues()
+    """
+
+    if not TESTDICT_SUPPORTS_ITER_VIEW:
+        pytest.skip("Test dictionary does not support viewvalues() method")
+
+    assert PY2
+
+    # The code to be tested
+    act_values = obj.viewvalues()
+
+    # Also test iterating through the result
+    act_values_list = list(act_values)
+
+    # Test that second iteration is possible
+    act_values_list2 = list(act_values)
+
+    # Test __contained__() of the returned view
+    for value in act_values_list:
+        assert value in act_values
+
+    # Test __repr__() of the returned view
+    assert re.match(r'^dict_values\(.*\)$', repr(act_values))
+
+    # Ensure that exceptions raised in the remainder of this function
+    # are not mistaken as expected exceptions
+    assert testcase.exp_exc_types is None
+
+    assert isinstance(act_values, ValuesView)
+
+    exp_values = [item[1] for item in exp_items]
+    if TESTDICT_IS_ORDERED:
+        assert act_values_list == exp_values
+        assert act_values_list2 == exp_values
+    else:
+        assert sorted(act_values_list) == sorted(exp_values)
+        assert sorted(act_values_list2) == sorted(exp_values)
+
+
+@pytest.mark.parametrize(
+    "desc, kwargs, exp_exc_types, exp_warn_types, condition",
+    TESTCASES_NOCASEDICT_ITEMS)
+@simplified_test_function
+def test_NocaseDict_viewitems(testcase, obj, exp_items):
+    """
+    Test function for NocaseDict.viewitems()
+    """
+
+    if not TESTDICT_SUPPORTS_ITER_VIEW:
+        pytest.skip("Test dictionary does not support viewitems() method")
+
+    assert PY2
+
+    # The code to be tested
+    act_items = obj.viewitems()
+
+    # Also test iterating through the result
+    act_items_list = list(act_items)
+
+    # Test that second iteration is possible
+    act_items_list2 = list(act_items)
+
+    # Test __contained__() of the returned view
+    for item in act_items_list:
+        assert item in act_items
+
+    # Test __repr__() of the returned view
+    assert re.match(r'^dict_items\(.*\)$', repr(act_items))
+
+    # Ensure that exceptions raised in the remainder of this function
+    # are not mistaken as expected exceptions
+    assert testcase.exp_exc_types is None
+
+    assert isinstance(act_items, ItemsView)
+
+    if TESTDICT_IS_ORDERED:
+        assert act_items_list == exp_items
+        assert act_items_list2 == exp_items
+    else:
+        assert sorted(act_items_list) == sorted(exp_items)
+        assert sorted(act_items_list2) == sorted(exp_items)
 
 
 @pytest.mark.parametrize(
@@ -1828,19 +2056,19 @@ def test_NocaseDict_iter(testcase, obj, exp_items):
     """
 
     # The code to be tested
-    act_items = []
+    act_keys = []
     for key in obj:
-        value = obj[key]
-        act_items.append((key, value))
+        act_keys.append(key)
 
     # Ensure that exceptions raised in the remainder of this function
     # are not mistaken as expected exceptions
     assert testcase.exp_exc_types is None
 
+    exp_keys = [item[0] for item in exp_items]
     if TESTDICT_IS_ORDERED:
-        assert act_items == exp_items
+        assert act_keys == exp_keys
     else:
-        assert sorted(act_items) == sorted(exp_items)
+        assert sorted(act_keys) == sorted(exp_keys)
 
 
 TESTCASES_NOCASEDICT_REPR = [

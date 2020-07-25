@@ -32,9 +32,9 @@ import os
 import warnings
 from collections import OrderedDict
 try:
-    from collections.abc import MutableMapping
+    from collections.abc import MutableMapping, KeysView, ValuesView, ItemsView
 except ImportError:
-    from collections import MutableMapping
+    from collections import MutableMapping, KeysView, ValuesView, ItemsView
 
 import six
 
@@ -67,6 +67,65 @@ def _real_key(key):
             type_error.__cause__ = None  # Suppress 'During handling..'
             raise type_error
     return None
+
+
+class _DictView(object):
+    # pylint: disable=too-few-public-methods
+    """
+    Base class for directory views, with common methods.
+    """
+
+    def __init__(self, dct):
+        self._dict = dct
+
+    def __len__(self):
+        return len(self._dict)
+
+    def __contains__(self, x):
+        return x in iter(self)
+
+    def __repr__(self):
+        return "{t}({d!r})".format(
+            t=self.__class__.__name__, d=self._dict)
+
+
+class dict_keys(_DictView, KeysView):
+    # pylint: disable=too-few-public-methods
+    """
+    Dictionary values view.
+    """
+
+    def __iter__(self):
+        # pylint: disable=protected-access
+        data = self._dict._data
+        for k in data:
+            yield data[k][0]
+
+
+class dict_values(_DictView, ValuesView):
+    # pylint: disable=too-few-public-methods
+    """
+    Dictionary values view.
+    """
+
+    def __iter__(self):
+        # pylint: disable=protected-access
+        data = self._dict._data
+        for k in data:
+            yield data[k][1]
+
+
+class dict_items(_DictView, ItemsView):
+    # pylint: disable=too-few-public-methods
+    """
+    Dictionary items view.
+    """
+
+    def __iter__(self):
+        # pylint: disable=protected-access
+        data = self._dict._data
+        for k in data:
+            yield data[k]
 
 
 class NocaseDict(MutableMapping):
@@ -299,62 +358,136 @@ class NocaseDict(MutableMapping):
             self[key] = default
         return self[key]
 
-    # Other accessor expressed in terms of iterators
+    # Iteration methods
 
     def keys(self):
+        # pylint: disable=line-too-long
         """
-        Return a copied list of the dictionary keys (in the original lexical
-        case) in the preserved order.
-        """
-        return list(self.iterkeys())
+        Return a view on (in Python 3) or a list of (in Python 2) the
+        dictionary keys (in the original lexical case) in the preserved order.
+
+        See
+        `Dictionary View Objects on Python 3 <https://docs.python.org/3/library/stdtypes.html#dictionary-view-objects>`_ for details about view objects.
+        """  # noqa: E501
+        # pylint: enable=line-too-long
+        if six.PY2:
+            return [self._data[k][0] for k in self._data]
+        return dict_keys(self)
 
     def keys_nocase(self):
+        # pylint: disable=line-too-long
         """
-        Return a copied list of the case-insensitive dictionary keys in the
-        preserved order.
-        """
-        return list(self._data.keys())
+        Return a view on (in Python 3) or a list of (in Python 2) the
+        lower-cased dictionary keys in the preserved order.
+
+        See
+        `Dictionary View Objects on Python 3 <https://docs.python.org/3/library/stdtypes.html#dictionary-view-objects>`_ for details about view objects.
+        """  # noqa: E501
+        # pylint: enable=line-too-long
+        return self._data.keys()
 
     def values(self):
+        # pylint: disable=line-too-long
         """
-        Return a copied list of the dictionary values in the preserved order.
-        """
-        return list(self.itervalues())
+        Return a view on (in Python 3) or a list of (in Python 2) the
+        dictionary values in the preserved order.
+
+        See
+        `Dictionary View Objects on Python 3 <https://docs.python.org/3/library/stdtypes.html#dictionary-view-objects>`_ for details about view objects.
+        """  # noqa: E501
+        # pylint: enable=line-too-long
+        if six.PY2:
+            return [self._data[k][1] for k in self._data]
+        return dict_values(self)
 
     def items(self):
+        # pylint: disable=line-too-long
         """
-        Return a copied list of the dictionary items in the preserved order,
-        where each item is a tuple of its key (in the original lexical case)
-        and its value.
-        """
-        return list(self.iteritems())
+        Return a view on (in Python 3) or a list of (in Python 2) the
+        dictionary items in the preserved order, where each item is a tuple of
+        its key (in the original lexical case) and its value.
 
-    # Iterators
+        See
+        `Dictionary View Objects on Python 3 <https://docs.python.org/3/library/stdtypes.html#dictionary-view-objects>`_ for details about view objects.
+        """  # noqa: E501
+        # pylint: enable=line-too-long
+        if six.PY2:
+            return [self._data[k] for k in self._data]
+        return dict_items(self)
 
     def iterkeys(self):
         """
-        Return an iterator through the dictionary keys (in the original lexical
-        case) in the preserved order.
+        Python 2 only: Return an iterator through the dictionary keys (in the
+        original lexical case) in the preserved order.
+
+        This method is only present on Python 2.
         """
-        for item in six.iteritems(self._data):
-            yield item[1][0]
+        for k in self._data:
+            yield self._data[k][0]
 
     def itervalues(self):
         """
-        Return an iterator through the dictionary values in the preserved
-        order.
+        Python 2 only: Return an iterator through the dictionary values in the
+        preserved order.
+
+        This method is only present on Python 2.
         """
-        for item in six.iteritems(self._data):
-            yield item[1][1]
+        for k in self._data:
+            yield self._data[k][1]
 
     def iteritems(self):
         """
-        Return an iterator through the dictionary items in the preserved order,
-        where each item is a tuple of its key (in the original lexical case)
-        and its value.
+        Python 2 only: Return an iterator through the dictionary items in the
+        preserved order, where each item is a tuple of its key (in the original
+        lexical case) and its value.
+
+        This method is only present on Python 2.
         """
-        for item in six.iteritems(self._data):
-            yield item[1]
+        for k in self._data:
+            yield self._data[k]
+
+    def viewkeys(self):
+        # pylint: disable=line-too-long
+        """
+        Python 2 only: Return a view on the dictionary keys (in the original
+        lexical case) in the preserved order.
+
+        See
+        `Dictionary View Objects on Python 2 <https://docs.python.org/2/library/stdtypes.html#dictionary-view-objects>`_ for details about view objects.
+
+        This method is only present on Python 2.
+        """  # noqa: E501
+        # pylint: enable=line-too-long
+        return dict_keys(self)
+
+    def viewvalues(self):
+        # pylint: disable=line-too-long
+        """
+        Python 2 only: Return a view on the dictionary values in the preserved
+        order.
+
+        See
+        `Dictionary View Objects on Python 2 <https://docs.python.org/2/library/stdtypes.html#dictionary-view-objects>`_ for details about view objects.
+
+        This method is only present on Python 2.
+        """  # noqa: E501
+        # pylint: enable=line-too-long
+        return dict_values(self)
+
+    def viewitems(self):
+        # pylint: disable=line-too-long
+        """
+        Python 2 only: Return a view on the dictionary items in the preserved
+        order, where each item is a tuple of its key (in the original lexical
+        case) and its value.
+
+        See
+        `Dictionary View Objects on Python 2 <https://docs.python.org/2/library/stdtypes.html#dictionary-view-objects>`_ for details about view objects.
+
+        This method is only present on Python 2.
+        """  # noqa: E501
+        # pylint: enable=line-too-long
+        return dict_items(self)
 
     def __iter__(self):
         """
@@ -363,7 +496,8 @@ class NocaseDict(MutableMapping):
 
         Invoked when using: ``for key in ncd``
         """
-        return self.iterkeys()
+        for k in self._data:
+            yield self._data[k][0]
 
     # Other stuff
 
@@ -376,7 +510,7 @@ class NocaseDict(MutableMapping):
         in the original lexical case.
         """
         items = ["{0!r}: {1!r}".format(key, value)
-                 for key, value in self.iteritems()]
+                 for key, value in six.iteritems(self)]
         items_str = ', '.join(items)
         return "{0.__class__.__name__}({{{1}}})".format(self, items_str)
 
@@ -523,7 +657,7 @@ class NocaseDict(MutableMapping):
           TypeError: Key does not have a ``lower()`` method.
         """
         # Issue #1062: Could compare hash values for better performance
-        for key, self_value in self.iteritems():
+        for key, self_value in six.iteritems(self):
             if key not in other:
                 return False
             other_value = other[key]
@@ -575,3 +709,9 @@ class NocaseDict(MutableMapping):
 # Remove methods that should only be present in a particular Python version
 if sys.version_info[0] != 2 and not DOCS_SHOW_ALL:
     del NocaseDict.has_key
+    del NocaseDict.iterkeys
+    del NocaseDict.itervalues
+    del NocaseDict.iteritems
+    del NocaseDict.viewkeys
+    del NocaseDict.viewvalues
+    del NocaseDict.viewitems
