@@ -529,7 +529,7 @@ class NocaseDict(MutableMapping):
         """
         return not self == other
 
-    def __raise_ordering_not_supported(self, other, op):
+    def _raise_ordering_not_supported(self, other, op):
         """
         Function to raise a TypeError indicating that ordering of this class
         is not supported.
@@ -539,20 +539,16 @@ class NocaseDict(MutableMapping):
             format(op, type(self), type(other)))
 
     def __lt__(self, other):
-        # TODO: Implement or not - see issue #10
-        self.__raise_ordering_not_supported(other, '<')
+        self._raise_ordering_not_supported(other, '<')
 
     def __gt__(self, other):
-        # TODO: Implement or not - see issue #10
-        self.__raise_ordering_not_supported(other, '>')
+        self._raise_ordering_not_supported(other, '>')
 
     def __ge__(self, other):
-        # TODO: Implement or not - see issue #10
-        self.__raise_ordering_not_supported(other, '>=')
+        self._raise_ordering_not_supported(other, '>=')
 
     def __le__(self, other):
-        # TODO: Implement or not - see issue #10
-        self.__raise_ordering_not_supported(other, '<=')
+        self._raise_ordering_not_supported(other, '<=')
 
     def __hash__(self):
         # TODO: Implement or not - see issue #10
