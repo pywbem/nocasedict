@@ -453,7 +453,11 @@ html: develop_reqs_$(python_mn_version).done $(doc_build_dir)/html/docs/index.ht
 $(doc_build_dir)/html/docs/index.html: Makefile $(doc_dependent_files)
 	@echo "Makefile: Creating the documentation as HTML pages"
 	-$(call RM_FUNC,$@)
-	$(doc_cmd) -b html $(doc_opts) $(doc_build_dir)/html
+ifeq ($(PLATFORM),Windows_native)
+	cmd /c "set DOCS_SHOW_ALL=1 & $(doc_cmd) -b html $(doc_opts) $(doc_build_dir)/html"
+else
+	DOCS_SHOW_ALL=1 $(doc_cmd) -b html $(doc_opts) $(doc_build_dir)/html
+endif
 	@echo "Makefile: Done creating the documentation as HTML pages; top level file: $@"
 
 .PHONY: pdf

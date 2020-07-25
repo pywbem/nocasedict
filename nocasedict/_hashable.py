@@ -17,7 +17,7 @@ class HashableMixin(object):
     must also (directly or indirectly) inherit from
     :class:`~nocasedict.NocaseDict`.
 
-    Hashability allows objects of the the derived class to be used as keys of
+    Hashability allows objects of the derived class to be used as keys of
     :class:`py:dict` and members of :class:`py:set`, because these data
     structures use the hash values internally.
 
