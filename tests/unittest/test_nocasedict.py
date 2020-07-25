@@ -18,6 +18,8 @@ nocasedict = import_installed('nocasedict')
 from nocasedict import NocaseDict as _NocaseDict  # noqa: E402
 # pylint: enable=wrong-import-position, wrong-import-order, invalid-name
 
+PY2 = sys.version_info[0] == 2
+
 # Controls whether the tests are run against a standard dict instead.
 TEST_AGAINST_DICT = os.getenv('TEST_DICT')
 
@@ -43,6 +45,9 @@ TESTDICT_SUPPORTS_NONSTRING_KWARGS = \
 # Indicates the dict being tested issues UserWarning about unordered kwargs
 TESTDICT_WARNS_KWARGS = \
     not TEST_AGAINST_DICT and sys.version_info[0:2] < (3, 7)
+
+# Used as indicator not to pass an argument in the testcases.
+_OMIT_ARG = object()
 
 
 class NonComparable(object):
@@ -928,7 +933,326 @@ def test_NocaseDict_contains(testcase, obj, key, exp_result):
     # are not mistaken as expected exceptions
     assert testcase.exp_exc_types is None
 
-    assert act_result == exp_result, "Unexpected result at key %r" % key
+    assert act_result == exp_result, \
+        "Unexpected result at key {k!r}".format(k=key)
+
+
+TESTCASES_NOCASEDICT_HAS_KEY = [
+
+    # Testcases for NocaseDict.has_key()
+
+    # Each list item is a testcase tuple with these items:
+    # * desc: Short testcase description.
+    # * kwargs: Keyword arguments for the test function:
+    #   * obj: NocaseDict object to be used for the test.
+    #   * key: Key to be used for the test.
+    #   * exp_result: Expected result (bool).
+    # * exp_exc_types: Expected exception type(s), or None.
+    # * exp_warn_types: Expected warning type(s), or None.
+    # * condition: Boolean condition for testcase to run, or 'pdb' for debugger
+
+    # Empty NocaseDict
+    (
+        "Empty dict, with None key",
+        dict(
+            obj=NocaseDict(),
+            key=None,
+            exp_result=False,
+        ),
+        AttributeError if not PY2 else None, None, True
+    ),
+    (
+        "Empty dict, with integer key (no lower / success)",
+        dict(
+            obj=NocaseDict(),
+            key=1234,
+            exp_result=False if TEST_AGAINST_DICT else None,
+        ),
+        AttributeError if not PY2 else None if TEST_AGAINST_DICT else TypeError,
+        None, True
+    ),
+    (
+        "Empty dict, with empty string key (not found)",
+        dict(
+            obj=NocaseDict(),
+            key='',
+            exp_result=False,
+        ),
+        AttributeError if not PY2 else None, None, True
+    ),
+    (
+        "Empty dict, with non-empty key (not found)",
+        dict(
+            obj=NocaseDict(),
+            key='Dog',
+            exp_result=False,
+        ),
+        AttributeError if not PY2 else None, None, True
+    ),
+
+    # Non-empty NocaseDict
+    (
+        "Non-empty dict, with non-existing None key",
+        dict(
+            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            key=None,
+            exp_result=False,
+        ),
+        AttributeError if not PY2 else None, None, True
+    ),
+    (
+        "Non-empty dict, with empty non-existing string key (not found)",
+        dict(
+            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            key='',
+            exp_result=False,
+        ),
+        AttributeError if not PY2 else None, None, True
+    ),
+    (
+        "Non-empty dict, with non-empty non-existing key (not found)",
+        dict(
+            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            key='invalid',
+            exp_result=False,
+        ),
+        AttributeError if not PY2 else None, None, True
+    ),
+    (
+        "Non-empty dict, with existing key in original case",
+        dict(
+            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            key='Dog',
+            exp_result=True,
+        ),
+        AttributeError if not PY2 else None, None, True
+    ),
+    (
+        "Non-empty dict, with existing key in non-original upper case",
+        dict(
+            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            key='DOG',
+            exp_result=not TEST_AGAINST_DICT,
+        ),
+        AttributeError if not PY2 else None, None, True
+    ),
+    (
+        "Non-empty dict, with existing key in non-original lower case",
+        dict(
+            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            key='dog',
+            exp_result=not TEST_AGAINST_DICT,
+        ),
+        AttributeError if not PY2 else None, None, True
+    ),
+    (
+        "Non-empty dict, with existing key in non-original mixed case",
+        dict(
+            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            key='doG',
+            exp_result=not TEST_AGAINST_DICT,
+        ),
+        AttributeError if not PY2 else None, None, True
+    ),
+]
+
+
+@pytest.mark.parametrize(
+    "desc, kwargs, exp_exc_types, exp_warn_types, condition",
+    TESTCASES_NOCASEDICT_HAS_KEY)
+@simplified_test_function
+def test_NocaseDict_has_key(testcase, obj, key, exp_result):
+    """
+    Test function for NocaseDict.has_key()
+    """
+
+    # The code to be tested
+    act_result = obj.has_key(key)  # noqa: W601
+
+    # Ensure that exceptions raised in the remainder of this function
+    # are not mistaken as expected exceptions
+    assert testcase.exp_exc_types is None
+
+    assert act_result == exp_result, \
+        "Unexpected result at key {k!r}".format(k=key)
+
+
+TESTCASES_NOCASEDICT_FROMKEYS = [
+
+    # Testcases for NocaseDict.fromkeys()
+
+    # Each list item is a testcase tuple with these items:
+    # * desc: Short testcase description.
+    # * kwargs: Keyword arguments for the test function:
+    #   * seq: Sequence with key values to be used for the test.
+    #   * value: Value to be used for the test, or _OMIT_ARG.
+    #   * exp_obj: Expected NocaseDict object.
+    # * exp_exc_types: Expected exception type(s), or None.
+    # * exp_warn_types: Expected warning type(s), or None.
+    # * condition: Boolean condition for testcase to run, or 'pdb' for debugger
+
+    # Empty key sequences
+    (
+        "Empty key sequence, as list",
+        dict(
+            seq=[],
+            value=_OMIT_ARG,
+            exp_obj=NocaseDict(),
+        ),
+        None, None, True
+    ),
+    (
+        "Empty key sequence, as tuple",
+        dict(
+            seq=(),
+            value=_OMIT_ARG,
+            exp_obj=NocaseDict(),
+        ),
+        None, None, True
+    ),
+    (
+        "Empty key sequence, as dict",
+        dict(
+            seq={},
+            value=_OMIT_ARG,
+            exp_obj=NocaseDict(),
+        ),
+        None, None, True
+    ),
+
+    # Key sewquences with one item
+    (
+        "Key sequence with one item, as list, with value omitted",
+        dict(
+            seq=['Cat'],
+            value=_OMIT_ARG,
+            exp_obj=NocaseDict([('Cat', None)]),
+        ),
+        None, None, True
+    ),
+    (
+        "Key sequence with one item, as tuple, with value omitted",
+        dict(
+            seq=('Cat',),
+            value=_OMIT_ARG,
+            exp_obj=NocaseDict([('Cat', None)]),
+        ),
+        None, None, True
+    ),
+    (
+        "Key sequence with one item, as dict, with value omitted",
+        dict(
+            seq={'Cat': 'Dog'},
+            value=_OMIT_ARG,
+            exp_obj=NocaseDict([('Cat', None)]),
+        ),
+        None, None, True
+    ),
+    (
+        "Key sequence with one item, as list, with value specified",
+        dict(
+            seq=['Cat'],
+            value='NewBie',
+            exp_obj=NocaseDict([('Cat', 'NewBie')]),
+        ),
+        None, None, True
+    ),
+    (
+        "Key sequence with one item, as tuple, with value specified",
+        dict(
+            seq=('Cat',),
+            value='NewBie',
+            exp_obj=NocaseDict([('Cat', 'NewBie')]),
+        ),
+        None, None, True
+    ),
+    (
+        "Key sequence with one item, as dict, with value specified",
+        dict(
+            seq={'Cat': 'Dog'},
+            value='NewBie',
+            exp_obj=NocaseDict([('Cat', 'NewBie')]),
+        ),
+        None, None, True
+    ),
+
+    # Key sewquences with two items
+    (
+        "Key sequence with two items, as list, with value omitted",
+        dict(
+            seq=['Cat', 'Budgie'],
+            value=_OMIT_ARG,
+            exp_obj=NocaseDict([('Cat', None), ('Budgie', None)]),
+        ),
+        None, None, True
+    ),
+    (
+        "Key sequence with two items, as tuple, with value omitted",
+        dict(
+            seq=('Cat', 'Budgie'),
+            value=_OMIT_ARG,
+            exp_obj=NocaseDict([('Cat', None), ('Budgie', None)]),
+        ),
+        None, None, True
+    ),
+    (
+        "Key sequence with two items, as dict, with value omitted",
+        dict(
+            seq={'Cat': 'Dog', 'Budgie': 'Fish'},
+            value=_OMIT_ARG,
+            exp_obj=NocaseDict([('Cat', None), ('Budgie', None)]),
+        ),
+        None, None, True
+    ),
+    (
+        "Key sequence with two items, as list, with value specified",
+        dict(
+            seq=['Cat', 'Budgie'],
+            value='NewBie',
+            exp_obj=NocaseDict([('Cat', 'NewBie'), ('Budgie', 'NewBie')]),
+        ),
+        None, None, True
+    ),
+    (
+        "Key sequence with two items, as tuple, with value specified",
+        dict(
+            seq=('Cat', 'Budgie'),
+            value='NewBie',
+            exp_obj=NocaseDict([('Cat', 'NewBie'), ('Budgie', 'NewBie')]),
+        ),
+        None, None, True
+    ),
+    (
+        "Key sequence with two items, as dict, with value specified",
+        dict(
+            seq={'Cat': 'Dog', 'Budgie': 'Fish'},
+            value='NewBie',
+            exp_obj=NocaseDict([('Cat', 'NewBie'), ('Budgie', 'NewBie')]),
+        ),
+        None, None, True
+    ),
+]
+
+
+@pytest.mark.parametrize(
+    "desc, kwargs, exp_exc_types, exp_warn_types, condition",
+    TESTCASES_NOCASEDICT_FROMKEYS)
+@simplified_test_function
+def test_NocaseDict_fromkeys(testcase, seq, value, exp_obj):
+    """
+    Test function for NocaseDict.fromkeys()
+    """
+
+    if value is _OMIT_ARG:
+        act_obj = NocaseDict.fromkeys(seq)  # noqa: W601
+    else:
+        act_obj = NocaseDict.fromkeys(seq, value)  # noqa: W601
+
+    # Ensure that exceptions raised in the remainder of this function
+    # are not mistaken as expected exceptions
+    assert testcase.exp_exc_types is None
+
+    assert act_obj == exp_obj
 
 
 TESTCASES_NOCASEDICT_GET = [
