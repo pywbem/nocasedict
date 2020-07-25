@@ -28,6 +28,7 @@ The only class exposed by this package is :class:`nocasedict.NocaseDict`.
 from __future__ import print_function, absolute_import
 
 import sys
+import os
 import warnings
 from collections import OrderedDict
 try:
@@ -42,6 +43,8 @@ import six
 # for all implementations.
 # pylint: disable=invalid-name
 ODict = dict if sys.version_info[0:2] >= (3, 7) else OrderedDict
+
+DOCS_SHOW_ALL = os.getenv('DOCS_SHOW_ALL')
 
 __all__ = ['NocaseDict']
 
@@ -273,8 +276,8 @@ class NocaseDict(MutableMapping):
 
     def has_key(self, key):
         """
-        Return a boolean indicating whether the dictionary contains an item
-        with the key (looked up case-insensitively).
+        Python 2 only: Return a boolean indicating whether the dictionary
+        contains an item with the key (looked up case-insensitively).
 
         This method is only present on Python 2.
 
@@ -570,5 +573,5 @@ class NocaseDict(MutableMapping):
 
 
 # Remove methods that should only be present in a particular Python version
-if sys.version_info[0] != 2:
+if sys.version_info[0] != 2 and not DOCS_SHOW_ALL:
     del NocaseDict.has_key

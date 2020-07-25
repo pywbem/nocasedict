@@ -60,4 +60,4 @@ Class HashableMixin
 Function KeyableByMixin
 -----------------------
 
-.. autofunc:: nocasedict.KeyableByMixin
+.. autofunction:: nocasedict.KeyableByMixin

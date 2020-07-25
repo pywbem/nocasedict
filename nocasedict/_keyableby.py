@@ -16,7 +16,7 @@ def KeyableByMixin(key_attr):
     a particular attribute of the object is used as the key.
 
     This simplifies the initialization of dictionaries because simple lists
-    or tuples of such objects cen be provided.
+    or tuples of such objects can be provided.
 
     The derived class inheriting from the returned mixin class must also
     (directly or indirectly) inherit from :class:`~nocasedict.NocaseDict`.
