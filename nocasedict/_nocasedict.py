@@ -16,9 +16,14 @@
 # License along with this program; if not, write to the Free Software
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #
-# Author: Tim Potter <tpot@hp.com>
-# Author: Martin Pool <mbp@hp.com>
-# Author: Bart Whiteley <bwhiteley@suse.de>
+# Original authors, until 2007:
+#   Tim Potter <tpot@hp.com>
+#   Martin Pool <mbp@hp.com>
+#   Bart Whiteley <bwhiteley@suse.de>
+#
+# Authors since 2014:
+#   Andreas Maier <andreas.r.maier@gmx.de>
+#   Karl Schopmeyer <k.schopmeyer@swbell.net>
 #
 
 """

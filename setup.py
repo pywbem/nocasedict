@@ -170,7 +170,7 @@ setuptools.setup(
     description="A case-insensitive ordered dictionary for Python",
     long_description=read_file('README.rst'),
     long_description_content_type='text/x-rst',
-    license="GNU General Public License v3",
+    license="GNU Lesser General Public License v2 or later (LGPLv2+)",
     author="Andreas Maier",
     author_email='andreas.r.maier@gmx.de',
     maintainer="Andreas Maier",
@@ -189,7 +189,7 @@ setuptools.setup(
     # Keep these Python versions in sync with nocasedict/__init__.py
     python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*',
     classifiers=[
-        'Development Status :: 2 - Pre-Alpha',
+        'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: '
         'GNU Lesser General Public License v2 or later (LGPLv2+)',
