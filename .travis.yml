@@ -251,6 +251,7 @@ script:
   - make pylint
   - make installtest
   - make test
+  - make testdict
 
 after_success:
 # Note: In case of error 422 (Couldn't find a repository matching this job),

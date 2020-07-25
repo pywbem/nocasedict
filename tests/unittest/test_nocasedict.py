@@ -5,6 +5,7 @@ Test the NocaseDict class.
 from __future__ import absolute_import
 
 import sys
+import os
 import re
 from collections import OrderedDict
 import pytest
@@ -21,7 +22,10 @@ from nocasedict import NocaseDict as _NocaseDict  # noqa: E402
 # NocaseDict. This should be False normally, but when testcases are added or
 # changed, it should be set to True in a local test to verify that the new
 # or changed testcase is compatible with the behavior of the standard dict.
-TEST_AGAINST_DICT = False
+TEST_AGAINST_DICT = os.getenv('TEST_DICT')
+
+if TEST_AGAINST_DICT:
+    print("\nInfo: Testing against standard dict")
 
 # The dictionary class being tested
 # pylint: disable=invalid-name
