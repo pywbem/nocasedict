@@ -18,14 +18,11 @@ nocasedict = import_installed('nocasedict')
 from nocasedict import NocaseDict as _NocaseDict  # noqa: E402
 # pylint: enable=wrong-import-position, wrong-import-order, invalid-name
 
-# Controlls whether the tests are run against a standard dict instead of
-# NocaseDict. This should be False normally, but when testcases are added or
-# changed, it should be set to True in a local test to verify that the new
-# or changed testcase is compatible with the behavior of the standard dict.
+# Controls whether the tests are run against a standard dict instead.
 TEST_AGAINST_DICT = os.getenv('TEST_DICT')
 
 if TEST_AGAINST_DICT:
-    print("\nInfo: Testing against standard dict")
+    print("\nInfo: test_nocasedict.py tests run against standard dict")
 
 # The dictionary class being tested
 # pylint: disable=invalid-name
