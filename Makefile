@@ -253,6 +253,7 @@ help:
 	@echo "  pylint     - Run PyLint on Python sources"
 	@echo "  installtest - Run install tests"
 	@echo "  test       - Run unit tests"
+	@echo "  testdict   - Run unit tests against standard dict"
 	@echo "  all        - Do all of the above"
 	@echo "  install    - Install $(package_name) as standalone and its dependent packages"
 	@echo "  upload     - build + upload the distribution archive files to PyPI"
@@ -274,6 +275,7 @@ help:
 	@echo "  TEST_INSTALLED - When non-empty, run any tests using the installed version of $(package_name)"
 	@echo "      and assume all Python and OS-level prerequisites are already installed."
 	@echo "      When set to 'DEBUG', print location from where the $(package_name) package is loaded."
+	@echo "  TEST_DICT - When non-empty, run unit tests against the standard dict."
 	@echo "  PACKAGE_LEVEL - Package level to be used for installing dependent Python"
 	@echo "      packages in 'install' and 'develop' targets:"
 	@echo "        latest - Latest package versions available on Pypi"
@@ -412,7 +414,7 @@ pylint: pylint_$(python_mn_version).done
 	@echo "Makefile: Target $@ done."
 
 .PHONY: all
-all: develop build builddoc check pylint installtest test
+all: develop build builddoc check pylint installtest test testdict
 	@echo "Makefile: Target $@ done."
 
 .PHONY: clobber
@@ -568,6 +570,16 @@ test: $(test_deps)
 	py.test --color=yes --cov $(package_name) $(coverage_report) --cov-config .coveragerc $(pytest_warning_opts) $(pytest_opts) $(test_dir)/unittest -s
 	@echo "Makefile: Done running unit tests"
 
+.PHONY: testdict
+testdict: $(test_deps)
+	@echo "Makefile: Running unit tests against standard dict"
+ifeq ($(PLATFORM),Windows_native)
+	cmd /c "set TEST_DICT=1 & py.test --color=yes $(pytest_warning_opts) $(pytest_opts) $(test_dir)/unittest -s"
+else
+	TEST_DICT=1 py.test --color=yes $(pytest_warning_opts) $(pytest_opts) $(test_dir)/unittest -s
+endif
+	@echo "Makefile: Done running unit tests against standard dict"
+
 .PHONY: installtest
 installtest: $(bdist_file) $(sdist_file) $(test_dir)/installtest/test_install.sh
 	@echo "Makefile: Running install tests"
@@ -577,5 +589,3 @@ else
 	$(test_dir)/installtest/test_install.sh $(bdist_file) $(sdist_file) $(PYTHON_CMD)
 endif
 	@echo "Makefile: Done running install tests"
-
-
