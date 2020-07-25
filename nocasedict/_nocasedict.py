@@ -53,6 +53,10 @@ DOCS_SHOW_ALL = os.getenv('DOCS_SHOW_ALL')
 
 __all__ = ['NocaseDict']
 
+# Used as default value for parameters to detect that they have not been
+# specified as an argument. Idea from CPython's datetime.timezone.
+_OMITTED = object()
+
 
 def _real_key(key):
     """
@@ -88,6 +92,9 @@ class _DictView(object):
 
     def __contains__(self, x):
         return x in iter(self)
+
+    def __reversed__(self):
+        return reversed(list(iter(self)))
 
     def __repr__(self):
         return "{t}({d!r})".format(
@@ -177,6 +184,14 @@ class NocaseDict(MutableMapping):
     """  # noqa E401
     # pylint: enable=line-too-long
 
+    # Methods not implemented:
+    #
+    # * __getattribute__(self, name): The method inherited from object is used;
+    #   no reason to have a different implementation.
+    #
+    # * __sizeof__(self): The method inherited from object is used; no reason
+    #   to have a different implementation.
+
     def __init__(self, *args, **kwargs):
         """
         Parameters:
@@ -231,16 +246,6 @@ class NocaseDict(MutableMapping):
         self.update(*args, **kwargs)
 
     # Basic accessor and setter methods
-
-    # __getattribute__(self, name) - inherited
-
-    # __reversed__(self) - TODO: Investigate - see issue #6
-
-    # __sizeof__(self) - inherited
-
-    # pop(self, key [,default]) - TODO: Investigate - see issue #6
-
-    # popitem(self) - TODO: Investigate - see issue #6
 
     def __getitem__(self, key):
         """
@@ -314,6 +319,16 @@ class NocaseDict(MutableMapping):
         k = _real_key(key)
         return k in self._data
 
+    def __reversed__(self):
+        """
+        Return an iterator for the reversed iteration order of the dictionary.
+        """
+        # Implementing __reversed__() is necessary because the fall back of
+        # reversed() to using len() and __getitem__() (the sequence protocol")
+        # requires that the object is a sequence, and relying on the fallback
+        # for dicts results in TypeError.
+        return reversed(self.keys())
+
     @classmethod
     def fromkeys(cls, iterable, value=None):
         """
@@ -349,6 +364,39 @@ class NocaseDict(MutableMapping):
           TypeError: Key does not have a ``lower()`` method.
         """
         return key in self  # delegates to __contains__()
+
+    def pop(self, key, default=_OMITTED):
+        """
+        Remove the item with the specified key if it exists (looked up
+        case-insensitively), and return its value.
+
+        If an item with the key does not exist, the default value is returned
+        if specified, otherwise KeyError is raised.
+
+        Raises:
+          KeyError: Key does not exist (case-insensitively) and no default was
+            specified.
+        """
+        k = _real_key(key)
+        try:
+            return self._data.pop(k)[1]
+        except KeyError:
+            if default is not _OMITTED:
+                return default
+            raise
+
+    def popitem(self):
+        """
+        Remove the last dictionary item (in iteration order) and return it as a
+        tuple (key, value).
+
+        The last item in iteration order is the last item that was added to the
+        dictionary.
+
+        Raises:
+          KeyError: Dictionary is empty.
+        """
+        return self._data.popitem()[1]
 
     def setdefault(self, key, default=None):
         """
