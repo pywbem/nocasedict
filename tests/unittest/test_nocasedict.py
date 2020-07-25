@@ -9,9 +9,9 @@ import os
 import re
 from collections import OrderedDict
 try:
-    from collections.abc import KeysView, ValuesView, ItemsView
+    from collections.abc import KeysView, ValuesView, ItemsView, Iterator
 except ImportError:
-    from collections import KeysView, ValuesView, ItemsView
+    from collections import KeysView, ValuesView, ItemsView, Iterator
 import pytest
 
 from ..utils.simplified_test_function import simplified_test_function
@@ -54,6 +54,8 @@ TESTDICT_WARNS_KWARGS = \
 TESTDICT_SUPPORTS_ITER_VIEW = sys.version_info[0:2] == (2, 7)
 
 # Used as indicator not to pass an argument in the testcases.
+# Note this has nothing to do with the _OMITTED flag in _nocasedict.py and
+# could be a different value.
 _OMIT_ARG = object()
 
 
@@ -1258,6 +1260,72 @@ def test_NocaseDict_fromkeys(testcase, seq, value, exp_obj):
     assert act_obj == exp_obj
 
 
+TESTCASES_NOCASEDICT_REVERSED = [
+
+    # Testcases for NocaseDict.__reversed__() / reversed(ncd)
+
+    # Each list item is a testcase tuple with these items:
+    # * desc: Short testcase description.
+    # * kwargs: Keyword arguments for the test function:
+    #   * obj: NocaseDict object to be used for the test.
+    #   * exp_keys: Expected result as a list of keys, or None.
+    # * exp_exc_types: Expected exception type(s), or None.
+    # * exp_warn_types: Expected warning type(s), or None.
+    # * condition: Boolean condition for testcase to run, or 'pdb' for debugger
+
+    (
+        "Empty dict",
+        dict(
+            obj=NocaseDict(),
+            exp_keys=[],
+        ),
+        None, None, TESTDICT_IS_ORDERED
+    ),
+    (
+        "Dict with one item",
+        dict(
+            obj=NocaseDict([('Dog', 'Cat')]),
+            exp_keys=['Dog'],
+        ),
+        None, None, TESTDICT_IS_ORDERED
+    ),
+    (
+        "Dict with two items",
+        dict(
+            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            exp_keys=['Budgie', 'Dog'],
+        ),
+        None, None, TESTDICT_IS_ORDERED
+    ),
+]
+
+
+@pytest.mark.parametrize(
+    "desc, kwargs, exp_exc_types, exp_warn_types, condition",
+    TESTCASES_NOCASEDICT_REVERSED)
+@simplified_test_function
+def test_NocaseDict_reversed(testcase, obj, exp_keys):
+    """
+    Test function for NocaseDict.__reversed__() / reversed(ncd)
+    """
+
+    # The code to be tested
+    act_keys_iter = reversed(obj)
+
+    # Ensure that exceptions raised in the remainder of this function
+    # are not mistaken as expected exceptions
+    assert testcase.exp_exc_types is None
+
+    # The reason we verify that an iterator is returned is that
+    # NocaseDict.__reversed__() delegates to keys() which returns a list in
+    # Python 2, so this verifies that reversed() still turns this into an
+    # iterator.
+    assert isinstance(act_keys_iter, Iterator)
+
+    act_keys = list(act_keys_iter)
+    assert act_keys == exp_keys
+
+
 TESTCASES_NOCASEDICT_GET = [
 
     # Testcases for NocaseDict.get()
@@ -1267,7 +1335,7 @@ TESTCASES_NOCASEDICT_GET = [
     # * kwargs: Keyword arguments for the test function:
     #   * obj: NocaseDict object to be used for the test.
     #   * key: Key to be used for the test.
-    #   * default: Default value to be used for the test, or None to not pass.
+    #   * default: Default value to be used for the test, or _OMIT_ARG.
     #   * exp_value: Expected value at the key.
     # * exp_exc_types: Expected exception type(s), or None.
     # * exp_warn_types: Expected warning type(s), or None.
@@ -1279,7 +1347,7 @@ TESTCASES_NOCASEDICT_GET = [
         dict(
             obj=NocaseDict(),
             key=None,
-            default=None,
+            default=_OMIT_ARG,
             exp_value=None,
         ),
         None, None, True
@@ -1289,7 +1357,7 @@ TESTCASES_NOCASEDICT_GET = [
         dict(
             obj=NocaseDict(),
             key=1234,
-            default=None,
+            default=_OMIT_ARG,
             exp_value=None,
         ),
         None if TEST_AGAINST_DICT else TypeError, None, True
@@ -1299,7 +1367,7 @@ TESTCASES_NOCASEDICT_GET = [
         dict(
             obj=NocaseDict(),
             key='',
-            default=None,
+            default=_OMIT_ARG,
             exp_value=None,
         ),
         None, None, True
@@ -1319,7 +1387,7 @@ TESTCASES_NOCASEDICT_GET = [
         dict(
             obj=NocaseDict(),
             key='Dog',
-            default=None,
+            default=_OMIT_ARG,
             exp_value=None,
         ),
         None, None, True
@@ -1341,7 +1409,7 @@ TESTCASES_NOCASEDICT_GET = [
         dict(
             obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
             key=None,
-            default=None,
+            default=_OMIT_ARG,
             exp_value=None,
         ),
         None, None, True
@@ -1351,7 +1419,7 @@ TESTCASES_NOCASEDICT_GET = [
         dict(
             obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
             key='',
-            default=None,
+            default=_OMIT_ARG,
             exp_value=None,
         ),
         None, None, True
@@ -1372,7 +1440,7 @@ TESTCASES_NOCASEDICT_GET = [
         dict(
             obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
             key='invalid',
-            default=None,
+            default=_OMIT_ARG,
             exp_value=None,
         ),
         None, None, True
@@ -1393,7 +1461,7 @@ TESTCASES_NOCASEDICT_GET = [
         dict(
             obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
             key='Dog',
-            default=None,
+            default=_OMIT_ARG,
             exp_value='Cat',
         ),
         None, None, True
@@ -1414,7 +1482,7 @@ TESTCASES_NOCASEDICT_GET = [
         dict(
             obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
             key='doG',
-            default=None,
+            default=_OMIT_ARG,
             exp_value=None if TEST_AGAINST_DICT else 'Cat',
         ),
         None, None, True
@@ -1443,7 +1511,7 @@ def test_NocaseDict_get(testcase, obj, key, default, exp_value):
     """
 
     # The code to be tested
-    if default is None:
+    if default is _OMIT_ARG:
         act_value = obj.get(key)
     else:
         act_value = obj.get(key, default)
@@ -1452,8 +1520,229 @@ def test_NocaseDict_get(testcase, obj, key, default, exp_value):
     # are not mistaken as expected exceptions
     assert testcase.exp_exc_types is None
 
-    assert act_value == exp_value, "Unexpected value at key %r with " \
-                                   "default %r" % (key, default)
+    assert act_value == exp_value, \
+        "Unexpected value at key {k!r} with default {d}". \
+        format(k=key, d="omitted" if default is _OMIT_ARG else repr(default))
+
+
+TESTCASES_NOCASEDICT_POP = [
+
+    # Testcases for NocaseDict.pop()
+
+    # Each list item is a testcase tuple with these items:
+    # * desc: Short testcase description.
+    # * kwargs: Keyword arguments for the test function:
+    #   * obj: NocaseDict object to be used for the test.
+    #   * key: Key to be used for the test.
+    #   * default: Default value to be used for the test, or _OMIT_ARG.
+    #   * exp_value: Expected result value.
+    # * exp_exc_types: Expected exception type(s), or None.
+    # * exp_warn_types: Expected warning type(s), or None.
+    # * condition: Boolean condition for testcase to run, or 'pdb' for debugger
+
+    # Empty NocaseDict
+    (
+        "Empty dict, with None key and default omitted",
+        dict(
+            obj=NocaseDict(),
+            key=None,
+            default=_OMIT_ARG,
+            exp_value=None,
+        ),
+        KeyError, None, True
+    ),
+    (
+        "Empty dict, with integer key and default omitted "
+        "(no lower / dict empty)",
+        dict(
+            obj=NocaseDict(),
+            key=1234,
+            default=_OMIT_ARG,
+            exp_value=None,
+        ),
+        KeyError if TEST_AGAINST_DICT else TypeError, None, True
+    ),
+    (
+        "Empty dict, with string key and default omitted",
+        dict(
+            obj=NocaseDict(),
+            key='foo',
+            default=_OMIT_ARG,
+            exp_value=None,
+        ),
+        KeyError, None, True
+    ),
+    (
+        "Empty dict, with string key and default specified",
+        dict(
+            obj=NocaseDict(),
+            key='foo',
+            default='Newbie',
+            exp_value='Newbie',
+        ),
+        None, None, True
+    ),
+
+    # Non-empty NocaseDict
+    (
+        "Non-empty dict, with None key and default omitted",
+        dict(
+            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            key=None,
+            default=_OMIT_ARG,
+            exp_value=None,
+        ),
+        KeyError, None, True
+    ),
+    (
+        "Non-empty dict, with non-existing string key and default omitted",
+        dict(
+            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            key='foo',
+            default=_OMIT_ARG,
+            exp_value=None,
+        ),
+        KeyError, None, True
+    ),
+    (
+        "Non-empty dict, with non-existing string key and default specified",
+        dict(
+            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            key='foo',
+            default='Newbie',
+            exp_value='Newbie',
+        ),
+        None, None, True
+    ),
+    (
+        "Non-empty dict, with existing key in original case and default "
+        "omitted",
+        dict(
+            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            key='Dog',
+            default=_OMIT_ARG,
+            exp_value='Cat',
+        ),
+        None, None, True
+    ),
+    (
+        "Non-empty dict, with existing key in original case and default "
+        "specified",
+        dict(
+            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            key='Dog',
+            default='Newbie',
+            exp_value='Cat',
+        ),
+        None, None, True
+    ),
+    (
+        "Non-empty dict, with existing key in non-original case and default "
+        "omitted (success / not found)",
+        dict(
+            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            key='doG',
+            default=_OMIT_ARG,
+            exp_value=None if TEST_AGAINST_DICT else 'Cat',
+        ),
+        KeyError if TEST_AGAINST_DICT else None, None, True
+    ),
+    (
+        "Non-empty dict, with existing key in non-original case and default "
+        "specified",
+        dict(
+            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            key='doG',
+            default='Newbie',
+            exp_value='Newbie' if TEST_AGAINST_DICT else 'Cat',
+        ),
+        None, None, True
+    ),
+]
+
+
+@pytest.mark.parametrize(
+    "desc, kwargs, exp_exc_types, exp_warn_types, condition",
+    TESTCASES_NOCASEDICT_POP)
+@simplified_test_function
+def test_NocaseDict_pop(testcase, obj, key, default, exp_value):
+    """
+    Test function for NocaseDict.pop()
+    """
+
+    # The code to be tested
+    if default is _OMIT_ARG:
+        act_value = obj.pop(key)
+    else:
+        act_value = obj.pop(key, default)
+
+    # Ensure that exceptions raised in the remainder of this function
+    # are not mistaken as expected exceptions
+    assert testcase.exp_exc_types is None
+
+    assert act_value == exp_value, \
+        "Unexpected value at key {k!r} with default {d}". \
+        format(k=key, d="omitted" if default is _OMIT_ARG else repr(default))
+    assert key not in obj  # Uses NocaseDict.__contains__()
+
+
+TESTCASES_NOCASEDICT_POPITEM = [
+
+    # Testcases for NocaseDict.popitem()
+
+    # Each list item is a testcase tuple with these items:
+    # * desc: Short testcase description.
+    # * kwargs: Keyword arguments for the test function:
+    #   * obj: NocaseDict object to be used for the test.
+    #   * exp_item: Expected result item as tuple(key, value), or None.
+    # * exp_exc_types: Expected exception type(s), or None.
+    # * exp_warn_types: Expected warning type(s), or None.
+    # * condition: Boolean condition for testcase to run, or 'pdb' for debugger
+
+    (
+        "Empty dict",
+        dict(
+            obj=NocaseDict(),
+            exp_item=None,
+        ),
+        KeyError, None, True
+    ),
+    (
+        "Dict with one item",
+        dict(
+            obj=NocaseDict([('Dog', 'Cat')]),
+            exp_item=('Dog', 'Cat'),
+        ),
+        None, None, True
+    ),
+    (
+        "Dict with two items",
+        dict(
+            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            exp_item=('Budgie', 'Fish'),
+        ),
+        None, None, TESTDICT_IS_ORDERED
+    ),
+]
+
+
+@pytest.mark.parametrize(
+    "desc, kwargs, exp_exc_types, exp_warn_types, condition",
+    TESTCASES_NOCASEDICT_POPITEM)
+@simplified_test_function
+def test_NocaseDict_popitem(testcase, obj, exp_item):
+    """
+    Test function for NocaseDict.popitem()
+    """
+
+    act_item = obj.popitem()
+
+    # Ensure that exceptions raised in the remainder of this function
+    # are not mistaken as expected exceptions
+    assert testcase.exp_exc_types is None
+
+    assert act_item == exp_item
+    assert act_item[0] not in obj  # Uses NocaseDict.__contains__()
 
 
 TESTCASES_NOCASEDICT_SETDEFAULT = [
@@ -1465,7 +1754,7 @@ TESTCASES_NOCASEDICT_SETDEFAULT = [
     # * kwargs: Keyword arguments for the test function:
     #   * obj: NocaseDict object to be used for the test.
     #   * key: Key to be used for the test.
-    #   * default: Default value to be used for the test (None is passed).
+    #   * default: Default value to be used for the test.
     #   * exp_value: Expected value at the key.
     # * exp_exc_types: Expected exception type(s), or None.
     # * exp_warn_types: Expected warning type(s), or None.
