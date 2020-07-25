@@ -292,6 +292,17 @@ class NocaseDict(MutableMapping):
         k = _real_key(key)
         return k in self._data
 
+    @classmethod
+    def fromkeys(cls, iterable, value=None):
+        """
+        Return a new NocaseDict object with keys from the specified iterable
+        of key values, and values all set to value.
+
+        Raises:
+          TypeError: Key does not have a ``lower()`` method.
+        """
+        return cls([(key, value) for key in iterable])
+
     def get(self, key, default=None):
         """
         Return the value of the item with an existing key (looked up
@@ -304,6 +315,18 @@ class NocaseDict(MutableMapping):
             return self[key]
         except KeyError:
             return default
+
+    def has_key(self, key):
+        """
+        Return a boolean indicating whether the dictionary contains an item
+        with the key (looked up case-insensitively).
+
+        This method is only present on Python 2.
+
+        Raises:
+          TypeError: Key does not have a ``lower()`` method.
+        """
+        return key in self  # delegates to __contains__()
 
     def setdefault(self, key, default=None):
         """
@@ -576,3 +599,8 @@ class NocaseDict(MutableMapping):
         """
         fs = frozenset([(k, self._data[k][1]) for k in self._data])
         return hash(fs)
+
+
+# Remove methods that should only be present in a particular Python version
+if sys.version_info[0] != 2:
+    del NocaseDict.has_key
