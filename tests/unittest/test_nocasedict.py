@@ -370,7 +370,7 @@ TESTCASES_NOCASEDICT_GETITEM = [
             key=1234,
             exp_value=None,
         ),
-        KeyError if TEST_AGAINST_DICT else TypeError, None, True
+        KeyError if TEST_AGAINST_DICT else AttributeError, None, True
     ),
     (
         "Empty dict, with empty string key (not found)",
@@ -509,7 +509,7 @@ TESTCASES_NOCASEDICT_SETITEM = [
             key=1234,
             value=None,
         ),
-        None if TEST_AGAINST_DICT else TypeError, None, True
+        None if TEST_AGAINST_DICT else AttributeError, None, True
     ),
     (
         "Empty dict, with empty string key",
@@ -649,7 +649,7 @@ TESTCASES_NOCASEDICT_DELITEM = [
             obj=NocaseDict(),
             key=1234,
         ),
-        KeyError if TEST_AGAINST_DICT else TypeError, None, True
+        KeyError if TEST_AGAINST_DICT else AttributeError, None, True
     ),
     (
         "Empty dict, with empty string key (not found)",
@@ -834,7 +834,7 @@ TESTCASES_NOCASEDICT_CONTAINS = [
             key=1234,
             exp_result=False if TEST_AGAINST_DICT else None,
         ),
-        None if TEST_AGAINST_DICT else TypeError, None, True
+        None if TEST_AGAINST_DICT else AttributeError, None, True
     ),
     (
         "Empty dict, with empty string key (not found)",
@@ -973,7 +973,9 @@ TESTCASES_NOCASEDICT_HAS_KEY = [
             key=1234,
             exp_result=False if TEST_AGAINST_DICT else None,
         ),
-        AttributeError if not PY2 else None if TEST_AGAINST_DICT else TypeError,
+        AttributeError if not PY2 \
+        else None if TEST_AGAINST_DICT \
+        else AttributeError,
         None, True
     ),
     (
@@ -1360,7 +1362,7 @@ TESTCASES_NOCASEDICT_GET = [
             default=_OMIT_ARG,
             exp_value=None,
         ),
-        None if TEST_AGAINST_DICT else TypeError, None, True
+        None if TEST_AGAINST_DICT else AttributeError, None, True
     ),
     (
         "Empty dict, with empty string key (defaulted without default)",
@@ -1560,7 +1562,7 @@ TESTCASES_NOCASEDICT_POP = [
             default=_OMIT_ARG,
             exp_value=None,
         ),
-        KeyError if TEST_AGAINST_DICT else TypeError, None, True
+        KeyError if TEST_AGAINST_DICT else AttributeError, None, True
     ),
     (
         "Empty dict, with string key and default omitted",
@@ -1779,7 +1781,7 @@ TESTCASES_NOCASEDICT_SETDEFAULT = [
             default=None,
             exp_value=None,
         ),
-        None if TEST_AGAINST_DICT else TypeError, None, True
+        None if TEST_AGAINST_DICT else AttributeError, None, True
     ),
     (
         "Empty dict, with empty string key (defaulted without default)",
@@ -2459,7 +2461,7 @@ TESTCASES_NOCASEDICT_UPDATE = [
             kwargs={},
             exp_obj={1234: 'Invalid'} if TEST_AGAINST_DICT else None,
         ),
-        None if TEST_AGAINST_DICT else TypeError, None, True
+        None if TEST_AGAINST_DICT else AttributeError, None, True
     ),
     (
         "Empty dict, with integer key in update kwargs (invalid type)",
@@ -2588,7 +2590,7 @@ TESTCASES_NOCASEDICT_UPDATE = [
                                 (1234, 'Invalid')])
             if TEST_AGAINST_DICT else None,
         ),
-        None if TEST_AGAINST_DICT else TypeError, None, True
+        None if TEST_AGAINST_DICT else AttributeError, None, True
     ),
     (
         "Non-empty dict, with integer key in update kwargs (invalid type)",

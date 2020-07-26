@@ -67,14 +67,8 @@ def _real_key(key):
     or be `None`.
     """
     if key is not None:
-        try:
-            return key.lower()
-        except AttributeError:
-            type_error = TypeError(
-                "NocaseDict key {0!r} of type {1} does not have a lower() "
-                "method".format(key, type(key)))
-            type_error.__cause__ = None  # Suppress 'During handling..'
-            raise type_error
+        # Raises AttributeError if it does not have the method
+        return key.lower()
     return None
 
 
@@ -149,7 +143,7 @@ class NocaseDict(MutableMapping):
     case-insensitively. The case-insensitivity is defined by performing the
     lookup or comparison on the result of the ``lower()`` method on the key
     value. Therefore, objects used as keys must support the ``lower()`` method.
-    If a key object does not do that, :exc:`py:TypeError` is raised.
+    If a key object does not do that, :exc:`py:AttributeError` is raised.
 
     The dictionary is case-preserving: When keys are returned, they have
     the lexical case that was originally specified when adding or updating the
@@ -275,7 +269,7 @@ class NocaseDict(MutableMapping):
             dict6 = NocaseDict(dict1, BETA=3)
 
         Raises:
-          TypeError: Key does not have a ``lower()`` method.
+          AttributeError: Key does not have a ``lower()`` method.
           TypeError: Expected at most 1 positional argument, got {n}.
           ValueError: Cannot unpack positional argument item #{i}.
         """
@@ -296,7 +290,7 @@ class NocaseDict(MutableMapping):
         Invoked when using e.g.: ``value = ncd[key]``
 
         Raises:
-          TypeError: Key does not have a ``lower()`` method.
+          AttributeError: Key does not have a ``lower()`` method.
           KeyError: Key does not exist (case-insensitively).
         """
         k = _real_key(key)
@@ -316,7 +310,7 @@ class NocaseDict(MutableMapping):
         Invoked when using e.g.: ``ncd[key] = value``
 
         Raises:
-          TypeError: Key does not have a ``lower()`` method.
+          AttributeError: Key does not have a ``lower()`` method.
         """
         k = _real_key(key)
         self._data[k] = (key, value)
@@ -328,7 +322,7 @@ class NocaseDict(MutableMapping):
         Invoked when using: ``del ncd[key]``
 
         Raises:
-          TypeError: Key does not have a ``lower()`` method.
+          AttributeError: Key does not have a ``lower()`` method.
           KeyError: Key does not exist (case-insensitively).
         """
         k = _real_key(key)
@@ -355,7 +349,7 @@ class NocaseDict(MutableMapping):
         Invoked when using: ``key in ncd``
 
         Raises:
-          TypeError: Key does not have a ``lower()`` method.
+          AttributeError: Key does not have a ``lower()`` method.
         """
         k = _real_key(key)
         return k in self._data
@@ -379,7 +373,7 @@ class NocaseDict(MutableMapping):
         iterable of keys, and values all set to the specified value.
 
         Raises:
-          TypeError: Key does not have a ``lower()`` method.
+          AttributeError: Key does not have a ``lower()`` method.
         """
         return cls([(key, value) for key in iterable])
 
@@ -389,7 +383,7 @@ class NocaseDict(MutableMapping):
         case-insensitively), or if the key does not exist, a default value.
 
         Raises:
-          TypeError: Key does not have a ``lower()`` method.
+          AttributeError: Key does not have a ``lower()`` method.
         """
         try:
             return self[key]
@@ -402,7 +396,7 @@ class NocaseDict(MutableMapping):
         contains an item with the key (looked up case-insensitively).
 
         Raises:
-          TypeError: Key does not have a ``lower()`` method.
+          AttributeError: Key does not have a ``lower()`` method.
           AttributeError: The method does not exist on Python 3.
         """
         return key in self  # delegates to __contains__()
@@ -447,7 +441,7 @@ class NocaseDict(MutableMapping):
         the value of the item with the key.
 
         Raises:
-          TypeError: Key does not have a ``lower()`` method.
+          AttributeError: Key does not have a ``lower()`` method.
         """
         if key not in self:
             self[key] = default
@@ -668,7 +662,7 @@ class NocaseDict(MutableMapping):
             may have resulted in arbitrary order of items in the dictionary.
 
         Raises:
-          TypeError: Key does not have a ``lower()`` method.
+          AttributeError: Key does not have a ``lower()`` method.
           TypeError: Expected at most 1 positional argument, got {n}.
           ValueError: Cannot unpack positional argument item #{i}.
         """
@@ -761,7 +755,7 @@ class NocaseDict(MutableMapping):
         Invoked when using e.g.: ``ncd == other``
 
         Raises:
-          TypeError: Key does not have a ``lower()`` method.
+          AttributeError: Key does not have a ``lower()`` method.
         """
         # Issue #1062: Could compare hash values for better performance
         for key, self_value in six.iteritems(self):
@@ -787,7 +781,7 @@ class NocaseDict(MutableMapping):
         Invoked when using e.g.: ``ncd != other``
 
         Raises:
-          TypeError: Key does not have a ``lower()`` method.
+          AttributeError: Key does not have a ``lower()`` method.
         """
         return not self == other
 
