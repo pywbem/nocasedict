@@ -41,7 +41,7 @@ class MyKey_KeyableByMixin(object):
     Expected mixin class for a key attribute named 'my_key'.
     """
 
-    nocasedict_KeyableBy_key_attr = 'my_key'
+    nocasedict_KeyableByMixin_key_attr = 'my_key'
 
 
 class MyKey_Object(object):
@@ -66,8 +66,8 @@ def test_KeyableByMixin():
     mixin = KeyableByMixin('my_key')
 
     assert issubclass(mixin, object)
-    assert mixin.nocasedict_KeyableBy_key_attr == \
-        MyKey_KeyableByMixin.nocasedict_KeyableBy_key_attr
+    assert mixin.nocasedict_KeyableByMixin_key_attr == \
+        MyKey_KeyableByMixin.nocasedict_KeyableByMixin_key_attr
 
 
 TESTCASES_KEYABLEBYMIXIN_INIT = [

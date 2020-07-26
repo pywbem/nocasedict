@@ -39,5 +39,5 @@ def KeyableByMixin(key_attr):
         # MyDict({'A': <__main__.Obj object at 0x10bc3d820>,
         #         'B': <__main__.Obj object at 0x10bc89af0>})
     """
-    return type('KeyableBy_{}_Mixin'.format(key_attr),
-                (), dict(nocasedict_KeyableBy_key_attr=key_attr))
+    return type('KeyableByMixin_{}'.format(key_attr),
+                (), dict(nocasedict_KeyableByMixin_key_attr=key_attr))
