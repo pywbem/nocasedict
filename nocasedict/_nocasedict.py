@@ -638,8 +638,8 @@ class NocaseDict(MutableMapping):
             except AttributeError:
                 # Expecting an iterable
                 try:
-                    # Try whether KeyableBy() mixin was used
-                    key_attr = self.nocasedict_KeyableBy_key_attr
+                    # Try whether KeyableByMixin() was used
+                    key_attr = self.nocasedict_KeyableByMixin_key_attr
                 except AttributeError:
                     key_attr = None
                 # The following raises TypeError if not iterable:
