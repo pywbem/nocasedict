@@ -11,7 +11,7 @@ Functionality
 -------------
 
 Class :class:`nocasedict.NocaseDict` is a case-insensitive ordered dictionary
-that preserves the lexical case of its keys.
+that preserves the original lexical case of its keys.
 
 Example:
 
@@ -22,12 +22,27 @@ Example:
 
     >>> dict1 = NocaseDict({'Alpha': 1, 'Beta': 2})
 
-    >>> dict1['ALPHA']  # Any lookup or comparison by key is case-insensitive
+    >>> dict1['ALPHA']  # Lookup by key is case-insensitive
     1
 
-    >>> print(dict1)  # Any access of keys is case-preserving
+    >>> print(dict1)  # Keys are returned with the original lexical case
     NocaseDict({'Alpha': 1, 'Beta': 2})
 
+It is completely compatible with the built-in ``dict`` class
+(:class:`dict of Python 2 <py2:dict>` and :class:`dict of Python 3 <py3:dict>`),
+except that it is case-insensitive and ordered on all Python versions.
+
+Functionality can be added using mixin classes:
+
+* :class:`~nocasedict.HashableMixin` mixin class: Adds case-insensitive
+  hashability.
+
+* :func:`~nocasedict.KeyableByMixin` mixin generator function: Adds ability
+  to get the key from an attribute of the value object.
+
+Why yet another case-insensitive dictionary: We found that all previously
+existing case-insensitive dictionary packages on Pypi either had flaws, were
+not well maintained, or did not support the Python versions we needed.
 
 .. _`Installation`:
 

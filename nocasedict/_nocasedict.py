@@ -43,6 +43,8 @@ except ImportError:
 
 import six
 
+__all__ = ['NocaseDict']
+
 # Starting with Python 3.7, the standard dict is guaranteed to be ordered.
 # Note: In CPython, that already happened in 3.6, but it was not guaranteed
 # for all implementations.
@@ -50,8 +52,6 @@ import six
 ODict = dict if sys.version_info[0:2] >= (3, 7) else OrderedDict
 
 DOCS_SHOW_ALL = os.getenv('DOCS_SHOW_ALL')
-
-__all__ = ['NocaseDict']
 
 # Used as default value for parameters to detect that they have not been
 # specified as an argument. Idea from CPython's datetime.timezone.
@@ -141,97 +141,138 @@ class dict_items(_DictView, ItemsView):
 
 
 class NocaseDict(MutableMapping):
-    # pylint: disable=line-too-long
     """
-    A case-insensitive, ordered, and case-preserving, dictionary.
+    A case-insensitive and case-preserving ordered dictionary.
 
-    The dictionary is case-insensitive: Whenever items of the dictionary are
-    looked up by key or key values are compared, that is done
+    The dictionary is case-insensitive: When items of the dictionary are
+    looked up by key or keys are compared by the dictionary, that is done
     case-insensitively. The case-insensitivity is defined by performing the
     lookup or comparison on the result of the ``lower()`` method on the key
     value. Therefore, objects used as keys must support the ``lower()`` method.
     If a key object does not do that, :exc:`py:TypeError` is raised.
+
+    The dictionary is case-preserving: When keys are returned, they have
+    the lexical case that was originally specified when adding or updating the
+    item.
 
     The dictionary is ordered: The dictionary maintains the order in which items
     were added for all Python versions supported by this package. This is
     consistent with the ordering behavior of the built-in :class:`py:dict`
     class starting with Python 3.7.
 
-    The dictionary is case-preserving: Whenever key values are returned, they
-    have the lexical case that was originally specified when adding or updating
-    the item.
-
     The :class:`~nocasedict.NocaseDict` class is derived from the abstract base
-    class :class:`py:MutableMapping`, and not from the :class:`py:dict` class.
-    Reason is the unique implementation of :class:`~nocasedict.NocaseDict`,
-    which maintains a single dictionary with the lower-cased keys, and values
-    that are a tuple (original key, value). This supports key based lookup
-    with a single dictionary lookup.
+    class :class:`py:collections.abc.MutableMapping` and not from the
+    :class:`py:dict` class, because of the unique implementation of
+    :class:`~nocasedict.NocaseDict`, which maintains a single dictionary with
+    the lower-cased keys, and values that are tuples (original key, value).
+    This supports key based lookup with a single dictionary lookup.
     Users that need to test whether an object is a dictionary should do that
-    with `isinstance(obj, Mapping)` or  `isinstance(obj, MutableMapping)`
+    with ``isinstance(obj, Mapping)`` or ``isinstance(obj, MutableMapping)``.
+
+    The provided key and value objects will be referenced from the
+    dictionary without being copied, consistent with the built-in
+    :class:`py:dict` class.
 
     Except for the case-insensitivity of its keys, the
     :class:`~nocasedict.NocaseDict` class behaves like the built-in
     :class:`py:dict` class starting with Python 3.7 (where it is guaranteed to
     be ordered), so its documentation applies completely.
 
-    The provided key and value objects are not copied when they are added to
-    the new dictionary, i.e. the dictionary will reference the provided
-    objects.
+    The :class:`~nocasedict.NocaseDict` class itself provides no added
+    functionality compared to the built-in :class:`py:dict` class.
+    This package provides mixin classes for adding functionality:
 
-    The following documentation is provided only for explicit documentation of
+    * :class:`~nocasedict.HashableMixin` mixin class: Adds case-insensitive
+      hashability.
+
+    * :func:`~nocasedict.KeyableByMixin` mixin generator function: Adds ability
+      to get the key from an attribute of the value object.
+
+    Example of usage::
+
+        from nocasedict import NocaseDict
+
+        dict1 = NocaseDict({'Alpha': 1, 'Beta': 2})
+
+        print(dict1['ALPHA'])  # Lookup by key is case-insensitive
+        # 1
+
+        print(dict1)  # Access of keys is case-preserving
+        # NocaseDict({'Alpha': 1, 'Beta': 2})
+
+    The following documentation is provided for explicit documentation of
     the case-insensitive and ordering behavior.
-    """  # noqa E401
-    # pylint: enable=line-too-long
+    """
 
     # Methods not implemented:
     #
     # * __getattribute__(self, name): The method inherited from object is used;
     #   no reason to have a different implementation.
     #
-    # * __sizeof__(self): The method inherited from object is used; no reason
-    #   to have a different implementation.
+    # * __sizeof__(self): The method inherited from object is used.
+    #   TODO(issue #37): Clarify the rules for implementing __sizeof__().
 
     def __init__(self, *args, **kwargs):
         """
         Parameters:
 
-          *args : An optional single positional argument that is used to
-            initialize the dictionary in iteration order of the specified
-            object. The argument must be one of:
+          *args : An optional single positional argument representing key-value
+            pairs to initialize the dictionary from, in iteration order of the
+            specified object. The argument must be one of:
 
-            - a dictionary object, or more generally an object that supports
-              subscription by key and has a method ``keys()`` returning an
-              iterable of keys.
+            - a dictionary object, or more specifically an object that has a
+              method ``keys()`` providing iteration through the keys and that
+              supports subscription by key (e.g. ``ncd[key]``) for accessing
+              the values.
 
             - an iterable. If a key occurs more than once (case-insensitively),
-              the last value for that key becomes the corresponding value in
+              the last item for that key becomes the corresponding item in
               the dictionary. Each item in the iterable must be one of:
 
               * an iterable with exactly two items. The first item is used as
                 the key, and the second item as the value.
 
-              * If the :func:`~nocasedict.KeyableBy` mixin is used, an object
-                with a key attribute named as specified in its ``key_attr``
-                argument. The value of the key attribute is used as the key,
-                and the object itself as the value.
+              * an object with a key attribute, if the
+                :func:`~nocasedict.KeyableByMixin` mixin generator function is
+                used. The value of the key attribute is used as the key, and
+                the object itself as the value.
 
           **kwargs : Optional keyword arguments representing key-value pairs to
-            add to the dictionary initialized from the positional argument.
-
-            Starting with Python 3.7, the order of keyword arguments
-            as specified by the caller is preserved in the new dictionary.
+            add to the dictionary after being initialized from the positional
+            argument.
 
             If a key being added is already present (case-insensitively) from
-            the positional argument, the value from the keyword argument
-            replaces the value from the positional argument.
+            the positional argument, key and value will be updated from the
+            keyword argument.
 
-        To summarize, only the following types of init arguments allow defining
-        the order of items in the new dictionary across all Python versions
-        supported by this package: Passing an iterable or an ordered mapping
-        as a single positional argument, and passing at most one keyword
-        argument. A :exc:`py:UserWarning` will be issued if the provided
-        arguments cause the order of provided items not to be preserved.
+            Before Python 3.7, the order of keyword arguments as specified in
+            the call to the method was not guaranteed to be preserved for the
+            method implementation, so passing more than one keyword argument
+            may have resulted in arbitrary order of items in the dictionary.
+
+        To summarize, only the following types of init arguments are guaranteed
+        to preserve the order of provided items after having been added to the
+        new dictionary, across all Python versions supported by this package:
+
+        * Passing an iterable as a single positional argument, and passing at
+          most one keyword argument.
+
+        * Passing an ordered dictionary/mapping as a single positional
+          argument, and passing at most one keyword argument.
+
+        A :exc:`py:UserWarning` will be issued if the order of provided items
+        in the arguments is not guaranteed to be preserved.
+
+        Examples for initializing::
+
+            from nocasedict import NocaseDict
+
+            dict1 = NocaseDict({'Alpha': 1, 'Beta': 2})
+            dict2 = NocaseDict(dict1)
+            dict3 = NocaseDict([('Alpha', 1), ('Beta', 2)])
+            dict4 = NocaseDict((('Alpha', 1), ('Beta', 2)))
+            dict5 = NocaseDict(Alpha=1, Beta=2)
+            dict6 = NocaseDict(dict1, BETA=3)
 
         Raises:
           TypeError: Key does not have a ``lower()`` method.
@@ -322,6 +363,8 @@ class NocaseDict(MutableMapping):
     def __reversed__(self):
         """
         Return an iterator for the reversed iteration order of the dictionary.
+
+        Invoked when using: ``reversed[ncd]``
         """
         # Implementing __reversed__() is necessary because the fall back of
         # reversed() to using len() and __getitem__() (the sequence protocol")
@@ -332,8 +375,8 @@ class NocaseDict(MutableMapping):
     @classmethod
     def fromkeys(cls, iterable, value=None):
         """
-        Return a new NocaseDict object with keys from the specified iterable
-        of key values, and values all set to value.
+        Return a new :class:`NocaseDict` object with keys from the specified
+        iterable of keys, and values all set to the specified value.
 
         Raises:
           TypeError: Key does not have a ``lower()`` method.
@@ -358,10 +401,9 @@ class NocaseDict(MutableMapping):
         Python 2 only: Return a boolean indicating whether the dictionary
         contains an item with the key (looked up case-insensitively).
 
-        This method is only present on Python 2.
-
         Raises:
           TypeError: Key does not have a ``lower()`` method.
+          AttributeError: The method does not exist on Python 3.
         """
         return key in self  # delegates to __contains__()
 
@@ -371,7 +413,7 @@ class NocaseDict(MutableMapping):
         case-insensitively), and return its value.
 
         If an item with the key does not exist, the default value is returned
-        if specified, otherwise KeyError is raised.
+        if specified, otherwise :exc:`py:KeyError` is raised.
 
         Raises:
           KeyError: Key does not exist (case-insensitively) and no default was
@@ -417,7 +459,8 @@ class NocaseDict(MutableMapping):
         # pylint: disable=line-too-long
         """
         Return a view on (in Python 3) or a list of (in Python 2) the
-        dictionary keys (in the original lexical case) in the preserved order.
+        dictionary keys (in the original lexical case) in dictionary iteration
+        order.
 
         See
         `Dictionary View Objects on Python 3 <https://docs.python.org/3/library/stdtypes.html#dictionary-view-objects>`_ for details about view objects.
@@ -431,7 +474,7 @@ class NocaseDict(MutableMapping):
         # pylint: disable=line-too-long
         """
         Return a view on (in Python 3) or a list of (in Python 2) the
-        lower-cased dictionary keys in the preserved order.
+        lower-cased dictionary keys in dictionary iteration order.
 
         See
         `Dictionary View Objects on Python 3 <https://docs.python.org/3/library/stdtypes.html#dictionary-view-objects>`_ for details about view objects.
@@ -443,7 +486,7 @@ class NocaseDict(MutableMapping):
         # pylint: disable=line-too-long
         """
         Return a view on (in Python 3) or a list of (in Python 2) the
-        dictionary values in the preserved order.
+        dictionary values in dictionary iteration order.
 
         See
         `Dictionary View Objects on Python 3 <https://docs.python.org/3/library/stdtypes.html#dictionary-view-objects>`_ for details about view objects.
@@ -457,8 +500,8 @@ class NocaseDict(MutableMapping):
         # pylint: disable=line-too-long
         """
         Return a view on (in Python 3) or a list of (in Python 2) the
-        dictionary items in the preserved order, where each item is a tuple of
-        its key (in the original lexical case) and its value.
+        dictionary items in dictionary iteration order, where each item is a
+        tuple of its key (in the original lexical case) and its value.
 
         See
         `Dictionary View Objects on Python 3 <https://docs.python.org/3/library/stdtypes.html#dictionary-view-objects>`_ for details about view objects.
@@ -471,30 +514,33 @@ class NocaseDict(MutableMapping):
     def iterkeys(self):
         """
         Python 2 only: Return an iterator through the dictionary keys (in the
-        original lexical case) in the preserved order.
+        original lexical case) in dictionary iteration order.
 
-        This method is only present on Python 2.
+        Raises:
+          AttributeError: The method does not exist on Python 3.
         """
         for k in self._data:
             yield self._data[k][0]
 
     def itervalues(self):
         """
-        Python 2 only: Return an iterator through the dictionary values in the
-        preserved order.
+        Python 2 only: Return an iterator through the dictionary values in
+        dictionary iteration order.
 
-        This method is only present on Python 2.
+        Raises:
+          AttributeError: The method does not exist on Python 3.
         """
         for k in self._data:
             yield self._data[k][1]
 
     def iteritems(self):
         """
-        Python 2 only: Return an iterator through the dictionary items in the
-        preserved order, where each item is a tuple of its key (in the original
-        lexical case) and its value.
+        Python 2 only: Return an iterator through the dictionary items in
+        dictionary iteration order, where each item is a tuple of its key
+        (in the original lexical case) and its value.
 
-        This method is only present on Python 2.
+        Raises:
+          AttributeError: The method does not exist on Python 3.
         """
         for k in self._data:
             yield self._data[k]
@@ -503,12 +549,13 @@ class NocaseDict(MutableMapping):
         # pylint: disable=line-too-long
         """
         Python 2 only: Return a view on the dictionary keys (in the original
-        lexical case) in the preserved order.
+        lexical case) in dictionary iteration order.
 
         See
         `Dictionary View Objects on Python 2 <https://docs.python.org/2/library/stdtypes.html#dictionary-view-objects>`_ for details about view objects.
 
-        This method is only present on Python 2.
+        Raises:
+          AttributeError: The method does not exist on Python 3.
         """  # noqa: E501
         # pylint: enable=line-too-long
         return dict_keys(self)
@@ -516,13 +563,14 @@ class NocaseDict(MutableMapping):
     def viewvalues(self):
         # pylint: disable=line-too-long
         """
-        Python 2 only: Return a view on the dictionary values in the preserved
+        Python 2 only: Return a view on the dictionary values in dictionary
         order.
 
         See
         `Dictionary View Objects on Python 2 <https://docs.python.org/2/library/stdtypes.html#dictionary-view-objects>`_ for details about view objects.
 
-        This method is only present on Python 2.
+        Raises:
+          AttributeError: The method does not exist on Python 3.
         """  # noqa: E501
         # pylint: enable=line-too-long
         return dict_values(self)
@@ -530,14 +578,15 @@ class NocaseDict(MutableMapping):
     def viewitems(self):
         # pylint: disable=line-too-long
         """
-        Python 2 only: Return a view on the dictionary items in the preserved
+        Python 2 only: Return a view on the dictionary items in dictionary
         order, where each item is a tuple of its key (in the original lexical
         case) and its value.
 
         See
         `Dictionary View Objects on Python 2 <https://docs.python.org/2/library/stdtypes.html#dictionary-view-objects>`_ for details about view objects.
 
-        This method is only present on Python 2.
+        Raises:
+          AttributeError: The method does not exist on Python 3.
         """  # noqa: E501
         # pylint: enable=line-too-long
         return dict_items(self)
@@ -545,7 +594,7 @@ class NocaseDict(MutableMapping):
     def __iter__(self):
         """
         Return an iterator through the dictionary keys (in the original lexical
-        case) in the preserved order.
+        case) in dictionary iteration order.
 
         Invoked when using: ``for key in ncd``
         """
@@ -559,8 +608,10 @@ class NocaseDict(MutableMapping):
         Return a string representation of the dictionary that is suitable for
         debugging.
 
-        The order of dictionary items is the preserved order, and the keys are
+        The order of items is in dictionary iteration order, and the keys are
         in the original lexical case.
+
+        Invoked when using e.g.: ``repr(ncd)``
         """
         items = ["{0!r}: {1!r}".format(key, value)
                  for key, value in six.iteritems(self)]
@@ -576,42 +627,45 @@ class NocaseDict(MutableMapping):
         """
         Update the dictionary from key/value pairs.
 
-        If an item for a key exists in the dictionary (looked up
-        case-insensitively), its value is updated. If an item for a key does
-        not exist, it is added to the dictionary.
+        If a key is already present in the dictionary (looked up
+        case-insensitively), its key and value is updated (without affecting
+        its position in the dictionary iteration order). Otherwise, an item
+        with the key and value is added to the dictionary.
 
         The provided key and value objects will be referenced from the
-        dictionary without being copied.
+        dictionary without being copied, consistent with the built-in
+        :class:`py:dict` class.
 
         Parameters:
 
-          *args : An optional single positional argument that must be one of:
+          *args : An optional single positional argument representing key-value
+            pairs to update the dictionary from, in iteration order of the
+            specified object. The argument must be one of:
 
-            - a dictionary object, or more generally an object that supports
-              subscription by key and has a method ``keys()`` returning an
-              iterable of keys.
+            - a dictionary object, or more specifically an object that has a
+              method ``keys()`` providing iteration through the keys and that
+              supports subscription by key for accessing the values.
 
             - an iterable. If a key occurs more than once (case-insensitively),
-              the last value for that key becomes the corresponding value in
+              the last item for that key becomes the corresponding item in
               the dictionary. Each item in the iterable must be one of:
 
               * an iterable with exactly two items. The first item is used as
                 the key, and the second item as the value.
 
-              * If the :func:`~nocasedict.KeyableBy` mixin is used, an object
-                with a key attribute named as specified in its ``key_attr``
-                argument. The value of the key attribute is used as the key,
-                and the object itself as the value.
+              * an object with a key attribute, if the
+                :func:`~nocasedict.KeyableByMixin` mixin generator function is
+                used. The value of the key attribute is used as the key, and
+                the object itself as the value.
 
           **kwargs : Optional keyword arguments representing key-value pairs to
-            add to the dictionary.
+            update the dictionary from, after having processed the positional
+            argument.
 
-            Starting with Python 3.7, the order of keyword arguments as
-            specified by the caller is preserved.
-
-            If a key being added is already present (case-insensitively) from
-            the positional argument, the value from the keyword argument
-            replaces the value from the positional argument.
+            Before Python 3.7, the order of keyword arguments as specified in
+            the call to the method was not guaranteed to be preserved for the
+            method implementation, so passing more than one keyword argument
+            may have resulted in arbitrary order of items in the dictionary.
 
         Raises:
           TypeError: Key does not have a ``lower()`` method.
@@ -760,6 +814,8 @@ class NocaseDict(MutableMapping):
 
 
 # Remove methods that should only be present in a particular Python version
+# If the documentation is built, the methods are not removed in order to show
+# them in the documentation.
 if sys.version_info[0] != 2 and not DOCS_SHOW_ALL:
     del NocaseDict.has_key
     del NocaseDict.iterkeys

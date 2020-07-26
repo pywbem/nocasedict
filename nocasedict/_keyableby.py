@@ -11,14 +11,15 @@ __all__ = ['KeyableByMixin']
 def KeyableByMixin(key_attr):
     # pylint: disable=invalid-name
     """
-    A function returning a mixin class that adds the ability to a dictionary
-    to initialize or update the dictionary from an iterable of objects, whereby
-    a particular attribute of the object is used as the key.
+    A generator function returning a mixin class that adds the ability to the
+    :class:`nocasedict.NocaseDict` class to initialize or update the dictionary
+    from an iterable of objects, whereby a particular attribute of each object
+    is used as the key.
 
     This simplifies the initialization of dictionaries because simple lists
     or tuples of such objects can be provided.
 
-    The derived class inheriting from the returned mixin class must also
+    The derived class inheriting from the returned mixin class must
     (directly or indirectly) inherit from :class:`~nocasedict.NocaseDict`.
 
     Example::
@@ -29,9 +30,9 @@ def KeyableByMixin(key_attr):
             pass
 
         class Obj(object):
-            def __init__(self, name, value):
-                self.name = name
-                self.value = value
+            def __init__(self, name, thing):
+                self.name = name  # Will be used as the key
+                self.thing = thing
 
         md = MyDict([Obj('A', 1), Obj('B', 2)])
 

@@ -33,9 +33,10 @@ Class NocaseDict
 
 
 .. _`Class HashableMixin`:
+.. _`Mixin class HashableMixin`:
 
-Class HashableMixin
--------------------
+Mixin class HashableMixin
+-------------------------
 
 .. autoclass:: nocasedict.HashableMixin
    :members:
@@ -55,9 +56,10 @@ Class HashableMixin
    .. rubric:: Details
 
 
+.. _`Mixin generator function KeyableByMixin()`:
 .. _`Function KeyableByMixin`:
 
-Function KeyableByMixin
------------------------
+Mixin generator function KeyableByMixin()
+-----------------------------------------
 
 .. autofunction:: nocasedict.KeyableByMixin

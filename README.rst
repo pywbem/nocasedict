@@ -25,8 +25,8 @@ nocasedict - A case-insensitive ordered dictionary for Python
 Overview
 --------
 
-Class ``NocaseDict`` is a case-insensitive ordered dictionary that preserves
-the lexical case of its keys.
+Class `NocaseDict`_ is a case-insensitive ordered dictionary that preserves
+the original lexical case of its keys.
 
 Example:
 
@@ -37,12 +37,32 @@ Example:
 
     >>> dict1 = NocaseDict({'Alpha': 1, 'Beta': 2})
 
-    >>> dict1['ALPHA']  # Any lookup or comparison by key is case-insensitive
+    >>> dict1['ALPHA']  # Lookup by key is case-insensitive
     1
 
-    >>> print(dict1)  # Any access of keys is case-preserving
+    >>> print(dict1)  # Keys are returned with the original lexical case
     NocaseDict({'Alpha': 1, 'Beta': 2})
 
+It is completely compatible with the built-in ``dict`` class (`dict of Python 2`_
+and `dict of Python 3`_), except that it is
+case-insensitive and ordered on all Python versions.
+
+Functionality can be added using mixin classes:
+
+* `HashableMixin`_ mixin class: Adds case-insensitive hashability.
+
+* `KeyableByMixin`_ mixin generator function: Adds ability to get the key from
+  an attribute of the value object.
+
+Why yet another case-insensitive dictionary: We found that all previously
+existing case-insensitive dictionary packages on Pypi either had flaws, were
+not well maintained, or did not support the Python versions we needed.
+
+.. _dict of Python 2: https://docs.python.org/2/library/stdtypes.html#dict
+.. _dict of Python 3: https://docs.python.org/3/library/stdtypes.html#dict
+.. _NocaseDict: https://nocasedict.readthedocs.io/en/stable/reference.html#nocasedict.NocaseDict
+.. _HashableMixin: https://nocasedict.readthedocs.io/en/stable/reference.html#nocasedict.HashableMixin
+.. _KeyableByMixin: https://nocasedict.readthedocs.io/en/stable/reference.html#nocasedict.KeyableByMixin
 
 Installation
 ------------
