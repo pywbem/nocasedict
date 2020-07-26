@@ -488,7 +488,7 @@ autodoc_mock_imports = []
 intersphinx_mapping = {
   'py': ('https://docs.python.org/3', None), # default is Python 3
   'py2': ('https://docs.python.org/2', None),
-  'py3': ('https://docs.python.org/3', None),
+  'py3': ('https://docs.python.org/3/', None),
 }
 
 intersphinx_cache_limit = 5
