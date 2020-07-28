@@ -193,9 +193,6 @@ class NocaseDict(MutableMapping):
 
         print(dict1)  # Access of keys is case-preserving
         # NocaseDict({'Alpha': 1, 'Beta': 2})
-
-    The following documentation is provided for explicit documentation of
-    the case-insensitive and ordering behavior.
     """
 
     # Methods not implemented:

@@ -28,9 +28,18 @@ Example:
     >>> print(dict1)  # Keys are returned with the original lexical case
     NocaseDict({'Alpha': 1, 'Beta': 2})
 
-It is completely compatible with the built-in ``dict`` class
-(:class:`dict of Python 2 <py2:dict>` and :class:`dict of Python 3 <py3:dict>`),
-except that it is case-insensitive and ordered on all Python versions.
+The :class:`~nocasedict.NocaseDict` class supports the functionality of the
+built-in `dict class of Python 3.8`_ on all Python versions it supports, with
+these exceptions (and the case-insensitivity of course):
+
+* The ``iter..()``, ``view..()`` and ``has_key()`` methods are only present
+  on Python 2, consistent with the built-in ``dict`` class.
+
+* The ``keys()``, ``values()`` and ``items()`` methods return a list on Python 2
+  and a dictionary view on Python 3, consistent with the built-in ``dict``
+  class.
+
+.. _dict class of Python 3.8: https://docs.python.org/3.8/library/stdtypes.html#dict
 
 Functionality can be added using mixin classes:
 
