@@ -38,6 +38,10 @@ NocaseDict = dict if TEST_AGAINST_DICT else _NocaseDict
 TESTDICT_IS_ORDERED = \
     not TEST_AGAINST_DICT or sys.version_info[0:2] >= (3, 7)
 
+# Indicates the dict being tested is reversible
+TESTDICT_SUPPORTS_REVERSED = \
+    not TEST_AGAINST_DICT or sys.version_info[0:2] >= (3, 8)
+
 # Indicates the dict being tested supports lt/gt comparison (between dicts)
 TESTDICT_SUPPORTS_COMPARISON = \
     TEST_AGAINST_DICT and sys.version_info[0:2] == (2, 7)
@@ -1281,7 +1285,7 @@ TESTCASES_NOCASEDICT_REVERSED = [
             obj=NocaseDict(),
             exp_keys=[],
         ),
-        None, None, TESTDICT_IS_ORDERED
+        None, None, TESTDICT_SUPPORTS_REVERSED
     ),
     (
         "Dict with one item",
@@ -1289,7 +1293,7 @@ TESTCASES_NOCASEDICT_REVERSED = [
             obj=NocaseDict([('Dog', 'Cat')]),
             exp_keys=['Dog'],
         ),
-        None, None, TESTDICT_IS_ORDERED
+        None, None, TESTDICT_SUPPORTS_REVERSED
     ),
     (
         "Dict with two items",
@@ -1297,7 +1301,7 @@ TESTCASES_NOCASEDICT_REVERSED = [
             obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
             exp_keys=['Budgie', 'Dog'],
         ),
-        None, None, TESTDICT_IS_ORDERED
+        None, None, TESTDICT_SUPPORTS_REVERSED
     ),
 ]
 
