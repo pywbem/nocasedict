@@ -20,6 +20,12 @@ Released: not yet
   on Python 3.7, but the built-in dict became reversible only in Python 3.8.
   (See issue #49)
 
+* Test: Fixed issue on pypy2 (Python 2.7) where the testcases for update()
+  passed keyword arguments that had integer-typed argument names. That is
+  supported by CPython 2.7 when passing them as a kwargs dict, but not by
+  pypy2. Removed these testcases, because the support for that feature in
+  CPython 2.7 is not part of the Python language.
+
 **Enhancements:**
 
 **Cleanup:**
