@@ -46,10 +46,6 @@ TESTDICT_SUPPORTS_REVERSED = \
 TESTDICT_SUPPORTS_COMPARISON = \
     TEST_AGAINST_DICT and sys.version_info[0:2] == (2, 7)
 
-# Indicates the dict being tested supports non-string init kwargs
-TESTDICT_SUPPORTS_NONSTRING_KWARGS = \
-    TEST_AGAINST_DICT and sys.version_info[0:2] == (2, 7)
-
 # Indicates the dict being tested issues UserWarning about unordered kwargs
 TESTDICT_WARNS_KWARGS = \
     not TEST_AGAINST_DICT and sys.version_info[0:2] < (3, 7)
@@ -2468,17 +2464,6 @@ TESTCASES_NOCASEDICT_UPDATE = [
         None if TEST_AGAINST_DICT else AttributeError, None, True
     ),
     (
-        "Empty dict, with integer key in update kwargs (invalid type)",
-        dict(
-            obj=NocaseDict(),
-            args=[],
-            kwargs={1234: 'Invalid'},
-            exp_obj=NocaseDict([(1234, 'Invalid')])
-            if TESTDICT_SUPPORTS_NONSTRING_KWARGS else None,
-        ),
-        None if TESTDICT_SUPPORTS_NONSTRING_KWARGS else TypeError, None, True
-    ),
-    (
         "Empty dict, with empty string key in update args+items",
         dict(
             obj=NocaseDict(),
@@ -2595,18 +2580,6 @@ TESTCASES_NOCASEDICT_UPDATE = [
             if TEST_AGAINST_DICT else None,
         ),
         None if TEST_AGAINST_DICT else AttributeError, None, True
-    ),
-    (
-        "Non-empty dict, with integer key in update kwargs (invalid type)",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            args=[],
-            kwargs={1234: 'Invalid'},
-            exp_obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish'),
-                                (1234, 'Invalid')])
-            if TESTDICT_SUPPORTS_NONSTRING_KWARGS else None,
-        ),
-        None if TESTDICT_SUPPORTS_NONSTRING_KWARGS else TypeError, None, True
     ),
     (
         "Non-empty dict, with new empty string key in update args+items",
