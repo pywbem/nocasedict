@@ -91,6 +91,11 @@ if on_rtd:
 else:
     master_doc = 'docs/index'
 
+# This env var is evaluated in the nocasedict package and causes the methods
+# that are supposed to exist only in a particular Python version, not to be
+# removed, so they appear in the docs.
+os.environ['BUILDING_DOCS'] = '1'
+
 # General information about the project.
 project = u'nocasedict'
 #copyright = u''
