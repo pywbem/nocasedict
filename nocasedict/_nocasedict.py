@@ -51,7 +51,10 @@ __all__ = ['NocaseDict']
 # pylint: disable=invalid-name
 ODict = dict if sys.version_info[0:2] >= (3, 7) else OrderedDict
 
-DOCS_SHOW_ALL = os.getenv('DOCS_SHOW_ALL')
+# This env var is set when building the docs. It causes the methods
+# that are supposed to exist only in a particular Python version, not to be
+# removed, so they appear in the docs.
+BUILDING_DOCS = os.environ.get('BUILDING_DOCS', False)
 
 # Used as default value for parameters to detect that they have not been
 # specified as an argument. Idea from CPython's datetime.timezone.
@@ -807,7 +810,7 @@ class NocaseDict(MutableMapping):
 # Remove methods that should only be present in a particular Python version
 # If the documentation is built, the methods are not removed in order to show
 # them in the documentation.
-if sys.version_info[0] != 2 and not DOCS_SHOW_ALL:
+if sys.version_info[0] != 2 and not BUILDING_DOCS:
     del NocaseDict.has_key
     del NocaseDict.iterkeys
     del NocaseDict.itervalues

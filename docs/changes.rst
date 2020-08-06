@@ -26,6 +26,8 @@ Released: not yet
   pypy2. Removed these testcases, because the support for that feature in
   CPython 2.7 is not part of the Python language.
 
+* Docs: Fixed missing Python 2 only methods in RTD docs (See issue #52)
+
 **Enhancements:**
 
 **Cleanup:**
