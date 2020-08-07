@@ -5,7 +5,7 @@ Change log
 ==========
 
 
-nocasedict 1.0.0.dev1
+nocasedict 0.5.1.dev1
 ---------------------
 
 Released: not yet
