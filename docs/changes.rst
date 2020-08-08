@@ -5,14 +5,10 @@ Change log
 ==========
 
 
-nocasedict 0.5.1.dev1
----------------------
+nocasedict 1.0.0
+----------------
 
-Released: not yet
-
-**Incompatible changes:**
-
-**Deprecations:**
+Released: 2020-09-11
 
 **Bug fixes:**
 
@@ -29,16 +25,6 @@ Released: not yet
 * Docs: Fixed missing Python 2 only methods in RTD docs (See issue #52)
 
 * Pylint: Accomodated new 'raise-missing-from' check in Pylint 2.6.0.
-
-**Enhancements:**
-
-**Cleanup:**
-
-**Known issues:**
-
-* See `list of open issues`_.
-
-.. _`list of open issues`: https://github.com/pywbem/nocasedict/issues
 
 
 nocasedict 0.5.0
