@@ -29,8 +29,8 @@ Example:
     NocaseDict({'Alpha': 1, 'Beta': 2})
 
 The :class:`~nocasedict.NocaseDict` class supports the functionality of the
-built-in `dict class of Python 3.8`_ on all Python versions it supports, with
-these exceptions (and the case-insensitivity of course):
+built-in `dict class of Python 3.8`_ on all Python versions it supports with
+the following exceptions (and the case-insensitivity of course):
 
 * The ``iter..()``, ``view..()`` and ``has_key()`` methods are only present
   on Python 2, consistent with the built-in ``dict`` class.
