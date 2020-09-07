@@ -28,6 +28,8 @@ Released: not yet
 
 * Docs: Fixed missing Python 2 only methods in RTD docs (See issue #52)
 
+* Pylint: Accomodated new 'raise-missing-from' check in Pylint 2.6.0.
+
 **Enhancements:**
 
 **Cleanup:**

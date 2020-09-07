@@ -299,7 +299,7 @@ class NocaseDict(MutableMapping):
         except KeyError:
             key_error = KeyError("Key {0!r} not found".format(key))
             key_error.__cause__ = None  # Suppress 'During handling..'
-            raise key_error
+            raise key_error  # pylint: disable=raise-missing-from
 
     def __setitem__(self, key, value):
         """
@@ -331,7 +331,7 @@ class NocaseDict(MutableMapping):
         except KeyError:
             key_error = KeyError("Key {0!r} not found".format(key))
             key_error.__cause__ = None  # Suppress 'During handling..'
-            raise key_error
+            raise key_error  # pylint: disable=raise-missing-from
 
     def __len__(self):
         """
@@ -706,6 +706,7 @@ class NocaseDict(MutableMapping):
                                 "of type {t} into key, value: {exc}".
                                 format(i=i, t=type(item), exc=exc))
                             value_error.__cause__ = None  # Suppress 'During..'
+                            # pylint: disable=raise-missing-from
                             raise value_error
                     self[key] = value
 
