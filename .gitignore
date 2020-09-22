@@ -10,6 +10,8 @@
 /build/
 /build_doc/
 /dist/
+/packaging/*/*.tar.gz
+/packaging/*/*.done
 /try/
 .ipynb_checkpoints/
 /*.done
