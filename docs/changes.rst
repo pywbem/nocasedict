@@ -5,14 +5,10 @@ Change log
 ==========
 
 
-nocasedict 1.0.1.dev1
----------------------
+nocasedict 1.0.1
+----------------
 
-Released: not yet
-
-**Incompatible changes:**
-
-**Deprecations:**
+Released: 2020-10-04
 
 **Bug fixes:**
 
@@ -25,14 +21,6 @@ Released: not yet
 
 * Added checking for no expected warning. Adjusted a testcase to accomodate
   the new check. (see issue #65)
-
-**Cleanup:**
-
-**Known issues:**
-
-* See `list of open issues`_.
-
-.. _`list of open issues`: https://github.com/pywbem/nocasedict/issues
 
 
 nocasedict 1.0.0
