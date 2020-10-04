@@ -43,6 +43,8 @@ except ImportError:
 
 import six
 
+from ._utils import _stacklevel_above_nocasedict
+
 __all__ = ['NocaseDict']
 
 # Starting with Python 3.7, the standard dict is guaranteed to be ordered.
@@ -677,12 +679,15 @@ class NocaseDict(MutableMapping):
                 for key in other.keys():
                     self[key] = other[key]
                 # pylint: disable=unidiomatic-typecheck
-                if type(other) is dict and ODict is not dict:
+                if type(other) is dict and ODict is not dict and \
+                        len(other.keys()) > 1:
                     warnings.warn(
                         "Before Python 3.7, initializing or updating a "
-                        "NocaseDict object from a dict object is not "
-                        "guaranteed to preserve the order of its items",
-                        UserWarning, stacklevel=2)
+                        "NocaseDict object from a dict object with more than "
+                        "one item is not guaranteed to preserve the order of "
+                        "its items",
+                        UserWarning,
+                        stacklevel=_stacklevel_above_nocasedict())
             except AttributeError:
                 # Expecting an iterable
                 try:
@@ -717,7 +722,8 @@ class NocaseDict(MutableMapping):
                 "Before Python 3.7, initializing or updating a NocaseDict "
                 "object from more than one keyword argument is not guaranteed "
                 "to preserve their order",
-                UserWarning, stacklevel=2)
+                UserWarning,
+                stacklevel=_stacklevel_above_nocasedict())
 
     def clear(self):
         """
