@@ -46,8 +46,9 @@ TESTDICT_SUPPORTS_REVERSED = \
 TESTDICT_SUPPORTS_COMPARISON = \
     TEST_AGAINST_DICT and sys.version_info[0:2] == (2, 7)
 
-# Indicates the dict being tested issues UserWarning about unordered kwargs
-TESTDICT_WARNS_KWARGS = \
+# Indicates the dict being tested issues UserWarning about not preserving order
+# of items in kwargs or in standard dict
+TESTDICT_WARNS_ORDER = \
     not TEST_AGAINST_DICT and sys.version_info[0:2] < (3, 7)
 
 # Indicates the dict supports the iter..() and view..() methods
@@ -177,7 +178,7 @@ TESTCASES_NOCASEDICT_INIT = [
             exp_dict=OrderedDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
             verify_order=False,
         ),
-        None, None, True
+        None, UserWarning if TESTDICT_WARNS_ORDER else None, True
     ),
     (
         "Dict from keyword args",
@@ -187,7 +188,7 @@ TESTCASES_NOCASEDICT_INIT = [
             exp_dict=OrderedDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
             verify_order=False,
         ),
-        None, UserWarning if TESTDICT_WARNS_KWARGS else None, True
+        None, UserWarning if TESTDICT_WARNS_ORDER else None, True
     ),
     (
         "Dict from list as positional arg and keyword args",
