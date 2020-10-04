@@ -23,6 +23,9 @@ Released: not yet
 
 **Enhancements:**
 
+* Added checking for no expected warning. Adjusted a testcase to accomodate
+  the new check. (see issue #65)
+
 **Cleanup:**
 
 **Known issues:**
