@@ -19,6 +19,8 @@ Released: not yet
 * Test: Fixed issue with virtualenv raising AttributeError during installtest
   on Python 3.4. (see issue #61)
 
+* Fixed UserWarning about unpreserved order of input items. (see issue #59)
+
 **Enhancements:**
 
 **Cleanup:**
