@@ -16,6 +16,9 @@ Released: not yet
 
 **Bug fixes:**
 
+* Test: Fixed issue with virtualenv raising AttributeError during installtest
+  on Python 3.4. (see issue #61)
+
 **Enhancements:**
 
 **Cleanup:**
