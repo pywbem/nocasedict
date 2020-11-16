@@ -5,13 +5,9 @@ nocasedict - A case-insensitive ordered dictionary for Python
     :target: https://pypi.python.org/pypi/nocasedict/
     :alt: Version on Pypi
 
-.. image:: https://travis-ci.org/pywbem/nocasedict.svg?branch=master
-    :target: https://travis-ci.org/github/pywbem/nocasedict/builds
-    :alt: Travis test status (master)
-
-.. image:: https://ci.appveyor.com/api/projects/status/d13osi3pxfduj4ap/branch/master?svg=true
-    :target: https://ci.appveyor.com/project/andy-maier/nocasedict/history
-    :alt: Appveyor test status (master)
+.. image:: https://github.com/pywbem/nocasedict/workflows/test/badge.svg?branch=master
+    :target: https://github.com/pywbem/nocasedict/actions/
+    :alt: Actions status
 
 .. image:: https://readthedocs.org/projects/nocasedict/badge/?version=latest
     :target: https://readthedocs.org/projects/nocasedict/builds/
