@@ -17,18 +17,24 @@ coverage>=4.5.2,<5.0
 # python-coveralls 2.9.2 no longer has requirement coverage==4.0.3.
 python-coveralls>=2.9.2
 pytest-cov>=2.7.0
-# PyYAML is pulled in by python-coveralls and PyYAML 5.3 has removed support for Python 3.4
-PyYAML>=5.1; python_version == '2.7'
-PyYAML>=5.1,<5.3; python_version == '3.4'
-PyYAML>=5.1; python_version >= '3.5' and python_version < '3.8'
-PyYAML>=5.1.2; python_version >= '3.8'
 
 # Safety CI by pyup.io
-safety>=1.8.4
+# safety 1.9.0 removed support for Python 2.7 and 3.4 (and now also enforces that)
+safety>=1.8.7,<1.9.0; python_version <= '3.4'
+safety>=1.9.0; python_version >= '3.5'
 # dparse 0.5.0 has an infinite recursion issue on Python 2.7,
 #   see https://github.com/pyupio/dparse/issues/46
 dparse>=0.4.1,<0.5.0; python_version == '2.7'
 dparse>=0.4.1; python_version >= '3.4'
+
+# PyYAML is pulled in by dparse and python-coveralls
+# PyYAML 5.3 has removed support for Python 3.4
+# PyYAML 5.3 fixed narrow build error on Python 2.7
+# PyYAML 5.3.1 addressed issue 38100 reported by safety
+# PyYAML 5.2 addressed issue 38639 reported by safety
+PyYAML>=5.3.1; python_version == '2.7'
+PyYAML>=5.2,<5.3; python_version == '3.4'
+PyYAML>=5.3.1; python_version > '3.4'
 
 # Tox
 tox>=2.5.0
