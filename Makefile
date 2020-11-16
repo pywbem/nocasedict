@@ -329,6 +329,7 @@ _check_installed:
 pip_upgrade_$(python_mn_version).done: Makefile
 	@echo "Makefile: Installing/upgrading Pip (with PACKAGE_LEVEL=$(PACKAGE_LEVEL))"
 	-$(call RM_FUNC,$@)
+	bash -c 'pv=$$($(PIP_CMD) --version); if [[ $$pv =~ (^pip [1-8]\..*) ]]; then $(PYTHON_CMD) -m pip $(pip_opts) install pip==9.0.1; fi'
 	$(PYTHON_CMD) -m pip $(pip_opts) install $(pip_level_opts) pip
 	echo "done" >$@
 	@echo "Makefile: Done installing/upgrading Pip"
