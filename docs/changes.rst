@@ -18,6 +18,11 @@ Released: not yet
 
 **Enhancements:**
 
+* Migrated from Travis and Appveyor to GitHub Actions. This required changes
+  in several areas including dependent packages used for testing and coverage.
+  This did not cause any changes on dependent packages used for the
+  installation of the package.
+
 **Cleanup:**
 
 **Known issues:**
