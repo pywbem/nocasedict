@@ -302,193 +302,187 @@ Releasing a version to PyPI
 This section describes how to release a version of nocasedict
 to PyPI.
 
-It covers all variants of versions:
+It covers all variants of versions that can be released:
 
-* Releasing the master branch as a new (major or minor) version
+* Releasing a new major version (Mnew.0.0) based on the master branch
+* Releasing a new minor version (M.Nnew.0) based on the master branch
+* Releasing a new update version (M.N.Unew) based on the stable branch of its
+  minor version
 
-* Releasing a fix stream branch of an already released version as a new fix
-  version
+The description assumes that the `pywbem/nocasedict`
+Github repo is cloned locally and its upstream repo is assumed to have the Git
+remote name `origin`.
 
-The description assumes that the project repo is cloned locally.
-Their upstream repos are assumed to have the remote name ``origin``.
+Any commands in the following steps are executed in the main directory of your
+local clone of the `pywbem/nocasedict`
+Git repo.
 
-1.  Switch to your work directory of the project repo (this is where
-    the ``Makefile`` is), and perform the following steps in that directory.
+1.  Set shell variables for the version that is being released and the branch
+    it is based on:
 
-2.  Set shell variables for the version and branch to be released.
+    * ``MNU`` - Full version M.N.U that is being released
+    * ``MN`` - Major and minor version M.N of that full version
+    * ``BRANCH`` - Name of the branch the version that is being released is
+      based on
 
-    When releasing the master branch:
+    When releasing a new major version (e.g. ``1.0.0``) based on the master
+    branch:
 
-    .. code-block:: bash
+    .. code-block:: sh
 
-        $ MNP="0.2.0"          # Full version number M.N.P of version to be released
-        $ MN="0.2"             # Major and minor version number M.N of version to be released
-        $ BRANCH="master"      # Branch to be released
+        MNU=1.0.0
+        MN=1.0
+        BRANCH=master
 
-    When releasing a fix stream branch:
+    When releasing a new minor version (e.g. ``0.9.0``) based on the master
+    branch:
 
-    .. code-block:: bash
+    .. code-block:: sh
 
-        $ MNP="0.1.1"          # Full version number M.N.P of version to be released
-        $ MN="0.1"             # Major and minor version number M.N of version to be released
-        $ BRANCH="stable_$MN"  # Branch to be released
+        MNU=0.9.0
+        MN=0.9
+        BRANCH=master
 
-3.  Check out the branch to be released, make sure it is up to date with
-    upstream, and create a topic branch for the version to be released:
+    When releasing a new update version (e.g. ``0.8.1``) based on the stable
+    branch of its minor version:
 
-    .. code-block:: bash
+    .. code-block:: sh
 
-        $ git checkout $BRANCH
-        $ git pull
-        $ git checkout -b release_$MNP
+        MNU=0.8.1
+        MN=0.8
+        BRANCH=stable_${MN}
 
-4.  Edit the version file:
+2.  Create a topic branch for the version that is being released:
 
-    .. code-block:: bash
+    .. code-block:: sh
 
-        $ vi nocasedict/_version.py
+        git checkout ${BRANCH}
+        git pull
+        git checkout -b release_${MNU}
 
-    and set the version to be released:
+3.  Edit the version file:
 
-    .. code-block:: text
+    .. code-block:: sh
 
-        __version__ = 'M.N.P'
+        vi nocasedict/_version.py
 
-    where M.N.P is the version to be released, e.g. `0.2.0`.
+    and set the ``__version__`` variable to the version that is being released:
 
-    You can verify that this version is picked up by setup.py as follows:
+    .. code-block:: python
 
-    .. code-block:: bash
+        __version__ = 'M.N.U'
 
-        $ ./setup.py --version
-        0.2.0
+4.  Edit the change log:
 
-5.  Edit the change log:
+    .. code-block:: sh
 
-    .. code-block:: bash
+        vi docs/changes.rst
 
-        $ vi docs/changes.rst
+    and make the following changes in the section of the version that is being
+    released:
 
-    To make the following changes for the version to be released:
+    * Finalize the version.
+    * Change the release date to today's date.
+    * Make sure that all changes are described.
+    * Make sure the items shown in the change log are relevant for and
+      understandable by users.
+    * In the "Known issues" list item, remove the link to the issue tracker and
+      add text for any known issues you want users to know about.
+    * Remove all empty list items.
 
-    * Finalize the version to the version to be released.
+5.  When releasing based on the master branch, edit the GitHub workflow file
+    ``test.yml``:
 
-    * Remove the statement that the version is in development.
+    .. code-block:: sh
 
-    * Update the statement which fixes of the previous stable version
-      are contained in this version.  If there is no fix release
-      of the previous stable version, the line can be removed.
+        vi .github/workflows/test.yml
 
-    * Change the release date to today´s date.
+    and in the ``on`` section, increase the version of the ``stable_*`` branch
+    to the new stable branch ``stable_M.N`` created earlier:
 
-    * Make sure that all changes are described. This can be done by comparing
-      the changes listed with the commit log of the master branch.
+    .. code-block:: yaml
 
-    * Make sure the items in the change log are relevant for and understandable
-      by users of the project.
+        on:
+          schedule:
+            . . .
+          push:
+            branches: [ master, stable_M.N ]
+          pull_request:
+            branches: [ master, stable_M.N ]
 
-    * In the "Known issues" list item, remove the link to the issue tracker
-      and add text for any known issues you want users to know about.
+6.  Commit your changes and push the topic branch to the remote repo:
 
-      Note: Just linking to the issue tracker quickly becomes incorrect for a
-      released version and is therefore only good during development of a
-      version. In the "Starting a new version" section, the link will be added
-      again for the new version.
+    .. code-block:: sh
 
-6.  Perform a complete build (in your favorite Python virtual environment):
+        git status  # Double check the changed files
+        git commit -asm "Release ${MNU}"
+        git push --set-upstream origin release_${MNU}
 
-    .. code-block:: bash
+7.  On GitHub, create a Pull Request for branch ``release_M.N.U``. This will
+    trigger the CI runs.
 
-        $ make clobber
-        $ make all
+    Important: When creating Pull Requests, GitHub by default targets the
+    ``master`` branch. When releasing based on a stable branch, you need to
+    change the target branch of the Pull Request to ``stable_M.N``.
 
-    If this fails, fix and iterate over this step until it succeeds.
+8.  On GitHub, close milestone ``M.N.U``.
 
-7.  Commit the changes and push to upstream:
+9.  On GitHub, once the checks for the Pull Request for branch ``start_M.N.U``
+    have succeeded, merge the Pull Request (no review is needed). This
+    automatically deletes the branch on GitHub.
 
-    .. code-block:: bash
+10. Add a new tag for the version that is being released and push it to
+    the remote repo. Clean up the local repo:
 
-        $ git status    # to double check which files have been changed
-        $ git commit -asm "Release $MNP"
-        $ git push --set-upstream origin release_$MNP
+    .. code-block:: sh
 
-8.  On GitHub, create a Pull Request for branch ``release_$MNP``. This will
-    trigger the CI runs in Travis and Appveyor.
+        git checkout ${BRANCH}
+        git pull
+        git tag -f ${MNU}
+        git push -f --tags
+        git branch -d release_${MNU}
 
-    Important: When creating Pull Requests, GitHub by default targets
-    the ``master`` branch. If you are releasing a fix version, you need to
-    change the target branch of the Pull Request to ``stable_$MN``.
+11. When releasing based on the master branch, create and push a new stable
+    branch for the same minor version:
 
-9.  Perform a complete test using Tox:
+    .. code-block:: sh
 
-    .. code-block:: bash
+        git checkout -b stable_${MN}
+        git push --set-upstream origin stable_${MN}
+        git checkout ${BRANCH}
 
-        $ tox
+    Note that no GitHub Pull Request is created for any ``stable_*`` branch.
 
-    This will create virtual Python environments for all supported Python
-    versions that are installed on your system and will invoke ``make test``
-    in each of them.
+12. On GitHub, edit the new tag ``M.N.U``, and create a release description on
+    it. This will cause it to appear in the Release tab.
 
-10. If any of the tests mentioned above fails, fix the problem and iterate
-    back to step 6. until they all succeed.
+    You can see the tags in GitHub via Code -> Releases -> Tags.
 
-11. On GitHub, once the CI runs for the Pull Request succeed:
+13. On ReadTheDocs, activate the new version ``M.N.U``:
 
-    - Merge the Pull Request (no review is needed)
+    * Go to https://readthedocs.org/projects/nocasedict/versions/
+      and log in.
 
-    - Delete the branch of the Pull Request (``release_$MNP``)
+    * Activate the new version ``M.N.U``.
 
-12. Checkout the branch you are releasing, update it from upstream, and
-    delete the local topic branch you created:
+      This triggers a build of that version. Verify that the build succeeds
+      and that new version is shown in the version selection popup at
+      https://nocasedict.readthedocs.io/
 
-    .. code-block:: bash
+14. Upload the package to PyPI:
 
-        $ git checkout $BRANCH
-        $ git pull
-        $ git branch -d release_$MNP
+    .. code-block:: sh
 
-13. Tag the version:
+        make upload
 
-    This step tags the local repo and pushes it upstream:
+    This will show the package version and will ask for confirmation.
 
-    .. code-block:: bash
+    **Attention!** This only works once for each version. You cannot release
+    the same version twice to PyPI.
 
-        $ git status    # double check that the branch to be released (`$BRANCH`) is checked out
-        $ git tag $MNP
-        $ git push --tags
+    Verify that the released version arrived on PyPI at
+    https://pypi.python.org/pypi/nocasedict/
 
-14. If you released the master branch it will be fixed separately, so it needs
-    a new fix stream.
-
-    * Create a branch for its fix stream and push it upstream:
-
-      .. code-block:: bash
-
-          $ git status    # double check that the branch to be released (`$BRANCH`) is checked out
-          $ git checkout -b stable_$MN
-          $ git push --set-upstream origin stable_$MN
-
-    * Log on to `RTD <https://readthedocs.org/>`_, go to the project,
-      and activate the new branch ``stable_$MN`` as a version to be built.
-
-15. On GitHub, edit the new tag, and create a release description on it. This
-    will cause it to appear in the Release tab.
-
-16. On GitHub, close milestone M.N.P.
-
-    Note: Issues with that milestone will be moved forward in the section
-    "Starting a new version".
-
-17. Upload the package to PyPI:
-
-    .. code-block:: bash
-
-        $ make upload
-
-    **Attention!!** This only works once. You cannot re-release the same
-    version to PyPI.
-
-    Verify that it arrived on PyPI: https://pypi.python.org/pypi/nocasedict/
 
 Starting a new version
 ----------------------
@@ -496,72 +490,91 @@ Starting a new version
 This section shows the steps for starting development of a new version of the
 nocasedict project in its Git repo.
 
-It covers all variants of new versions:
+This section covers all variants of new versions:
 
-* A new (major or minor) version for new development based upon the master
-  branch.
+* Starting a new major version (Mnew.0.0) based on the master branch
+* Starting a new minor version (M.Nnew.0) based on the master branch
+* Starting a new update version (M.N.Unew) based on the stable branch of its
+  minor version
 
-* A new fix version based on a ``stable_$MN`` fix stream branch.
+The description assumes that the `pywbem/nocasedict`
+Github repo is cloned locally and its upstream repo is assumed to have the Git
+remote name `origin`.
 
-1.  Switch to the work directory of your repo clone and perform the following
-    steps in that directory.
+Any commands in the following steps are executed in the main directory of your
+local clone of the `pywbem/nocasedict`
+Git repo.
 
-2.  Set shell variables for the version to be started and for the branch it is
-    based upon.
+1.  Set shell variables for the version that is being started and the branch it
+    is based on:
 
-    When starting a new major or minor version based on the master branch:
+    * ``MNU`` - Full version M.N.U that is being started
+    * ``MN`` - Major and minor version M.N of that full version
+    * ``BRANCH`` -  Name of the branch the version that is being started is
+      based on
 
-    .. code-block:: bash
+    When starting a new major version (e.g. ``1.0.0``) based on the master
+    branch:
 
-        $ MNP="0.2.0"          # Full version number M.N.P of version to be started
-        $ MN="0.2"             # Major and minor version number M.N of version to be started
-        $ BRANCH="master"      # Branch the new version is based on
+    .. code-block:: sh
 
-    When releasing a fix version based on a fix stream branch:
+        MNU=1.0.0
+        MN=1.0
+        BRANCH=master
 
-    .. code-block:: bash
+    When starting a new minor version (e.g. ``0.9.0``) based on the master
+    branch:
 
-        $ MNP="0.1.1"          # Full version number M.N.P of version to be started
-        $ MN="0.1"             # Major and minor version number M.N of version to be started
-        $ BRANCH="stable_$MN"  # Branch the new version is based on
+    .. code-block:: sh
 
-3.  Check out the branch the new version is based upon, make sure it is up to
-    date with upstream, and create a topic branch for the new version:
+        MNU=0.9.0
+        MN=0.9
+        BRANCH=master
 
-    .. code-block:: bash
+    When starting a new minor version (e.g. ``0.8.1``) based on the stable
+    branch of its minor version:
 
-        $ git checkout $BRANCH
-        $ git pull
-        $ git checkout -b start_$MNP
+    .. code-block:: sh
 
-4.  Edit the version file:
+        MNU=0.8.1
+        MN=0.8
+        BRANCH=stable_${MN}
 
-    .. code-block:: bash
+2.  Create a topic branch for the version that is being started:
 
-        $ vi nocasedict/_version.py
+    .. code-block:: sh
 
-    and set the version to the new development version:
+        git checkout ${BRANCH}
+        git pull
+        git checkout -b start_${MNU}
 
-    .. code-block:: text
+3.  Edit the version file:
 
-        __version__ = 'M.N.P.dev1'
+    .. code-block:: sh
 
-    where M.N.P is the new version to be started, e.g. `0.2.0`.
+        vi nocasedict/_version.py
 
-5.  Edit the change log:
+    and update the version to a draft version of the version that is being
+    started:
 
-    .. code-block:: bash
+    .. code-block:: python
 
-        $ vi docs/changes.rst
+        __version__ = 'M.N.U.dev1'
 
-    To insert the following section before the top-most section:
+4.  Edit the change log:
 
-    .. code-block:: text
+    .. code-block:: sh
 
-        nocasedict 0.2.0.dev1
-        ------------------------------------------
+        vi docs/changes.rst
 
-        This version contains all fixes up to nocasedict 0.1.x.
+    and insert the following section before the top-most section:
+
+    .. code-block:: rst
+
+        Version M.N.U.dev1
+        ^^^^^^^^^^^^^^^^^^
+
+        This version contains all fixes up to version M.N-1.x.
 
         Released: not yet
 
@@ -581,36 +594,37 @@ It covers all variants of new versions:
 
         .. _`list of open issues`: https://github.com/pywbem/nocasedict/issues
 
-6.  Commit the changes and push to upstream:
+5.  Commit your changes and push them to the remote repo:
 
-    .. code-block:: bash
+    .. code-block:: sh
 
-        $ git status    # to double check which files have been changed
-        $ git commit -asm "Start $MNP"
-        $ git push --set-upstream origin start_$MNP
+        git status  # Double check the changed files
+        git commit -asm "Start ${MNU}"
+        git push --set-upstream origin start_${MNU}
 
-7.  On Github, create a Pull Request for branch ``start_$MNP``.
+6.  On GitHub, create a Pull Request for branch ``start_M.N.U``.
 
-    Important: When creating Pull Requests, GitHub by default targets
-    the master branch. If you are starting a fix version, you need to
-    change the target branch of the Pull Request to ``stable_$MN``.
+    Important: When creating Pull Requests, GitHub by default targets the
+    ``master`` branch. When starting a version based on a stable branch, you
+    need to change the target branch of the Pull Request to ``stable_M.N``.
 
-8.  On GitHub, once all of these tests succeed:
+7.  On GitHub, create a milestone for the new version ``M.N.U``.
 
-    - Merge the Pull Request (no review is needed)
+    You can create a milestone in GitHub via Issues -> Milestones -> New
+    Milestone.
 
-    - Delete the branch of the Pull Request (``release_$MNP``)
+8.  On GitHub, go through all open issues and pull requests that still have
+    milestones for previous releases set, and either set them to the new
+    milestone, or to have no milestone.
 
-9.  Checkout the branch the new version is based upon, update it from
-    upstream, and delete the local topic branch you created:
+9.  On GitHub, once the checks for the Pull Request for branch ``start_M.N.U``
+    have succeeded, merge the Pull Request (no review is needed). This
+    automatically deletes the branch on GitHub.
 
-    .. code-block:: bash
+10. Update and clean up the local repo:
 
-        $ git checkout $BRANCH
-        $ git pull
-        $ git branch -d start_$MNP
+    .. code-block:: sh
 
-10. On GitHub, create a new milestone M.N.P for the version that is started.
-
-11. On GitHub, list all open issues that still have a milestone of less than
-    M.N.P set, and update them as needed to target milestone M.N.P.
+        git checkout ${BRANCH}
+        git pull
+        git branch -d start_${MNU}
