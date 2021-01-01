@@ -5,16 +5,10 @@ Change log
 ==========
 
 
-nocasedict 1.0.2.dev1
----------------------
+nocasedict 1.0.2
+----------------
 
-Released: not yet
-
-**Incompatible changes:**
-
-**Deprecations:**
-
-**Bug fixes:**
+Released: 2021-01-01
 
 **Enhancements:**
 
@@ -22,14 +16,6 @@ Released: not yet
   in several areas including dependent packages used for testing and coverage.
   This did not cause any changes on dependent packages used for the
   installation of the package.
-
-**Cleanup:**
-
-**Known issues:**
-
-* See `list of open issues`_.
-
-.. _`list of open issues`: https://github.com/pywbem/nocasedict/issues
 
 
 nocasedict 1.0.1
