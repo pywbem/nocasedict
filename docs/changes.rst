@@ -16,6 +16,9 @@ Released: not yet
 
 **Bug fixes:**
 
+* Mitigated the coveralls HTTP status 422 by pinning coveralls-python to
+  <3.0.0 (issue #55).
+
 **Enhancements:**
 
 **Cleanup:**
