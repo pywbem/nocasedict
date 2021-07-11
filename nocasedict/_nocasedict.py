@@ -39,6 +39,7 @@ from collections import OrderedDict
 try:
     from collections.abc import MutableMapping, KeysView, ValuesView, ItemsView
 except ImportError:
+    # pylint: disable=deprecated-class
     from collections import MutableMapping, KeysView, ValuesView, ItemsView
 
 import six
@@ -715,8 +716,8 @@ class NocaseDict(MutableMapping):
                             raise value_error
                     self[key] = value
 
-        for key in kwargs:
-            self[key] = kwargs[key]
+        for key, val in kwargs.items():
+            self[key] = val
         if len(kwargs) > 1 and ODict is not dict:
             warnings.warn(
                 "Before Python 3.7, initializing or updating a NocaseDict "
