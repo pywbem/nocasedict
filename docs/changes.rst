@@ -19,6 +19,8 @@ Released: not yet
 * Mitigated the coveralls HTTP status 422 by pinning coveralls-python to
   <3.0.0 (issue #55).
 
+* Fixed issues raised by new Pylint 2.9.
+
 **Enhancements:**
 
 **Cleanup:**

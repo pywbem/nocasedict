@@ -11,6 +11,7 @@ from collections import OrderedDict
 try:
     from collections.abc import KeysView, ValuesView, ItemsView, Iterator
 except ImportError:
+    # pylint: disable=deprecated-class
     from collections import KeysView, ValuesView, ItemsView, Iterator
 import pytest
 
