@@ -7,7 +7,7 @@ Summary:        A case-insensitive ordered dictionary for Python
 
 License:        LGPLv2+
 URL:            https://github.com/pywbem/nocasedict
-Source:         %{pypi_source}
+Source0:        %{pypi_source}
 BuildArch:      noarch
 
 %global _description %{expand:
