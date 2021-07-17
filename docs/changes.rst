@@ -25,6 +25,9 @@ Released: not yet
 
 **Cleanup:**
 
+* Removed old tools that were needed for travis and Appveyor but no longer
+  on GitHub Actions: remove_duplicate_setuptools.py, retry.bat
+
 **Known issues:**
 
 * See `list of open issues`_.
