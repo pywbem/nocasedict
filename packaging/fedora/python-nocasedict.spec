@@ -27,7 +27,7 @@ case-insensitivity of course):
 
 %description %{_description}
 
-%package -n python3-%{srcname}
+%package -n python%{python3_pkgversion}-%{srcname}
 Summary:        %{summary}
 Requires:       python%{python3_pkgversion}-six
 BuildRequires:  python%{python3_pkgversion}-devel
@@ -49,7 +49,7 @@ BuildRequires:  python%{python3_pkgversion}-pytest
 %check
 %{python3} setup.py test
 
-%files -n python3-%{srcname}
+%files -n python%{python3_pkgversion}-%{srcname}
 %license LICENSE
 %doc README.rst
 %{python3_sitelib}/%{srcname}*.egg-info/
