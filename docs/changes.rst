@@ -21,6 +21,9 @@ Released: not yet
 
 * Fixed issues raised by new Pylint 2.9.
 
+* Fixed a dependency error that caused importlib-metadata to be installed on
+  Python 3.8, while it is included in the Python base.
+
 **Enhancements:**
 
 **Cleanup:**
