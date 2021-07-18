@@ -148,6 +148,8 @@ jobs:
         PACKAGE_LEVEL: ${{ matrix.package_level }}
       run: |
         make install
+    - name: Display Python packages after package install
+      run: |
         echo "Installed Python packages:"
         pip list
     - name: Development setup
@@ -155,6 +157,8 @@ jobs:
         PACKAGE_LEVEL: ${{ matrix.package_level }}
       run: |
         make develop
+    - name: Display Python packages after development setup
+      run: |
         echo "Installed Python packages:"
         pip list
     - name: Run build
