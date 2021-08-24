@@ -112,7 +112,7 @@ TESTCASES_NOCASEDICT_INIT = [
     (
         "Empty dict from empty list as positional arg",
         dict(
-            init_args=(list(),),
+            init_args=([],),
             init_kwargs={},
             exp_dict=OrderedDict(),
             verify_order=True,
@@ -132,7 +132,7 @@ TESTCASES_NOCASEDICT_INIT = [
     (
         "Empty dict from empty dict as positional arg",
         dict(
-            init_args=(dict(),),
+            init_args=({},),
             init_kwargs={},
             exp_dict=OrderedDict(),
             verify_order=True,
@@ -246,7 +246,7 @@ TESTCASES_NOCASEDICT_INIT = [
     (
         "Two positional args (too many args)",
         dict(
-            init_args=(list(), list()),
+            init_args=([], []),
             init_kwargs={},
             exp_dict=None,
             verify_order=None,

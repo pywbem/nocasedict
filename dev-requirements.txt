@@ -87,6 +87,8 @@ pycodestyle>=2.6.0; python_version != '3.4'
 pyflakes>=2.2.0; python_version != '3.4'
 entrypoints>=0.3.0
 functools32>=3.2.3.post2; python_version == '2.7'  # technically: python_version < '3.2'
+# platformdirs is used by pylint starting with its 2.10
+platformdirs>=2.2.0; python_version >= '3.6'
 
 # Twine (no imports, invoked via twine script):
 twine>=1.8.1
