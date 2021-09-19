@@ -24,6 +24,9 @@ Released: not yet
 * Fixed a dependency error that caused importlib-metadata to be installed on
   Python 3.8, while it is included in the Python base.
 
+* Disabled new Pylint issue 'consider-using-f-string', since f-strings were
+  introduced only in Python 3.6.
+
 **Enhancements:**
 
 **Cleanup:**
