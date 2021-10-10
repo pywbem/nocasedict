@@ -310,10 +310,10 @@ platform:
 	@echo "Package $(package_name) version: $(package_version)"
 	@echo "Package $(package_name) installation: $(shell $(PIP_CMD) $(pip_opts) show $(package_name) | grep Location)"
 ifeq ($(PLATFORM),Windows_native)
-	@echo "Available compilers and toolkits on Windows:"
-	dir "C:\"
-	dir "C:\Program Files"
-	dir "C:\Program Files (x86)"
+	@echo "Available versions of MSVS on Windows:"
+	-dir /b "C:\Program Files (x86)\Microsoft Visual Studio*"
+	@echo "Available versions of Python on Windows (for GitHub Actions):"
+	-dir /b "C:\hostedtoolcache\windows\Python"
 endif
 
 .PHONY: pip_list
