@@ -51,16 +51,6 @@ jobs:
                 \"os\": \"macos-latest\", \
                 \"python-version\": \"3.4\", \
                 \"package_level\": \"latest\" \
-              }, \
-              { \
-                \"os\": \"windows-latest\", \
-                \"python-version\": \"3.4\", \
-                \"package_level\": \"minimum\" \
-              }, \
-              { \
-                \"os\": \"windows-latest\", \
-                \"python-version\": \"3.4\", \
-                \"package_level\": \"latest\" \
               } \
             ], \
             \"include\": [ \
@@ -114,7 +104,7 @@ jobs:
               }, \
               { \
                 \"os\": \"windows-latest\", \
-                \"python-version\": \"3.5\", \
+                \"python-version\": \"3.4\", \
                 \"package_level\": \"latest\" \
               }, \
               { \
