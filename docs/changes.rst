@@ -32,8 +32,8 @@ Released: not yet
 
 **Enhancements:**
 
-* Enhanced test matrix for push-driven runs on GitHub Actions to add
-  Python 2.7 and 3.5 on macOS and Windows, and removing Python 3.8 on Windows.
+* Enhanced test matrix on GitHub Actions to always include Python 2.7 and
+  Python 3.4 on Ubuntu and Windows, and Python 2.7 and Python 3.5 on macOS.
 
 **Cleanup:**
 
