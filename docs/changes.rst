@@ -32,6 +32,9 @@ Released: not yet
 
 **Enhancements:**
 
+* Enhanced test matrix for push-driven runs on GitHub Actions to add
+  Python 2.7 and 3.5 on macOS and Windows, and removing Python 3.8 on Windows.
+
 **Cleanup:**
 
 * Removed old tools that were needed for travis and Appveyor but no longer
