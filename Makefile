@@ -309,6 +309,12 @@ platform:
 	@echo "Pip command for modifications: $(PIP_CMD_MOD)"
 	@echo "Package $(package_name) version: $(package_version)"
 	@echo "Package $(package_name) installation: $(shell $(PIP_CMD) $(pip_opts) show $(package_name) | grep Location)"
+ifeq ($(PLATFORM),Windows_native)
+	@echo "Available compilers and toolkits on Windows:"
+	dir "C:\"
+	dir "C:\Program Files"
+	dir "C:\Program Files (x86)"
+endif
 
 .PHONY: pip_list
 pip_list:
