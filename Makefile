@@ -312,6 +312,9 @@ platform:
 ifeq ($(PLATFORM),Windows_native)
 	@echo "Available versions of MSVS on Windows:"
 	-dir /b "C:\Program Files (x86)\Microsoft Visual Studio*"
+	@echo "Available versions of MS SDKs on Windows:"
+	-dir /b "C:\Program Files\Microsoft SDKs"
+	-dir /b "C:\Program Files (x86)\Microsoft SDKs"
 	@echo "Available versions of Python on Windows (for GitHub Actions):"
 	-dir /b "C:\hostedtoolcache\windows\Python"
 endif
