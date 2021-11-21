@@ -30,6 +30,8 @@ Released: not yet
 * Fixed install error of wrapt 1.13.0 on Python 2.7 on Windows due to lack of
   MS Visual C++ 9.0 on GitHub Actions, by pinning it to <1.13.
 
+* Fixed potential issue with Sphinx/docutils versions on Python 2.7.
+
 **Enhancements:**
 
 * Enhanced test matrix on GitHub Actions to always include Python 2.7 and

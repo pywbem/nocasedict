@@ -161,6 +161,9 @@ tox==2.5.0
 importlib-metadata==0.12; python_version < '3.8'
 
 # Sphinx (no imports, invoked via sphinx-build script):
+Sphinx==1.7.6; python_version <= '3.4'
+Sphinx==3.5.4; python_version >= '3.5'
+docutils==0.13.1
 Sphinx==1.7.6
 sphinx-git==10.1.1
 GitPython==2.1.1
@@ -221,7 +224,6 @@ Click==7.0
 configparser==4.0.2; python_version < '3.2'
 contextlib2==0.6.0; python_version == '2.7'
 distlib==0.3.0; python_version >= '3.4'
-docutils==0.13.1
 enum34==1.1.6; python_version < '3.4'
 filelock==3.0.0; python_version >= '3.4'
 funcsigs==1.0.2; python_version == '2.7'
