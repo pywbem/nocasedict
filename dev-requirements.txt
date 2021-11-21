@@ -47,7 +47,15 @@ importlib-metadata<1,>=0.12; python_version < '3.8'
 
 # Sphinx (no imports, invoked via sphinx-build script):
 # Keep in sync with rtd-requirements.txt
-Sphinx>=1.7.6
+
+# Sphinx 2.0.0 removed support for Python 2.7 and 3.4
+# Sphinx 4.0.0 breaks autodocsumm and needs to be excluded
+# Sphinx pins docutils to <0.18 (some versions even to <0.17) but the package
+#   version resolver in the pip version used on py27 ignores package dependencies
+Sphinx>=1.7.6,<2.0.0; python_version <= '3.4'
+Sphinx>=3.5.4,!=4.0.0; python_version >= '3.5'
+docutils>=0.13.1,<0.17; python_version == '2.7'
+docutils>=0.13.1; python_version >= '3.4'
 sphinx-git>=10.1.1
 GitPython>=2.1.1
 sphinxcontrib-fulltoc>=1.2.0
