@@ -32,6 +32,8 @@ Released: not yet
 
 * Fixed potential issue with Sphinx/docutils versions on Python 2.7.
 
+* Fixed error when installing virtualenv in install test on Python 2.7.
+
 **Enhancements:**
 
 * Enhanced test matrix on GitHub Actions to always include Python 2.7 and
