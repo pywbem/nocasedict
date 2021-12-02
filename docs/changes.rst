@@ -39,6 +39,9 @@ Released: not yet
 * Enhanced test matrix on GitHub Actions to always include Python 2.7 and
   Python 3.4 on Ubuntu and Windows, and Python 2.7 and Python 3.5 on macOS.
 
+* Support for Python 3.10: Added Python 3.10 in GitHub Actions tests, and in
+  package metadata.
+
 **Cleanup:**
 
 * Removed old tools that were needed for travis and Appveyor but no longer
