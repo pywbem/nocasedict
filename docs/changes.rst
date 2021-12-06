@@ -5,8 +5,8 @@ Change log
 ==========
 
 
-Version 1.0.3.dev1
-------------------
+nocasedict 1.0.3.dev1
+---------------------
 
 Released: not yet
 
