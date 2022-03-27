@@ -5,14 +5,10 @@ Change log
 ==========
 
 
-nocasedict 1.0.3.dev1
----------------------
+nocasedict 1.0.3
+----------------
 
-Released: not yet
-
-**Incompatible changes:**
-
-**Deprecations:**
+Released: 2022-03-27
 
 **Bug fixes:**
 
@@ -49,12 +45,6 @@ Released: not yet
 
 * Removed old tools that were needed for travis and Appveyor but no longer
   on GitHub Actions: remove_duplicate_setuptools.py, retry.bat
-
-**Known issues:**
-
-* See `list of open issues`_.
-
-.. _`list of open issues`: https://github.com/pywbem/nocasedict/issues
 
 
 nocasedict 1.0.2
