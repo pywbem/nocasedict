@@ -79,12 +79,16 @@ Babel>=2.7.0
 # Pylint 1.x / astroid 1.x supports py27 and py34/35/36
 # Pylint 2.0 / astroid 2.0 removed py27, added py37
 # Pylint 2.4 / astroid 2.3 removed py34
+# Pylint 2.7 / astroid 2.5 removed py35
+# Pylint 2.7-2.9 had issue https://github.com/PyCQA/pylint/issues/4118
 pylint>=1.6.4,<2.0.0; python_version == '2.7'
 pylint>=2.2.2,<2.4; python_version == '3.4'
-pylint>=2.4.4; python_version >= '3.5'
+pylint>=2.4.4; python_version == '3.5'
+pylint>=2.10.0; python_version >= '3.6'
 astroid>=1.4.9,<2.0.0; python_version == '2.7'
 astroid>=2.1.0,<2.3; python_version == '3.4'
-astroid>=2.3.3; python_version >= '3.5'
+astroid>=2.3.3; python_version == '3.5'
+astroid>=2.7.2; python_version >= '3.6'
 # typed-ast is used by astroid on py34..py37
 # typed-ast 1.4.0 removed support for Python 3.4.
 typed-ast>=1.3.0,<1.4.0; python_version == '3.4' and implementation_name=='cpython'

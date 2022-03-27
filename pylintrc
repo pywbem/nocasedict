@@ -68,11 +68,7 @@ disable=I0011,
         wildcard-import, unused-wildcard-import,
         locally-enabled, superfluous-parens, useless-object-inheritance,
         consider-using-set-comprehension, unnecessary-pass, useless-return,
-        bad-option-value, redundant-u-string-prefix, consider-using-f-string,
-        R0801
-
-# TODO: R0801 was added due to https://github.com/PyCQA/pylint/issues/4118.
-#       Remove it again once fixed.
+        bad-option-value, redundant-u-string-prefix, consider-using-f-string
 
 # Note: "useless-object-inheritance" is python 3 only. In Python 2,
 #        "new-style" objects must inherit from object, or else
