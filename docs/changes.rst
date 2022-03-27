@@ -34,6 +34,9 @@ Released: not yet
 
 * Fixed error when installing virtualenv in install test on Python 2.7.
 
+* Fixed that the added setup.py commands (test, leaktest, installtest) were not
+  displayed. They are now displayed at verbosity level 1 (using '-v').
+
 **Enhancements:**
 
 * Enhanced test matrix on GitHub Actions to always include Python 2.7 and
