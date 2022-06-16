@@ -157,9 +157,10 @@ package_version := $(shell $(PYTHON_CMD) setup.py --version)
 
 # Python versions and bit size
 python_full_version := $(shell $(PYTHON_CMD) -c "import sys; sys.stdout.write('{v[0]}.{v[1]}.{v[2]}'.format(v=sys.version_info))")
-python_mn_version := $(shell $(PYTHON_CMD) -c "import sys; sys.stdout.write('py{v[0]}{v[1]}'.format(v=sys.version_info))")
+python_mn_version := $(shell $(PYTHON_CMD) -c "import sys; sys.stdout.write('{v[0]}.{v[1]}'.format(v=sys.version_info))")
 python_m_version := $(shell $(PYTHON_CMD) -c "import sys; sys.stdout.write('{v[0]}'.format(v=sys.version_info))")
 python_bitsize := $(shell $(PYTHON_CMD) -c "import sys,ctypes; sys.stdout.write('{s}'.format(s=ctypes.sizeof(ctypes.c_void_p)*8))")
+pymn := py$(python_mn_version)
 
 # Directory for the generated distribution files
 dist_dir := dist
@@ -228,7 +229,7 @@ else
   pytest_warning_opts := -W default -W ignore::PendingDeprecationWarning
 endif
 
-ifeq ($(python_mn_version),py34)
+ifeq ($(python_mn_version),3.4)
   pytest_cov_opts :=
 else
   pytest_cov_opts := --cov $(package_name) $(coverage_report) --cov-config .coveragerc
@@ -338,7 +339,7 @@ _check_installed:
 	$(PYTHON_CMD) -c "import $(package_name)"
 	@echo "Makefile: Done verifying installation of package $(package_name)"
 
-pip_upgrade_$(python_mn_version).done: Makefile
+pip_upgrade_$(pymn).done: Makefile
 	@echo "Makefile: Installing/upgrading Pip (with PACKAGE_LEVEL=$(PACKAGE_LEVEL))"
 	-$(call RM_FUNC,$@)
 	bash -c 'pv=$$($(PIP_CMD) --version); if [[ $$pv =~ (^pip [1-8]\..*) ]]; then $(PYTHON_CMD) -m pip $(pip_opts) install pip==9.0.1; fi'
@@ -346,21 +347,21 @@ pip_upgrade_$(python_mn_version).done: Makefile
 	echo "done" >$@
 	@echo "Makefile: Done installing/upgrading Pip"
 
-install_basic_$(python_mn_version).done: Makefile pip_upgrade_$(python_mn_version).done
+install_basic_$(pymn).done: Makefile pip_upgrade_$(pymn).done
 	@echo "Makefile: Installing/upgrading basic Python packages (with PACKAGE_LEVEL=$(PACKAGE_LEVEL))"
 	-$(call RM_FUNC,$@)
 	$(PIP_CMD_MOD) $(pip_opts) install $(pip_level_opts) setuptools wheel
 	echo "done" >$@
 	@echo "Makefile: Done installing/upgrading basic Python packages"
 
-install_reqs_$(python_mn_version).done: Makefile install_basic_$(python_mn_version).done requirements.txt
+install_reqs_$(pymn).done: Makefile install_basic_$(pymn).done requirements.txt
 	@echo "Makefile: Installing Python installation prerequisites (with PACKAGE_LEVEL=$(PACKAGE_LEVEL))"
 	-$(call RM_FUNC,$@)
 	$(PIP_CMD_MOD) $(pip_opts) install $(pip_level_opts) -r requirements.txt
 	echo "done" >$@
 	@echo "Makefile: Done installing Python installation prerequisites"
 
-develop_reqs_$(python_mn_version).done: install_basic_$(python_mn_version).done dev-requirements.txt test-requirements.txt
+develop_reqs_$(pymn).done: install_basic_$(pymn).done dev-requirements.txt test-requirements.txt
 	@echo "Makefile: Installing development requirements (with PACKAGE_LEVEL=$(PACKAGE_LEVEL))"
 	-$(call RM_FUNC,$@)
 	$(PIP_CMD_MOD) $(pip_opts) install $(pip_level_opts) -r dev-requirements.txt
@@ -368,7 +369,7 @@ develop_reqs_$(python_mn_version).done: install_basic_$(python_mn_version).done 
 	@echo "Makefile: Done installing development requirements"
 
 .PHONY: install
-install: Makefile install_reqs_$(python_mn_version).done setup.py
+install: Makefile install_reqs_$(pymn).done setup.py
 ifdef TEST_INSTALLED
 	@echo "Makefile: Skipping installation of package $(package_name) as standalone because TEST_INSTALLED is set"
 	@echo "Makefile: Checking whether package $(package_name) is actually installed:"
@@ -389,7 +390,7 @@ endif
 	@echo "Makefile: Target $@ done."
 
 .PHONY: develop
-develop: Makefile install_reqs_$(python_mn_version).done develop_reqs_$(python_mn_version).done setup.py
+develop: Makefile install_reqs_$(pymn).done develop_reqs_$(pymn).done setup.py
 ifdef TEST_INSTALLED
 	@echo "Makefile: Skipping installation of package $(package_name) as editable because TEST_INSTALLED is set"
 	@echo "Makefile: Checking whether package $(package_name) is actually installed:"
@@ -418,11 +419,11 @@ builddoc: html
 	@echo "Makefile: Target $@ done."
 
 .PHONY: check
-check: flake8_$(python_mn_version).done safety_$(python_mn_version).done
+check: flake8_$(pymn).done safety_$(pymn).done
 	@echo "Makefile: Target $@ done."
 
 .PHONY: pylint
-pylint: pylint_$(python_mn_version).done
+pylint: pylint_$(pymn).done
 	@echo "Makefile: Target $@ done."
 
 .PHONY: all
@@ -459,7 +460,7 @@ upload: _check_version $(dist_files)
 	@echo "Makefile: Target $@ done."
 
 .PHONY: html
-html: develop_reqs_$(python_mn_version).done $(doc_build_dir)/html/docs/index.html
+html: develop_reqs_$(pymn).done $(doc_build_dir)/html/docs/index.html
 	@echo "Makefile: Target $@ done."
 
 $(doc_build_dir)/html/docs/index.html: Makefile $(doc_dependent_files)
@@ -469,7 +470,7 @@ $(doc_build_dir)/html/docs/index.html: Makefile $(doc_dependent_files)
 	@echo "Makefile: Done creating the documentation as HTML pages; top level file: $@"
 
 .PHONY: pdf
-pdf: develop_reqs_$(python_mn_version).done Makefile $(doc_dependent_files)
+pdf: develop_reqs_$(pymn).done Makefile $(doc_dependent_files)
 	@echo "Makefile: Creating the documentation as PDF file"
 	-$(call RM_FUNC,$@)
 	$(doc_cmd) -b latex $(doc_opts) $(doc_build_dir)/pdf
@@ -479,7 +480,7 @@ pdf: develop_reqs_$(python_mn_version).done Makefile $(doc_dependent_files)
 	@echo "Makefile: Target $@ done."
 
 .PHONY: man
-man: develop_reqs_$(python_mn_version).done Makefile $(doc_dependent_files)
+man: develop_reqs_$(pymn).done Makefile $(doc_dependent_files)
 	@echo "Makefile: Creating the documentation as man pages"
 	-$(call RM_FUNC,$@)
 	$(doc_cmd) -b man $(doc_opts) $(doc_build_dir)/man
@@ -487,7 +488,7 @@ man: develop_reqs_$(python_mn_version).done Makefile $(doc_dependent_files)
 	@echo "Makefile: Target $@ done."
 
 .PHONY: docchanges
-docchanges: develop_reqs_$(python_mn_version).done
+docchanges: develop_reqs_$(pymn).done
 	@echo "Makefile: Creating the doc changes overview file"
 	$(doc_cmd) -b changes $(doc_opts) $(doc_build_dir)/changes
 	@echo
@@ -495,7 +496,7 @@ docchanges: develop_reqs_$(python_mn_version).done
 	@echo "Makefile: Target $@ done."
 
 .PHONY: doclinkcheck
-doclinkcheck: develop_reqs_$(python_mn_version).done
+doclinkcheck: develop_reqs_$(pymn).done
 	@echo "Makefile: Creating the doc link errors file"
 	$(doc_cmd) -b linkcheck $(doc_opts) $(doc_build_dir)/linkcheck
 	@echo
@@ -503,7 +504,7 @@ doclinkcheck: develop_reqs_$(python_mn_version).done
 	@echo "Makefile: Target $@ done."
 
 .PHONY: doccoverage
-doccoverage: develop_reqs_$(python_mn_version).done
+doccoverage: develop_reqs_$(pymn).done
 	@echo "Makefile: Creating the doc coverage results file"
 	$(doc_cmd) -b coverage $(doc_opts) $(doc_build_dir)/coverage
 	@echo "Makefile: Done creating the doc coverage results file: $(doc_build_dir)/coverage/python.txt"
@@ -539,7 +540,7 @@ $(bdist_file) $(sdist_file): setup.py MANIFEST.in $(dist_included_files)
 	$(PYTHON_CMD) setup.py sdist -d $(dist_dir) bdist_wheel -d $(dist_dir) --universal
 	@echo "Makefile: Done creating the distribution archive files: $(bdist_file) $(sdist_file)"
 
-pylint_$(python_mn_version).done: develop_reqs_$(python_mn_version).done Makefile $(pylint_rc_file) $(py_src_files)
+pylint_$(pymn).done: develop_reqs_$(pymn).done Makefile $(pylint_rc_file) $(py_src_files)
 ifeq ($(python_m_version),2)
 	@echo "makefile: Warning: Skipping Pylint on Python $(python_version)" >&2
 else
@@ -555,7 +556,7 @@ else
 endif
 endif
 
-flake8_$(python_mn_version).done: develop_reqs_$(python_mn_version).done Makefile $(flake8_rc_file) $(py_src_files)
+flake8_$(pymn).done: develop_reqs_$(pymn).done Makefile $(flake8_rc_file) $(py_src_files)
 	@echo "Makefile: Running Flake8"
 	-$(call RM_FUNC,$@)
 	flake8 --version
@@ -563,7 +564,7 @@ flake8_$(python_mn_version).done: develop_reqs_$(python_mn_version).done Makefil
 	echo "done" >$@
 	@echo "Makefile: Done running Flake8"
 
-safety_$(python_mn_version).done: develop_reqs_$(python_mn_version).done Makefile minimum-constraints.txt
+safety_$(pymn).done: develop_reqs_$(pymn).done Makefile minimum-constraints.txt
 	@echo "Makefile: Running pyup.io safety check"
 	-$(call RM_FUNC,$@)
 	-safety check -r minimum-constraints.txt --full-report
