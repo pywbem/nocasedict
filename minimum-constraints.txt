@@ -111,9 +111,8 @@ pytest==6.2.5; python_version >= '3.10'
 # Install test direct dependencies:
 
 # virtualenv
-virtualenv==16.1.0; python_version < '3.5'
-virtualenv==16.1.0; python_version >= '3.5' and python_version < '3.8'
-virtualenv==20.0.0; python_version >= '3.8'  # requires six<2,>=1.12.0
+virtualenv==16.1.0; python_version <= '3.4'
+virtualenv==20.1.0; python_version >= '3.5'
 
 
 # Indirect dependencies for test (must be consistent with test-requirements.txt, if present)
@@ -133,6 +132,12 @@ six==1.14.0
 
 # pathlib2 (used by virtualenv on py<3.4 on non-Windows)
 pathlib2==2.3.3; python_version < '3.4' and sys_platform != 'win32'
+
+
+# Indirect dependencies that must be handled early (must be consistent with dev-requirements.txt)
+
+# tox and flake8 have requirements on importlib-metadata
+importlib-metadata==1.1.0; python_version <= '3.7'
 
 
 # Direct dependencies for development (must be consistent with dev-requirements.txt)
@@ -157,10 +162,8 @@ PyYAML==5.2; python_version == '3.4'
 PyYAML==5.3.1; python_version >= '3.5'
 
 # Tox
-tox==2.5.0
-# tox 3.17 requires six>=1.14.0
-# tox 3.14 requires importlib-metadata<1,>=0.12 on py<3.8
-importlib-metadata==0.12; python_version <= '3.7'
+tox==3.14.0; python_version <= '3.4'
+tox==3.21.0; python_version >= '3.5'
 
 # Sphinx (no imports, invoked via sphinx-build script):
 Sphinx==1.7.6; python_version <= '3.4'
@@ -229,7 +232,7 @@ chardet==3.0.3
 Click==7.0
 configparser==4.0.2; python_version < '3.2'
 contextlib2==0.6.0; python_version == '2.7'
-distlib==0.3.0; python_version >= '3.4'
+distlib==0.3.1; python_version >= '3.4'
 docopt==0.6.1
 enum34==1.1.6; python_version < '3.4'
 filelock==3.0.0; python_version >= '3.4'
@@ -240,7 +243,6 @@ gitdb==4.0.1; python_version >= '3.4'
 gitdb2==2.0.0; python_version == '2.7'
 idna==2.5
 imagesize==0.7.1
-importlib-metadata==0.12; python_version <= '3.7'
 isort==4.3.5
 Jinja2==2.8; python_version <= '3.9'
 Jinja2==2.10.2; python_version >= '3.10'
