@@ -69,7 +69,7 @@ jobs:
         else \
           echo "::set-output name=matrix::{ \
             \"os\": [ \"ubuntu-latest\" ], \
-            \"python-version\": [ \"2.7\", \"3.10\" ], \
+            \"python-version\": [ \"2.7\", \"3.7\", \"3.10\" ], \
             \"package_level\": [ \"minimum\", \"latest\" ], \
             \"include\": [ \
               { \
