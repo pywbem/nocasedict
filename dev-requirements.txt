@@ -132,10 +132,11 @@ readme-renderer>=23.0; python_version >= '3.5'
 # pytz (used by TBD)
 pytz>=2016.10
 
-# colorama (used by TBD)
+# colorama (used by tox, pytest)
 # colorama 0.4.0 removed support for Python 3.4
+# tox 3.21.0 depends on colorama>=0.4.1 for platform_system == "Windows"
 colorama>=0.3.9,<0.4.0; python_version <= '3.4'
-colorama>=0.4.0; python_version >= '3.5'
+colorama>=0.4.1; python_version >= '3.5'
 
 
 # Additional indirect dependencies are not specified in this file.
