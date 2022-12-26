@@ -165,6 +165,9 @@ jobs:
       max-parallel: 20
       matrix: ${{ fromJson(needs.set_matrix.outputs.matrix) }}
     runs-on: ${{ matrix.os }}
+    env:
+      PIP_DISABLE_PIP_VERSION_CHECK: 1
+      PIP_NO_PYTHON_VERSION_WARNING: 1
     steps:
     - name: Checkout repo
       uses: actions/checkout@v2
