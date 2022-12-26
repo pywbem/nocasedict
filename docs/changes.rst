@@ -18,6 +18,8 @@ Released: not yet
 
 **Enhancements:**
 
+* Added support for Python 3.11.
+
 **Cleanup:**
 
 **Known issues:**
