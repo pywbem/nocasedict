@@ -9,4 +9,4 @@ Version of the nocasedict package.
 #:
 #: * "M.N.P.dev1": Development level 1 of a not yet released version M.N.P
 #: * "M.N.P": A released version M.N.P
-__version__ = '1.0.5.dev1'
+__version__ = '1.1.0.dev1'
