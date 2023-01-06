@@ -35,7 +35,7 @@ class MyKey_NocaseDict(KeyableByMixin('my_key'), NocaseDict):
     pass
 
 
-class MyKey_KeyableByMixin(object):
+class MyKey_KeyableByMixin:
     # pylint: disable=too-few-public-methods
     """
     Expected mixin class for a key attribute named 'my_key'.
@@ -44,7 +44,7 @@ class MyKey_KeyableByMixin(object):
     nocasedict_KeyableByMixin_key_attr = 'my_key'
 
 
-class MyKey_Object(object):
+class MyKey_Object:
     # pylint: disable=too-few-public-methods
     """
     Class that has an instance attribute named 'my_key'.

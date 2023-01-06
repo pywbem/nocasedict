@@ -223,17 +223,8 @@ ifdef TESTCASES
 else
   pytest_opts := $(TESTOPTS)
 endif
-ifeq ($(python_m_version),3)
-  pytest_warning_opts := -W default -W ignore::PendingDeprecationWarning -W ignore::ResourceWarning
-else
-  pytest_warning_opts := -W default -W ignore::PendingDeprecationWarning
-endif
-
-ifeq ($(python_mn_version),3.4)
-  pytest_cov_opts :=
-else
-  pytest_cov_opts := --cov $(package_name) $(coverage_report) --cov-config .coveragerc
-endif
+pytest_warning_opts := -W default -W ignore::PendingDeprecationWarning -W ignore::ResourceWarning
+pytest_cov_opts := --cov $(package_name) $(coverage_report) --cov-config .coveragerc
 
 # Files to be put into distribution archive.
 # This is also used for 'include' statements in MANIFEST.in.
@@ -542,20 +533,12 @@ $(bdist_file) $(sdist_file): setup.py MANIFEST.in $(dist_included_files)
 	@echo "Makefile: Done creating the distribution archive files: $(bdist_file) $(sdist_file)"
 
 pylint_$(pymn).done: develop_reqs_$(pymn).done Makefile $(pylint_rc_file) $(py_src_files)
-ifeq ($(python_m_version),2)
-	@echo "makefile: Warning: Skipping Pylint on Python $(python_version)" >&2
-else
-ifeq ($(python_mn_version),3.4)
-	@echo "makefile: Warning: Skipping Pylint on Python $(python_version)" >&2
-else
 	@echo "Makefile: Running Pylint"
 	-$(call RM_FUNC,$@)
 	pylint --version
 	pylint $(pylint_opts) --rcfile=$(pylint_rc_file) $(py_src_files)
 	echo "done" >$@
 	@echo "Makefile: Done running Pylint"
-endif
-endif
 
 flake8_$(pymn).done: develop_reqs_$(pymn).done Makefile $(flake8_rc_file) $(py_src_files)
 	@echo "Makefile: Running Flake8"

@@ -142,10 +142,10 @@ test_requirements = get_requirements('test-requirements.txt')
 package_version = get_version(os.path.join('nocasedict', '_version.py'))
 
 # Docs on setup():
-# * https://docs.python.org/2.7/distutils/apiref.html?
-#   highlight=setup#distutils.core.setup
-# * https://setuptools.readthedocs.io/en/latest/setuptools.html#
-#   new-and-changed-setup-keywords
+# * https://docs.python.org/3/distutils/apiref.html?highlight=setup
+#   #distutils.core.setup
+# * https://setuptools.readthedocs.io/en/latest/setuptools.html
+#   #new-and-changed-setup-keywords
 setuptools.setup(
     name='nocasedict',
     version=package_version,
@@ -183,18 +183,14 @@ setuptools.setup(
     zip_safe=True,  # This package can safely be installed from a zip file
     platforms='any',
 
-    python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*',
+    python_requires='>=3.6',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: '
         'GNU Lesser General Public License v2 or later (LGPLv2+)',
         'Operating System :: OS Independent',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
