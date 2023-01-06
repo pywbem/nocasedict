@@ -33,9 +33,7 @@ wheel==0.33.5
 # Unit test direct dependencies (e.g. imports into testcases):
 
 # pytest
-# pytest 5.0.0 has removed support for Python < 3.5
-# pytest 4.3.1 solves an issue on Python 3 with minimum package levels
-pytest==6.2.5
+pytest==7.0.0
 
 # Install test direct dependencies:
 
@@ -109,6 +107,9 @@ tomlkit==0.10.1
 dill==0.3.4; python_version <= '3.6'
 dill==0.3.6; python_version >= '3.7'
 platformdirs==2.2.0
+
+# Mypy (no imports, invoked via mypy script)
+mypy==0.971
 
 # Flake8 and dependents (no imports, invoked via flake8 script):
 flake8==4.0.0

@@ -203,6 +203,9 @@ pylint_rc_file := pylintrc
 # PyLint additional options
 pylint_opts := --disable=fixme
 
+# Mypy options
+mypy_opts := --follow-imports skip
+
 # Flake8 config file
 flake8_rc_file := .flake8
 
@@ -249,6 +252,7 @@ help:
 	@echo "  builddoc   - Build documentation in: $(doc_build_dir)"
 	@echo "  check      - Run Flake8 on Python sources"
 	@echo "  pylint     - Run PyLint on Python sources"
+	@echo "  mypy       - Run Mypy on Python sources"
 	@echo "  installtest - Run install tests"
 	@echo "  test       - Run unit tests"
 	@echo "  testdict   - Run unit tests against standard dict"
@@ -418,8 +422,12 @@ check: flake8_$(pymn).done safety_$(pymn).done
 pylint: pylint_$(pymn).done
 	@echo "Makefile: Target $@ done."
 
+.PHONY: mypy
+mypy: mypy_$(pymn).done
+	@echo "Makefile: Target $@ done."
+
 .PHONY: all
-all: develop build builddoc check pylint installtest test testdict doclinkcheck
+all: develop build builddoc check pylint mypy installtest test testdict doclinkcheck
 	@echo "Makefile: Target $@ done."
 
 .PHONY: clobber
@@ -539,6 +547,14 @@ pylint_$(pymn).done: develop_reqs_$(pymn).done Makefile $(pylint_rc_file) $(py_s
 	pylint $(pylint_opts) --rcfile=$(pylint_rc_file) $(py_src_files)
 	echo "done" >$@
 	@echo "Makefile: Done running Pylint"
+
+mypy_$(pymn).done: develop_reqs_$(pymn).done Makefile $(py_src_files)
+	@echo "Makefile: Running Mypy"
+	-$(call RM_FUNC,$@)
+	mypy --version
+	mypy $(mypy_opts) $(py_src_files)
+	echo "done" >$@
+	@echo "Makefile: Done running Mypy"
 
 flake8_$(pymn).done: develop_reqs_$(pymn).done Makefile $(flake8_rc_file) $(py_src_files)
 	@echo "Makefile: Running Flake8"

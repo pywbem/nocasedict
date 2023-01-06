@@ -21,6 +21,8 @@ Released: not yet
 
 **Enhancements:**
 
+* Added type hints and type checking with MyPy (issue #123).
+
 **Cleanup:**
 
 **Known issues:**

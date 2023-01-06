@@ -7,7 +7,9 @@ import sys
 import os
 import io
 import re
-import setuptools
+from typing import Optional
+
+import setuptools  # type: ignore
 
 
 def get_version(version_file):
@@ -61,8 +63,8 @@ class PytestCommand(setuptools.Command):
     the classes that get registered as commands must have the command name.
     """
 
-    description = None  # Set by subclass
-    my_test_dirs = None  # Set by subclass
+    description: Optional[str] = None  # Set by subclass
+    my_test_dirs: Optional[list] = None  # Set by subclass
 
     user_options = [
         (
@@ -152,6 +154,9 @@ setuptools.setup(
     packages=[
         'nocasedict',
     ],
+    package_data={
+        'nocasedict': ['py.typed']
+    },
     include_package_data=True,  # Includes MANIFEST.in files into sdist (only)
     scripts=[
         # add any scripts
