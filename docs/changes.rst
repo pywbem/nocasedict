@@ -12,6 +12,13 @@ Released: not yet
 
 **Incompatible changes:**
 
+* The default casefolding method on Python 3 was changed from `str.lower()`
+  to `str.casefold()`. This changes the matching of the case-insensitive keys.
+  This shold normally be an improvement, but in case you find that you are
+  negatively affected by this change, you can go back to the `str.lower()`
+  method by overriding the `NocaseDict.__casefold__()` method with a method
+  that calls `str.lower()`. (issue #122)
+
 **Deprecations:**
 
 **Bug fixes:**
@@ -19,6 +26,10 @@ Released: not yet
 **Enhancements:**
 
 * Added support for Python 3.11.
+
+* Changed the default casefolding method on Python 3 to be `str.casefold()`
+  in order to improve Unicode support. On Python 2, it remains `str.lower()`.
+  Added support for user-defined casefolding. (issue #122)
 
 **Cleanup:**
 

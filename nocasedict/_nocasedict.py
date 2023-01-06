@@ -64,20 +64,6 @@ BUILDING_DOCS = os.environ.get('BUILDING_DOCS', False)
 _OMITTED = object()
 
 
-def _real_key(key):
-    """
-    Return a case-insensitive form of the input key, or `None` if the input key
-    is `None`.
-
-    The input key object must have a ``lower()`` method (e.g. be a string)
-    or be `None`.
-    """
-    if key is not None:
-        # Raises AttributeError if it does not have the method
-        return key.lower()
-    return None
-
-
 class _DictView(object):
     # pylint: disable=too-few-public-methods
     """
@@ -147,9 +133,9 @@ class NocaseDict(MutableMapping):
     The dictionary is case-insensitive: When items of the dictionary are
     looked up by key or keys are compared by the dictionary, that is done
     case-insensitively. The case-insensitivity is defined by performing the
-    lookup or comparison on the result of the ``lower()`` method on the key
-    value. Therefore, objects used as keys must support the ``lower()`` method.
-    If a key object does not do that, :exc:`py:AttributeError` is raised.
+    lookup or comparison on the result of the :meth:`__casefold__` method on
+    the key value.
+    `None` is allowed as a key value and will not be case folded.
 
     The dictionary is case-preserving: When keys are returned, they have
     the lexical case that was originally specified when adding or updating the
@@ -164,7 +150,7 @@ class NocaseDict(MutableMapping):
     class :class:`py:collections.abc.MutableMapping` and not from the
     :class:`py:dict` class, because of the unique implementation of
     :class:`~nocasedict.NocaseDict`, which maintains a single dictionary with
-    the lower-cased keys, and values that are tuples (original key, value).
+    the casefolded keys, and values that are tuples (original key, value).
     This supports key based lookup with a single dictionary lookup.
     Users that need to test whether an object is a dictionary should do that
     with ``isinstance(obj, Mapping)`` or ``isinstance(obj, MutableMapping)``.
@@ -272,16 +258,55 @@ class NocaseDict(MutableMapping):
             dict6 = NocaseDict(dict1, BETA=3)
 
         Raises:
-          AttributeError: Key does not have a ``lower()`` method.
+          AttributeError: The key does not have the casefold method.
           TypeError: Expected at most 1 positional argument, got {n}.
           ValueError: Cannot unpack positional argument item #{i}.
         """
 
-        # The internal dictionary, with lower case keys. An item in this dict
+        # The internal dictionary, with casefolded keys. An item in this dict
         # is the tuple (original key, value).
         self._data = ODict()
 
         self.update(*args, **kwargs)
+
+    def _casefolded_key(self, key):
+        """
+        This method returns the casefolded key and handles the case of key
+        being `None`.
+        """
+        if key is None:
+            return None
+        return self.__casefold__(key)
+
+    @staticmethod
+    def __casefold__(key):
+        """
+        This method implements the case-insensitive behavior of the class.
+
+        It returns a case-insensitive form of the input key by calling a
+        "casefold method" on the key. The input key will not be `None`.
+
+        The casefold method called by this method is :meth:`py:str.casefold`
+        on Python 3 and :meth:`py2:str.lower` on Python 2.
+
+        This method can be overridden by users in order to change the
+        case-insensitive behavior of the class.
+        See :ref:`Overriding the default casefold method` for details.
+
+        Parameters:
+            key (str or unicode): Input key, as a unicode string or in
+              Python 2 also as a byte string. Will not be `None`.
+
+        Returns:
+            str or unicode: Case-insensitive form of the input key, as a
+            unicode string or in Python 2 also as a byte string.
+
+        Raises:
+          AttributeError: The key does not have the casefold method.
+        """
+        if six.PY2:
+            return key.lower()
+        return key.casefold()
 
     # Basic accessor and setter methods
 
@@ -293,10 +318,10 @@ class NocaseDict(MutableMapping):
         Invoked when using e.g.: ``value = ncd[key]``
 
         Raises:
-          AttributeError: Key does not have a ``lower()`` method.
+          AttributeError: The key does not have the casefold method.
           KeyError: Key does not exist (case-insensitively).
         """
-        k = _real_key(key)
+        k = self._casefolded_key(key)
         try:
             return self._data[k][1]
         except KeyError:
@@ -313,9 +338,9 @@ class NocaseDict(MutableMapping):
         Invoked when using e.g.: ``ncd[key] = value``
 
         Raises:
-          AttributeError: Key does not have a ``lower()`` method.
+          AttributeError: The key does not have the casefold method.
         """
-        k = _real_key(key)
+        k = self._casefolded_key(key)
         self._data[k] = (key, value)
 
     def __delitem__(self, key):
@@ -325,10 +350,10 @@ class NocaseDict(MutableMapping):
         Invoked when using: ``del ncd[key]``
 
         Raises:
-          AttributeError: Key does not have a ``lower()`` method.
+          AttributeError: The key does not have the casefold method.
           KeyError: Key does not exist (case-insensitively).
         """
-        k = _real_key(key)
+        k = self._casefolded_key(key)
         try:
             del self._data[k]
         except KeyError:
@@ -352,9 +377,9 @@ class NocaseDict(MutableMapping):
         Invoked when using: ``key in ncd``
 
         Raises:
-          AttributeError: Key does not have a ``lower()`` method.
+          AttributeError: The key does not have the casefold method.
         """
-        k = _real_key(key)
+        k = self._casefolded_key(key)
         return k in self._data
 
     def __reversed__(self):
@@ -376,7 +401,7 @@ class NocaseDict(MutableMapping):
         iterable of keys, and values all set to the specified value.
 
         Raises:
-          AttributeError: Key does not have a ``lower()`` method.
+          AttributeError: The key does not have the casefold method.
         """
         return cls([(key, value) for key in iterable])
 
@@ -386,7 +411,7 @@ class NocaseDict(MutableMapping):
         case-insensitively), or if the key does not exist, a default value.
 
         Raises:
-          AttributeError: Key does not have a ``lower()`` method.
+          AttributeError: The key does not have the casefold method.
         """
         try:
             return self[key]
@@ -399,7 +424,7 @@ class NocaseDict(MutableMapping):
         contains an item with the key (looked up case-insensitively).
 
         Raises:
-          AttributeError: Key does not have a ``lower()`` method.
+          AttributeError: The key does not have the casefold method.
           AttributeError: The method does not exist on Python 3.
         """
         return key in self  # delegates to __contains__()
@@ -416,7 +441,7 @@ class NocaseDict(MutableMapping):
           KeyError: Key does not exist (case-insensitively) and no default was
             specified.
         """
-        k = _real_key(key)
+        k = self._casefolded_key(key)
         try:
             return self._data.pop(k)[1]
         except KeyError:
@@ -444,7 +469,7 @@ class NocaseDict(MutableMapping):
         the value of the item with the key.
 
         Raises:
-          AttributeError: Key does not have a ``lower()`` method.
+          AttributeError: The key does not have the casefold method.
         """
         if key not in self:
             self[key] = default
@@ -471,7 +496,7 @@ class NocaseDict(MutableMapping):
         # pylint: disable=line-too-long
         """
         Return a view on (in Python 3) or a list of (in Python 2) the
-        lower-cased dictionary keys in dictionary iteration order.
+        casefolded dictionary keys in dictionary iteration order.
 
         See
         `Dictionary View Objects on Python 3 <https://docs.python.org/3/library/stdtypes.html#dictionary-view-objects>`_ for details about view objects.
@@ -665,7 +690,7 @@ class NocaseDict(MutableMapping):
             may have resulted in arbitrary order of items in the dictionary.
 
         Raises:
-          AttributeError: Key does not have a ``lower()`` method.
+          AttributeError: The key does not have the casefold method.
           TypeError: Expected at most 1 positional argument, got {n}.
           ValueError: Cannot unpack positional argument item #{i}.
         """
@@ -763,7 +788,7 @@ class NocaseDict(MutableMapping):
         Invoked when using e.g.: ``ncd == other``
 
         Raises:
-          AttributeError: Key does not have a ``lower()`` method.
+          AttributeError: The key does not have the casefold method.
         """
         # Issue #1062: Could compare hash values for better performance
         for key, self_value in six.iteritems(self):
@@ -789,7 +814,7 @@ class NocaseDict(MutableMapping):
         Invoked when using e.g.: ``ncd != other``
 
         Raises:
-          AttributeError: Key does not have a ``lower()`` method.
+          AttributeError: The key does not have the casefold method.
         """
         return not self == other
 
