@@ -10,10 +10,8 @@
 # Unit test direct dependencies (e.g. imports into testcases):
 
 # pytest
-# pytest 4.3.1 solves an issue on Python 3 with minimum package levels
-# pytest 6.0.0 causes pylint to report "not-callable" issues
-pytest>=6.2.5
-
+# pytest 7.0.0 started using type hints
+pytest>=7.0.0
 
 # Install test direct dependencies:
 

@@ -169,6 +169,11 @@ jobs:
         PACKAGE_LEVEL: ${{ matrix.package_level }}
       run: |
         make pylint
+    - name: Run mypy
+      env:
+        PACKAGE_LEVEL: ${{ matrix.package_level }}
+      run: |
+        make mypy
     - name: Run test
       env:
         PACKAGE_LEVEL: ${{ matrix.package_level }}

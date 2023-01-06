@@ -37,6 +37,7 @@ import os
 import warnings
 from collections import OrderedDict
 from collections.abc import MutableMapping, KeysView, ValuesView, ItemsView
+from typing import Any, NoReturn, Optional, Iterator, Tuple, Dict
 
 from ._utils import _stacklevel_above_nocasedict
 
@@ -46,7 +47,12 @@ __all__ = ['NocaseDict']
 # Note: In CPython, that already happened in 3.6, but it was not guaranteed
 # for all implementations.
 # pylint: disable=invalid-name
-ODict = dict if sys.version_info[0:2] >= (3, 7) else OrderedDict
+if sys.version_info[0:2] >= (3, 7):
+    _ODICT_TYPE = dict
+else:
+    _ODICT_TYPE = OrderedDict
+
+Key = Optional[str]  # May be None
 
 # This env var is set when building the docs. It causes the methods
 # that are supposed to exist only in a particular Python version, not to be
@@ -189,7 +195,7 @@ class NocaseDict(MutableMapping):
     # * __sizeof__(self): The method inherited from object is used.
     #   TODO(issue #37): Clarify the rules for implementing __sizeof__().
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         """
         Parameters:
 
@@ -259,11 +265,11 @@ class NocaseDict(MutableMapping):
 
         # The internal dictionary, with casefolded keys. An item in this dict
         # is the tuple (original key, value).
-        self._data = ODict()
+        self._data: Dict[Key, Any] = _ODICT_TYPE()
 
         self.update(*args, **kwargs)
 
-    def _casefolded_key(self, key):
+    def _casefolded_key(self, key: Key) -> Key:
         """
         This method returns the casefolded key and handles the case of key
         being `None`.
@@ -273,7 +279,7 @@ class NocaseDict(MutableMapping):
         return self.__casefold__(key)
 
     @staticmethod
-    def __casefold__(key):
+    def __casefold__(key: str) -> str:
         """
         This method implements the case-insensitive behavior of the class.
 
@@ -299,7 +305,7 @@ class NocaseDict(MutableMapping):
 
     # Basic accessor and setter methods
 
-    def __getitem__(self, key):
+    def __getitem__(self, key: Key) -> Any:
         """
         Return the value of the item with an existing key (looked up
         case-insensitively).
@@ -318,7 +324,7 @@ class NocaseDict(MutableMapping):
             key_error.__cause__ = None  # Suppress 'During handling..'
             raise key_error  # pylint: disable=raise-missing-from
 
-    def __setitem__(self, key, value):
+    def __setitem__(self, key: Key, value: Any) -> None:
         """
         Update the value of the item with an existing key (looked up
         case-insensitively), or if an item with the key does not exist, add an
@@ -332,7 +338,7 @@ class NocaseDict(MutableMapping):
         k = self._casefolded_key(key)
         self._data[k] = (key, value)
 
-    def __delitem__(self, key):
+    def __delitem__(self, key: Key) -> None:
         """
         Delete the item with an existing key (looked up case-insensitively).
 
@@ -350,7 +356,7 @@ class NocaseDict(MutableMapping):
             key_error.__cause__ = None  # Suppress 'During handling..'
             raise key_error  # pylint: disable=raise-missing-from
 
-    def __len__(self):
+    def __len__(self) -> int:
         """
         Return the number of items in the dictionary.
 
@@ -358,7 +364,7 @@ class NocaseDict(MutableMapping):
         """
         return len(self._data)
 
-    def __contains__(self, key):
+    def __contains__(self, key: Any) -> bool:
         """
         Return a boolean indicating whether the dictionary contains an item
         with the key (looked up case-insensitively).
@@ -371,7 +377,7 @@ class NocaseDict(MutableMapping):
         k = self._casefolded_key(key)
         return k in self._data
 
-    def __reversed__(self):
+    def __reversed__(self) -> Iterator[Any]:
         """
         Return an iterator for the reversed iteration order of the dictionary.
 
@@ -384,7 +390,7 @@ class NocaseDict(MutableMapping):
         return reversed(self.keys())
 
     @classmethod
-    def fromkeys(cls, iterable, value=None):
+    def fromkeys(cls, iterable, value=None) -> 'NocaseDict':
         """
         Return a new :class:`NocaseDict` object with keys from the specified
         iterable of keys, and values all set to the specified value.
@@ -394,7 +400,7 @@ class NocaseDict(MutableMapping):
         """
         return cls([(key, value) for key in iterable])
 
-    def get(self, key, default=None):
+    def get(self, key: Key, default=None) -> Any:
         """
         Return the value of the item with an existing key (looked up
         case-insensitively), or if the key does not exist, a default value.
@@ -407,7 +413,7 @@ class NocaseDict(MutableMapping):
         except KeyError:
             return default
 
-    def pop(self, key, default=_OMITTED):
+    def pop(self, key: Key, default=_OMITTED) -> Any:
         """
         Remove the item with the specified key if it exists (looked up
         case-insensitively), and return its value.
@@ -427,7 +433,7 @@ class NocaseDict(MutableMapping):
                 return default
             raise
 
-    def popitem(self):
+    def popitem(self) -> Tuple[Key, Any]:
         """
         Remove the last dictionary item (in iteration order) and return it as a
         tuple (key, value).
@@ -440,7 +446,7 @@ class NocaseDict(MutableMapping):
         """
         return self._data.popitem()[1]
 
-    def setdefault(self, key, default=None):
+    def setdefault(self, key: Key, default=None) -> Any:
         """
         If an item with the key (looked up case-insensitively) does not exist,
         add an item with that key and the specified default value, and return
@@ -455,7 +461,7 @@ class NocaseDict(MutableMapping):
 
     # Iteration methods
 
-    def keys(self):
+    def keys(self) -> dict_keys:
         # pylint: disable=line-too-long
         """
         Return a view on the dictionary keys (in the original lexical case) in
@@ -467,7 +473,7 @@ class NocaseDict(MutableMapping):
         # pylint: enable=line-too-long
         return dict_keys(self)
 
-    def keys_nocase(self):
+    def keys_nocase(self) -> KeysView:
         # pylint: disable=line-too-long
         """
         Return a view on the casefolded dictionary keys in dictionary iteration
@@ -479,7 +485,7 @@ class NocaseDict(MutableMapping):
         # pylint: enable=line-too-long
         return self._data.keys()
 
-    def values(self):
+    def values(self) -> dict_values:
         # pylint: disable=line-too-long
         """
         Return a view on the dictionary values in dictionary iteration order.
@@ -490,7 +496,7 @@ class NocaseDict(MutableMapping):
         # pylint: enable=line-too-long
         return dict_values(self)
 
-    def items(self):
+    def items(self) -> dict_items:
         # pylint: disable=line-too-long
         """
         Return a view on the dictionary items in dictionary iteration order,
@@ -503,7 +509,7 @@ class NocaseDict(MutableMapping):
         # pylint: enable=line-too-long
         return dict_items(self)
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[Key]:
         """
         Return an iterator through the dictionary keys (in the original lexical
         case) in dictionary iteration order.
@@ -515,7 +521,7 @@ class NocaseDict(MutableMapping):
 
     # Other stuff
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """
         Return a string representation of the dictionary that is suitable for
         debugging.
@@ -530,7 +536,7 @@ class NocaseDict(MutableMapping):
         items_str = ', '.join(items)
         return "{0.__class__.__name__}({{{1}}})".format(self, items_str)
 
-    def update(self, *args, **kwargs):
+    def update(self, *args, **kwargs) -> None:
         # pylint: disable=arguments-differ,signature-differs
         # Note: The signature in Python 3 is: update(self, other=(), /, **kwds)
         #       Since the / marker cannot be used in Python 2, the *args
@@ -595,7 +601,7 @@ class NocaseDict(MutableMapping):
                 for key in other.keys():
                     self[key] = other[key]
                 # pylint: disable=unidiomatic-typecheck
-                if type(other) is dict and ODict is not dict and \
+                if type(other) is dict and _ODICT_TYPE is not dict and \
                         len(other.keys()) > 1:
                     warnings.warn(
                         "Before Python 3.7, initializing or updating a "
@@ -606,11 +612,10 @@ class NocaseDict(MutableMapping):
                         stacklevel=_stacklevel_above_nocasedict())
             except AttributeError:
                 # Expecting an iterable
-                try:
-                    # Try whether KeyableByMixin() was used
-                    key_attr = self.nocasedict_KeyableByMixin_key_attr
-                except AttributeError:
-                    key_attr = None
+
+                # Try whether KeyableByMixin() was used
+                key_attr = getattr(
+                    self, 'nocasedict_KeyableByMixin_key_attr', None)
                 # The following raises TypeError if not iterable:
                 for i, item in enumerate(other):
                     if key_attr and hasattr(item, key_attr):
@@ -633,7 +638,7 @@ class NocaseDict(MutableMapping):
 
         for key, val in kwargs.items():
             self[key] = val
-        if len(kwargs) > 1 and ODict is not dict:
+        if len(kwargs) > 1 and _ODICT_TYPE is not dict:
             warnings.warn(
                 "Before Python 3.7, initializing or updating a NocaseDict "
                 "object from more than one keyword argument is not guaranteed "
@@ -641,13 +646,13 @@ class NocaseDict(MutableMapping):
                 UserWarning,
                 stacklevel=_stacklevel_above_nocasedict())
 
-    def clear(self):
+    def clear(self) -> None:
         """
         Remove all items from the dictionary.
         """
         self._data.clear()
 
-    def copy(self):
+    def copy(self) -> 'NocaseDict':
         """
         Return a copy of the dictionary.
 
@@ -664,7 +669,7 @@ class NocaseDict(MutableMapping):
         result._data = self._data.copy()  # pylint: disable=protected-access
         return result
 
-    def __eq__(self, other):
+    def __eq__(self, other: Any) -> bool:
         """
         Return a boolean indicating whether the dictionary and the other
         dictionary are equal, by matching items (case-insensitively) based on
@@ -692,7 +697,7 @@ class NocaseDict(MutableMapping):
                 return False  # not comparable -> considered not equal
         return len(self) == len(other)
 
-    def __ne__(self, other):
+    def __ne__(self, other: Any) -> bool:
         """
         Return a boolean indicating whether the dictionary and the other
         dictionary are not equal, by negating the equality test.
@@ -708,7 +713,7 @@ class NocaseDict(MutableMapping):
         """
         return not self == other
 
-    def _raise_ordering_not_supported(self, other, op):
+    def _raise_ordering_not_supported(self, other: Any, op: str) -> NoReturn:
         """
         Function to raise a TypeError indicating that ordering of this class
         is not supported.
@@ -717,14 +722,14 @@ class NocaseDict(MutableMapping):
             "'{}' not supported between instances of '{}' and '{}'".
             format(op, type(self), type(other)))
 
-    def __lt__(self, other):
+    def __lt__(self, other: Any) -> NoReturn:
         self._raise_ordering_not_supported(other, '<')
 
-    def __gt__(self, other):
+    def __gt__(self, other: Any) -> NoReturn:
         self._raise_ordering_not_supported(other, '>')
 
-    def __ge__(self, other):
+    def __ge__(self, other: Any) -> NoReturn:
         self._raise_ordering_not_supported(other, '>=')
 
-    def __le__(self, other):
+    def __le__(self, other: Any) -> NoReturn:
         self._raise_ordering_not_supported(other, '<=')

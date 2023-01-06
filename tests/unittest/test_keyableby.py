@@ -27,7 +27,7 @@ if TEST_AGAINST_DICT:
 NocaseDict = dict if TEST_AGAINST_DICT else _NocaseDict
 
 
-class MyKey_NocaseDict(KeyableByMixin('my_key'), NocaseDict):
+class MyKey_NocaseDict(KeyableByMixin('my_key'), NocaseDict):  # type: ignore
     # pylint: disable=too-few-public-methods
     """
     The keyable NocaseDict class being tested.
