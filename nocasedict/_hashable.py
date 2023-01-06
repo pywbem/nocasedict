@@ -7,7 +7,7 @@ from __future__ import print_function, absolute_import
 __all__ = ['HashableMixin']
 
 
-class HashableMixin(object):
+class HashableMixin:
     # pylint: disable=too-few-public-methods
     """
     A mixin class that adds case-insensitive hashability to

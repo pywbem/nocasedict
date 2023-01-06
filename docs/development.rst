@@ -140,7 +140,7 @@ active, as long as the Python `tox` package is installed in it:
 .. code-block:: bash
 
     $ tox                              # Run tests on all supported Python versions
-    $ tox -e py27                      # Run tests on Python 2.7
+    $ tox -e py37                      # Run tests on Python 3.7
 
 
 .. _`Testing from the source archives on Pypi or GitHub`:

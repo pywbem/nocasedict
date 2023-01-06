@@ -35,7 +35,7 @@ class MyNocaseDict(HashableMixin, NocaseDict):
     pass
 
 
-class NonHashable(object):
+class NonHashable:
     # pylint: disable=too-few-public-methods
     """
     Class that raises TypeError when hashing its objects.

@@ -36,13 +36,7 @@ import sys
 import os
 import warnings
 from collections import OrderedDict
-try:
-    from collections.abc import MutableMapping, KeysView, ValuesView, ItemsView
-except ImportError:
-    # pylint: disable=deprecated-class
-    from collections import MutableMapping, KeysView, ValuesView, ItemsView
-
-import six
+from collections.abc import MutableMapping, KeysView, ValuesView, ItemsView
 
 from ._utils import _stacklevel_above_nocasedict
 
@@ -64,7 +58,7 @@ BUILDING_DOCS = os.environ.get('BUILDING_DOCS', False)
 _OMITTED = object()
 
 
-class _DictView(object):
+class _DictView:
     # pylint: disable=too-few-public-methods
     """
     Base class for directory views, with common methods.
@@ -286,26 +280,21 @@ class NocaseDict(MutableMapping):
         It returns a case-insensitive form of the input key by calling a
         "casefold method" on the key. The input key will not be `None`.
 
-        The casefold method called by this method is :meth:`py:str.casefold`
-        on Python 3 and :meth:`py2:str.lower` on Python 2.
+        The casefold method called by this method is :meth:`py:str.casefold`.
 
         This method can be overridden by users in order to change the
         case-insensitive behavior of the class.
         See :ref:`Overriding the default casefold method` for details.
 
         Parameters:
-            key (str or unicode): Input key, as a unicode string or in
-              Python 2 also as a byte string. Will not be `None`.
+            key (str): Input key, as a unicode string. Will not be `None`.
 
         Returns:
-            str or unicode: Case-insensitive form of the input key, as a
-            unicode string or in Python 2 also as a byte string.
+            str: Case-insensitive form of the input key, as a unicode string.
 
         Raises:
           AttributeError: The key does not have the casefold method.
         """
-        if six.PY2:
-            return key.lower()
         return key.casefold()
 
     # Basic accessor and setter methods
@@ -418,17 +407,6 @@ class NocaseDict(MutableMapping):
         except KeyError:
             return default
 
-    def has_key(self, key):
-        """
-        Python 2 only: Return a boolean indicating whether the dictionary
-        contains an item with the key (looked up case-insensitively).
-
-        Raises:
-          AttributeError: The key does not have the casefold method.
-          AttributeError: The method does not exist on Python 3.
-        """
-        return key in self  # delegates to __contains__()
-
     def pop(self, key, default=_OMITTED):
         """
         Remove the item with the specified key if it exists (looked up
@@ -480,23 +458,20 @@ class NocaseDict(MutableMapping):
     def keys(self):
         # pylint: disable=line-too-long
         """
-        Return a view on (in Python 3) or a list of (in Python 2) the
-        dictionary keys (in the original lexical case) in dictionary iteration
-        order.
+        Return a view on the dictionary keys (in the original lexical case) in
+        dictionary iteration order.
 
         See
         `Dictionary View Objects on Python 3 <https://docs.python.org/3/library/stdtypes.html#dictionary-view-objects>`_ for details about view objects.
         """  # noqa: E501
         # pylint: enable=line-too-long
-        if six.PY2:
-            return [self._data[k][0] for k in self._data]
         return dict_keys(self)
 
     def keys_nocase(self):
         # pylint: disable=line-too-long
         """
-        Return a view on (in Python 3) or a list of (in Python 2) the
-        casefolded dictionary keys in dictionary iteration order.
+        Return a view on the casefolded dictionary keys in dictionary iteration
+        order.
 
         See
         `Dictionary View Objects on Python 3 <https://docs.python.org/3/library/stdtypes.html#dictionary-view-objects>`_ for details about view objects.
@@ -507,108 +482,23 @@ class NocaseDict(MutableMapping):
     def values(self):
         # pylint: disable=line-too-long
         """
-        Return a view on (in Python 3) or a list of (in Python 2) the
-        dictionary values in dictionary iteration order.
+        Return a view on the dictionary values in dictionary iteration order.
 
         See
         `Dictionary View Objects on Python 3 <https://docs.python.org/3/library/stdtypes.html#dictionary-view-objects>`_ for details about view objects.
         """  # noqa: E501
         # pylint: enable=line-too-long
-        if six.PY2:
-            return [self._data[k][1] for k in self._data]
         return dict_values(self)
 
     def items(self):
         # pylint: disable=line-too-long
         """
-        Return a view on (in Python 3) or a list of (in Python 2) the
-        dictionary items in dictionary iteration order, where each item is a
-        tuple of its key (in the original lexical case) and its value.
+        Return a view on the dictionary items in dictionary iteration order,
+        where each item is a tuple of its key (in the original lexical case)
+        and its value.
 
         See
         `Dictionary View Objects on Python 3 <https://docs.python.org/3/library/stdtypes.html#dictionary-view-objects>`_ for details about view objects.
-        """  # noqa: E501
-        # pylint: enable=line-too-long
-        if six.PY2:
-            return [self._data[k] for k in self._data]
-        return dict_items(self)
-
-    def iterkeys(self):
-        """
-        Python 2 only: Return an iterator through the dictionary keys (in the
-        original lexical case) in dictionary iteration order.
-
-        Raises:
-          AttributeError: The method does not exist on Python 3.
-        """
-        for k in self._data:
-            yield self._data[k][0]
-
-    def itervalues(self):
-        """
-        Python 2 only: Return an iterator through the dictionary values in
-        dictionary iteration order.
-
-        Raises:
-          AttributeError: The method does not exist on Python 3.
-        """
-        for k in self._data:
-            yield self._data[k][1]
-
-    def iteritems(self):
-        """
-        Python 2 only: Return an iterator through the dictionary items in
-        dictionary iteration order, where each item is a tuple of its key
-        (in the original lexical case) and its value.
-
-        Raises:
-          AttributeError: The method does not exist on Python 3.
-        """
-        for k in self._data:
-            yield self._data[k]
-
-    def viewkeys(self):
-        # pylint: disable=line-too-long
-        """
-        Python 2 only: Return a view on the dictionary keys (in the original
-        lexical case) in dictionary iteration order.
-
-        See
-        `Dictionary View Objects on Python 2 <https://docs.python.org/2/library/stdtypes.html#dictionary-view-objects>`_ for details about view objects.
-
-        Raises:
-          AttributeError: The method does not exist on Python 3.
-        """  # noqa: E501
-        # pylint: enable=line-too-long
-        return dict_keys(self)
-
-    def viewvalues(self):
-        # pylint: disable=line-too-long
-        """
-        Python 2 only: Return a view on the dictionary values in dictionary
-        order.
-
-        See
-        `Dictionary View Objects on Python 2 <https://docs.python.org/2/library/stdtypes.html#dictionary-view-objects>`_ for details about view objects.
-
-        Raises:
-          AttributeError: The method does not exist on Python 3.
-        """  # noqa: E501
-        # pylint: enable=line-too-long
-        return dict_values(self)
-
-    def viewitems(self):
-        # pylint: disable=line-too-long
-        """
-        Python 2 only: Return a view on the dictionary items in dictionary
-        order, where each item is a tuple of its key (in the original lexical
-        case) and its value.
-
-        See
-        `Dictionary View Objects on Python 2 <https://docs.python.org/2/library/stdtypes.html#dictionary-view-objects>`_ for details about view objects.
-
-        Raises:
-          AttributeError: The method does not exist on Python 3.
         """  # noqa: E501
         # pylint: enable=line-too-long
         return dict_items(self)
@@ -636,7 +526,7 @@ class NocaseDict(MutableMapping):
         Invoked when using e.g.: ``repr(ncd)``
         """
         items = ["{0!r}: {1!r}".format(key, value)
-                 for key, value in six.iteritems(self)]
+                 for key, value in self.items()]
         items_str = ', '.join(items)
         return "{0.__class__.__name__}({{{1}}})".format(self, items_str)
 
@@ -791,7 +681,7 @@ class NocaseDict(MutableMapping):
           AttributeError: The key does not have the casefold method.
         """
         # Issue #1062: Could compare hash values for better performance
-        for key, self_value in six.iteritems(self):
+        for key, self_value in self.items():
             if key not in other:
                 return False
             other_value = other[key]
@@ -838,16 +728,3 @@ class NocaseDict(MutableMapping):
 
     def __le__(self, other):
         self._raise_ordering_not_supported(other, '<=')
-
-
-# Remove methods that should only be present in a particular Python version
-# If the documentation is built, the methods are not removed in order to show
-# them in the documentation.
-if sys.version_info[0] != 2 and not BUILDING_DOCS:
-    del NocaseDict.has_key
-    del NocaseDict.iterkeys
-    del NocaseDict.itervalues
-    del NocaseDict.iteritems
-    del NocaseDict.viewkeys
-    del NocaseDict.viewvalues
-    del NocaseDict.viewitems
