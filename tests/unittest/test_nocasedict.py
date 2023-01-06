@@ -13,6 +13,8 @@ try:
 except ImportError:
     # pylint: disable=deprecated-class
     from collections import KeysView, ValuesView, ItemsView, Iterator
+import unicodedata
+import six
 import pytest
 
 from ..utils.simplified_test_function import simplified_test_function
@@ -366,7 +368,7 @@ TESTCASES_NOCASEDICT_GETITEM = [
         KeyError, None, True
     ),
     (
-        "Empty dict, with integer key (no lower / not found)",
+        "Empty dict, with integer key (no casefold / not found)",
         dict(
             obj=NocaseDict(),
             key=1234,
@@ -505,7 +507,7 @@ TESTCASES_NOCASEDICT_SETITEM = [
         None, None, True
     ),
     (
-        "Empty dict, with integer key (no lower / success)",
+        "Empty dict, with integer key (no casefold / success)",
         dict(
             obj=NocaseDict(),
             key=1234,
@@ -646,7 +648,7 @@ TESTCASES_NOCASEDICT_DELITEM = [
         KeyError, None, True
     ),
     (
-        "Empty dict, with integer key (no lower / not found)",
+        "Empty dict, with integer key (no casefold / not found)",
         dict(
             obj=NocaseDict(),
             key=1234,
@@ -830,7 +832,7 @@ TESTCASES_NOCASEDICT_CONTAINS = [
         None, None, True
     ),
     (
-        "Empty dict, with integer key (no lower / success)",
+        "Empty dict, with integer key (no casefold / success)",
         dict(
             obj=NocaseDict(),
             key=1234,
@@ -969,7 +971,7 @@ TESTCASES_NOCASEDICT_HAS_KEY = [
         AttributeError if not PY2 else None, None, True
     ),
     (
-        "Empty dict, with integer key (no lower / success)",
+        "Empty dict, with integer key (no casefold / success)",
         dict(
             obj=NocaseDict(),
             key=1234,
@@ -1357,7 +1359,7 @@ TESTCASES_NOCASEDICT_GET = [
         None, None, True
     ),
     (
-        "Empty dict, with integer key (no lower / success)",
+        "Empty dict, with integer key (no casefold / success)",
         dict(
             obj=NocaseDict(),
             key=1234,
@@ -1557,7 +1559,7 @@ TESTCASES_NOCASEDICT_POP = [
     ),
     (
         "Empty dict, with integer key and default omitted "
-        "(no lower / dict empty)",
+        "(no casefold / dict empty)",
         dict(
             obj=NocaseDict(),
             key=1234,
@@ -1776,7 +1778,7 @@ TESTCASES_NOCASEDICT_SETDEFAULT = [
         None, None, True
     ),
     (
-        "Empty dict, with integer key (no lower / success)",
+        "Empty dict, with integer key (no casefold / success)",
         dict(
             obj=NocaseDict(),
             key=1234,
@@ -2456,7 +2458,7 @@ TESTCASES_NOCASEDICT_UPDATE = [
         TypeError, None, True
     ),
     (
-        "Empty dict, with integer key in update args (no lower / success)",
+        "Empty dict, with integer key in update args (no casefold / success)",
         dict(
             obj=NocaseDict(),
             args=[[(1234, 'Invalid')]],
@@ -2572,7 +2574,8 @@ TESTCASES_NOCASEDICT_UPDATE = [
 
     # Non-empty NocaseDict, insert new value
     (
-        "Non-empty dict, with integer key in update args (no lower / success)",
+        "Non-empty dict, with integer key in update args "
+        "(no casefold / success)",
         dict(
             obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
             args=[[(1234, 'Invalid')]],
@@ -3382,3 +3385,34 @@ def test_unnamed_keys():
     del dic[None]
     assert None not in dic
     assert not dic
+
+
+def test_casefold_override():
+    """
+    Test function for overriding the casefold method.
+    """
+
+    if TEST_AGAINST_DICT:
+        pytest.skip("The override test does not support testing with dict")
+
+    if six.PY2:
+        pytest.skip("The override test does not support Python 2")
+
+    class MyNocaseDict(NocaseDict):
+        "Test class that overrides the casefold method"
+
+        @staticmethod
+        def __casefold__(key):
+            return unicodedata.normalize('NFKD', key).casefold()
+
+    dic = MyNocaseDict()
+
+    exp_value = 'foo'
+
+    # Add item with combined Unicode character
+    dic["\u00C7"] = exp_value
+
+    # Look up item with combination sequence
+    act_value = dic["c\u0327"]
+
+    assert act_value == exp_value
