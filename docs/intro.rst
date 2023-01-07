@@ -114,11 +114,11 @@ Supported environments
 ^^^^^^^^^^^^^^^^^^^^^^
 
 The package does not have any dependencies on the type of operating system and
-is regularly tested in CI systems on the following operating systems:
+is regularly tested in GitHub Actions on the following operating systems:
 
-* Ubuntu, native Windows, CygWin, OS-X / macOS
+* Ubuntu, Windows, macOS
 
-The package is supported on the following Python versions:
+The package is supported and tested on the following Python versions:
 
 * Python: 2.7, 3.4 and all higher 3.x versions
 
@@ -128,55 +128,31 @@ The package is supported on the following Python versions:
 Installing
 ^^^^^^^^^^
 
-* Prerequisites:
+The following command installs the latest version of nocasedict that is
+released on `PyPI`_ into the active Python environment:
 
-  - The Python environment into which you want to install must be the current
-    Python environment, and must have at least the following Python packages
-    installed:
+.. code-block:: bash
 
-    - setuptools
-    - wheel
-    - pip
+    $ pip install nocasedict
 
-* Install the nocasedict package and its prerequisite
-  Python packages into the active Python environment:
+To install an older released version of nocasedict, Pip supports specifying a
+version requirement. The following example installs nocasedict version 0.1.0
+from PyPI into the active Python environment:
 
-  .. code-block:: bash
+.. code-block:: bash
 
-      $ pip install nocasedict
+    $ pip install nocasedict==0.1.0
 
+If you need to get a certain new functionality or a new fix that is not yet part
+of a version released to PyPI, Pip supports installation from a Git repository.
+The following example installs nocasedict from the current code level in the
+master branch of the `nocasedict repository`_:
 
-.. _`Installing a different version`:
+.. code-block:: bash
 
-Installing a different version
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-The examples in the previous sections install the latest version of
-nocasedict that is released on `PyPI`_.
-This section describes how different versions of nocasedict
-can be installed.
-
-* To install an older released version of nocasedict,
-  Pip supports specifying a version requirement. The following example installs
-  nocasedict version 0.1.0
-  from PyPI:
-
-  .. code-block:: bash
-
-      $ pip install nocasedict==0.1.0
-
-* If you need to get a certain new functionality or a new fix that is
-  not yet part of a version released to PyPI, Pip supports installation from a
-  Git repository. The following example installs nocasedict
-  from the current code level in the master branch of the
-  `nocasedict repository`_:
-
-  .. code-block:: bash
-
-      $ pip install git+https://github.com/pywbem/nocasedict.git@master#egg=nocasedict
+    $ pip install git+https://github.com/pywbem/nocasedict.git@master#egg=nocasedict
 
 .. _nocasedict repository: https://github.com/pywbem/nocasedict
-
 .. _PyPI: https://pypi.python.org/pypi
 
 
@@ -277,13 +253,3 @@ the nocasedict project, by version type:
 * New major release (M.N.P -> M+1.0.0): Deprecated functionality may get
   removed; functionality may be extended or changed; backwards compatibility
   may be broken.
-
-
-.. _'Python namespaces`:
-
-Python namespaces
------------------
-
-This documentation describes only the external APIs of the
-nocasedict project, and omits any internal symbols and
-any sub-modules.
