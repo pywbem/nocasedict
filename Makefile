@@ -261,6 +261,7 @@ help:
 	@echo "  installtest - Run install tests"
 	@echo "  test       - Run unit tests"
 	@echo "  testdict   - Run unit tests against standard dict"
+	@echo "  doclinkcheck - Run Sphinx linkcheck on the documentation"
 	@echo "  all        - Do all of the above"
 	@echo "  install    - Install $(package_name) as standalone and its dependent packages"
 	@echo "  upload     - build + upload the distribution archive files to PyPI"
@@ -427,7 +428,7 @@ pylint: pylint_$(pymn).done
 	@echo "Makefile: Target $@ done."
 
 .PHONY: all
-all: develop build builddoc check pylint installtest test testdict
+all: develop build builddoc check pylint installtest test testdict doclinkcheck
 	@echo "Makefile: Target $@ done."
 
 .PHONY: clobber

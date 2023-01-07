@@ -17,7 +17,7 @@ References
 
    Python Glossary
       * `Python 2.7 Glossary <https://docs.python.org/2.7/glossary.html>`_
-      * `Python 3.4 Glossary <https://docs.python.org/3.4/glossary.html>`_
+      * `Python 3 Glossary <https://docs.python.org/3/glossary.html>`_
 
    Default Case Folding in The Unicode Standard
-     `"Default Case Folding" in The Unicode Standard Version 15.0 <https://www.unicode.org/versions/Unicode15.0.0/ch03.pdf#G53253>`_
+     `"Default Case Folding" in The Unicode Standard Version 15.0 <https://www.unicode.org/versions/Unicode15.0.0/ch03.pdf>`_
