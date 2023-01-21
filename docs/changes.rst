@@ -5,10 +5,10 @@ Change log
 ==========
 
 
-nocasedict 1.1.0.dev1
----------------------
+nocasedict 1.1.0
+----------------
 
-Released: not yet
+Released: 2023-01-21
 
 **Incompatible changes:**
 
@@ -19,10 +19,6 @@ Released: not yet
   method by overriding the `NocaseDict.__casefold__()` method with a method
   that calls `str.lower()`. (issue #122)
 
-**Deprecations:**
-
-**Bug fixes:**
-
 **Enhancements:**
 
 * Added support for Python 3.11.
@@ -30,14 +26,6 @@ Released: not yet
 * Changed the default casefolding method on Python 3 to be `str.casefold()`
   in order to improve Unicode support. On Python 2, it remains `str.lower()`.
   Added support for user-defined casefolding. (issue #122)
-
-**Cleanup:**
-
-**Known issues:**
-
-* See `list of open issues`_.
-
-.. _`list of open issues`: https://github.com/pywbem/nocasedict/issues
 
 
 nocasedict 1.0.4
