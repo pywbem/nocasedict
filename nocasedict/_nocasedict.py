@@ -462,7 +462,7 @@ class NocaseDict(MutableMapping):
         dictionary iteration order.
 
         See
-        `Dictionary View Objects on Python 3 <https://docs.python.org/3/library/stdtypes.html#dictionary-view-objects>`_ for details about view objects.
+        `Dictionary View Objects <https://docs.python.org/3/library/stdtypes.html#dictionary-view-objects>`_ for details about view objects.
         """  # noqa: E501
         # pylint: enable=line-too-long
         return dict_keys(self)
@@ -474,7 +474,7 @@ class NocaseDict(MutableMapping):
         order.
 
         See
-        `Dictionary View Objects on Python 3 <https://docs.python.org/3/library/stdtypes.html#dictionary-view-objects>`_ for details about view objects.
+        `Dictionary View Objects <https://docs.python.org/3/library/stdtypes.html#dictionary-view-objects>`_ for details about view objects.
         """  # noqa: E501
         # pylint: enable=line-too-long
         return self._data.keys()
@@ -485,7 +485,7 @@ class NocaseDict(MutableMapping):
         Return a view on the dictionary values in dictionary iteration order.
 
         See
-        `Dictionary View Objects on Python 3 <https://docs.python.org/3/library/stdtypes.html#dictionary-view-objects>`_ for details about view objects.
+        `Dictionary View Objects <https://docs.python.org/3/library/stdtypes.html#dictionary-view-objects>`_ for details about view objects.
         """  # noqa: E501
         # pylint: enable=line-too-long
         return dict_values(self)
@@ -498,7 +498,7 @@ class NocaseDict(MutableMapping):
         and its value.
 
         See
-        `Dictionary View Objects on Python 3 <https://docs.python.org/3/library/stdtypes.html#dictionary-view-objects>`_ for details about view objects.
+        `Dictionary View Objects on <https://docs.python.org/3/library/stdtypes.html#dictionary-view-objects>`_ for details about view objects.
         """  # noqa: E501
         # pylint: enable=line-too-long
         return dict_items(self)
