@@ -8,11 +8,7 @@ import sys
 import os
 import re
 from collections import OrderedDict
-try:
-    from collections.abc import KeysView, ValuesView, ItemsView, Iterator
-except ImportError:
-    # pylint: disable=deprecated-class
-    from collections import KeysView, ValuesView, ItemsView, Iterator
+from collections.abc import KeysView, ValuesView, ItemsView, Iterator
 import unicodedata
 import pytest
 
@@ -23,8 +19,6 @@ from ..utils.import_installed import import_installed
 nocasedict = import_installed('nocasedict')
 from nocasedict import NocaseDict as _NocaseDict  # noqa: E402
 # pylint: enable=wrong-import-position, wrong-import-order, invalid-name
-
-PY2 = sys.version_info[0] == 2
 
 # Controls whether the tests are run against a standard dict instead.
 TEST_AGAINST_DICT = os.getenv('TEST_DICT')
@@ -44,17 +38,10 @@ TESTDICT_IS_ORDERED = \
 TESTDICT_SUPPORTS_REVERSED = \
     not TEST_AGAINST_DICT or sys.version_info[0:2] >= (3, 8)
 
-# Indicates the dict being tested supports lt/gt comparison (between dicts)
-TESTDICT_SUPPORTS_COMPARISON = \
-    TEST_AGAINST_DICT and sys.version_info[0:2] == (2, 7)
-
 # Indicates the dict being tested issues UserWarning about not preserving order
 # of items in kwargs or in standard dict
 TESTDICT_WARNS_ORDER = \
     not TEST_AGAINST_DICT and sys.version_info[0:2] < (3, 7)
-
-# Indicates the dict supports the iter..() and view..() methods
-TESTDICT_SUPPORTS_ITER_VIEW = sys.version_info[0:2] == (2, 7)
 
 # Used as indicator not to pass an argument in the testcases.
 # Note this has nothing to do with the _OMITTED flag in _nocasedict.py and
@@ -1182,7 +1169,7 @@ def test_NocaseDict_reversed(testcase, obj, exp_keys):
     # The reason we verify that an iterator is returned is that
     # NocaseDict.__reversed__() delegates to keys() which returns a list in
     # Python 2, so this verifies that reversed() still turns this into an
-    # iterator.
+    # iterator. Maybe no longer needed on Python 3, but it does not hurt.
     assert isinstance(act_keys_iter, Iterator)
 
     act_keys = list(act_keys_iter)
@@ -1859,23 +1846,18 @@ def test_NocaseDict_keys(testcase, obj, exp_items):
     # Test that second iteration is possible
     act_keys_list2 = list(act_keys)
 
-    if not PY2:
+    # Test __contained__() of the returned view
+    for key in act_keys_list:
+        assert key in act_keys
 
-        # Test __contained__() of the returned view
-        for key in act_keys_list:
-            assert key in act_keys
-
-        # Test __repr__() of the returned view
-        assert re.match(r'^dict_keys\(.*\)$', repr(act_keys))
+    # Test __repr__() of the returned view
+    assert re.match(r'^dict_keys\(.*\)$', repr(act_keys))
 
     # Ensure that exceptions raised in the remainder of this function
     # are not mistaken as expected exceptions
     assert testcase.exp_exc_types is None
 
-    if PY2:
-        assert isinstance(act_keys, list)
-    else:
-        assert isinstance(act_keys, KeysView)
+    assert isinstance(act_keys, KeysView)
 
     exp_keys = [item[0] for item in exp_items]
     if TESTDICT_IS_ORDERED:
@@ -1904,23 +1886,18 @@ def test_NocaseDict_values(testcase, obj, exp_items):
     # Test that second iteration is possible
     act_values_list2 = list(act_values)
 
-    if not PY2:
+    # Test __contained__() of the returned view
+    for value in act_values_list:
+        assert value in act_values
 
-        # Test __contained__() of the returned view
-        for value in act_values_list:
-            assert value in act_values
-
-        # Test __repr__() of the returned view
-        assert re.match(r'^dict_values\(.*\)$', repr(act_values))
+    # Test __repr__() of the returned view
+    assert re.match(r'^dict_values\(.*\)$', repr(act_values))
 
     # Ensure that exceptions raised in the remainder of this function
     # are not mistaken as expected exceptions
     assert testcase.exp_exc_types is None
 
-    if PY2:
-        assert isinstance(act_values, list)
-    else:
-        assert isinstance(act_values, ValuesView)
+    assert isinstance(act_values, ValuesView)
 
     exp_values = [item[1] for item in exp_items]
     if TESTDICT_IS_ORDERED:
@@ -1949,23 +1926,18 @@ def test_NocaseDict_items(testcase, obj, exp_items):
     # Test that second iteration is possible
     act_items_list2 = list(act_items)
 
-    if not PY2:
+    # Test __contained__() of the returned view
+    for item in act_items_list:
+        assert item in act_items
 
-        # Test __contained__() of the returned view
-        for item in act_items_list:
-            assert item in act_items
-
-        # Test __repr__() of the returned view
-        assert re.match(r'^dict_items\(.*\)$', repr(act_items))
+    # Test __repr__() of the returned view
+    assert re.match(r'^dict_items\(.*\)$', repr(act_items))
 
     # Ensure that exceptions raised in the remainder of this function
     # are not mistaken as expected exceptions
     assert testcase.exp_exc_types is None
 
-    if PY2:
-        assert isinstance(act_items, list)
-    else:
-        assert isinstance(act_items, ItemsView)
+    assert isinstance(act_items, ItemsView)
 
     if TESTDICT_IS_ORDERED:
         assert act_items_list == exp_items
@@ -2808,7 +2780,7 @@ TESTCASES_NOCASEDICT_ORDERING = [
             op='>',
             exp_result=False,
         ),
-        None if TESTDICT_SUPPORTS_COMPARISON else TypeError, None, True
+        TypeError, None, True
     ),
     (
         "Empty dicts with >=",
@@ -2818,7 +2790,7 @@ TESTCASES_NOCASEDICT_ORDERING = [
             op='>=',
             exp_result=True,
         ),
-        None if TESTDICT_SUPPORTS_COMPARISON else TypeError, None, True
+        TypeError, None, True
     ),
     (
         "Empty dicts with <",
@@ -2828,7 +2800,7 @@ TESTCASES_NOCASEDICT_ORDERING = [
             op='<',
             exp_result=False,
         ),
-        None if TESTDICT_SUPPORTS_COMPARISON else TypeError, None, True
+        TypeError, None, True
     ),
     (
         "Empty dicts with <=",
@@ -2838,7 +2810,7 @@ TESTCASES_NOCASEDICT_ORDERING = [
             op='<=',
             exp_result=True,
         ),
-        None if TESTDICT_SUPPORTS_COMPARISON else TypeError, None, True
+        TypeError, None, True
     ),
 
     # Equal dicts
@@ -2850,7 +2822,7 @@ TESTCASES_NOCASEDICT_ORDERING = [
             op='>',
             exp_result=False,
         ),
-        None if TESTDICT_SUPPORTS_COMPARISON else TypeError, None, True
+        TypeError, None, True
     ),
     (
         "Equal dicts with >=",
@@ -2860,7 +2832,7 @@ TESTCASES_NOCASEDICT_ORDERING = [
             op='>=',
             exp_result=True,
         ),
-        None if TESTDICT_SUPPORTS_COMPARISON else TypeError, None, True
+        TypeError, None, True
     ),
     (
         "Equal dicts with <",
@@ -2870,7 +2842,7 @@ TESTCASES_NOCASEDICT_ORDERING = [
             op='<',
             exp_result=False,
         ),
-        None if TESTDICT_SUPPORTS_COMPARISON else TypeError, None, True
+        TypeError, None, True
     ),
     (
         "Equal dicts with <=",
@@ -2880,7 +2852,7 @@ TESTCASES_NOCASEDICT_ORDERING = [
             op='<=',
             exp_result=True,
         ),
-        None if TESTDICT_SUPPORTS_COMPARISON else TypeError, None, True
+        TypeError, None, True
     ),
 
     # Dicts that compare less (obj1 < obj2)
@@ -2892,7 +2864,7 @@ TESTCASES_NOCASEDICT_ORDERING = [
             op='>',
             exp_result=False,
         ),
-        None if TESTDICT_SUPPORTS_COMPARISON else TypeError, None, True
+        TypeError, None, True
     ),
     (
         "Less-comparing dicts with >=",
@@ -2902,7 +2874,7 @@ TESTCASES_NOCASEDICT_ORDERING = [
             op='>=',
             exp_result=False,
         ),
-        None if TESTDICT_SUPPORTS_COMPARISON else TypeError, None, True
+        TypeError, None, True
     ),
     (
         "Less-comparing dicts with <",
@@ -2912,7 +2884,7 @@ TESTCASES_NOCASEDICT_ORDERING = [
             op='<',
             exp_result=True,
         ),
-        None if TESTDICT_SUPPORTS_COMPARISON else TypeError, None, True
+        TypeError, None, True
     ),
     (
         "Less-comparing dicts with <=",
@@ -2922,7 +2894,7 @@ TESTCASES_NOCASEDICT_ORDERING = [
             op='<=',
             exp_result=True,
         ),
-        None if TESTDICT_SUPPORTS_COMPARISON else TypeError, None, True
+        TypeError, None, True
     ),
 
     # Dicts that compare greater (obj1 > obj2)
@@ -2934,7 +2906,7 @@ TESTCASES_NOCASEDICT_ORDERING = [
             op='>',
             exp_result=True,
         ),
-        None if TESTDICT_SUPPORTS_COMPARISON else TypeError, None, True
+        TypeError, None, True
     ),
     (
         "Greater-comparing dicts with >=",
@@ -2944,7 +2916,7 @@ TESTCASES_NOCASEDICT_ORDERING = [
             op='>=',
             exp_result=True,
         ),
-        None if TESTDICT_SUPPORTS_COMPARISON else TypeError, None, True
+        TypeError, None, True
     ),
     (
         "Greater-comparing dicts with <",
@@ -2954,7 +2926,7 @@ TESTCASES_NOCASEDICT_ORDERING = [
             op='<',
             exp_result=False,
         ),
-        None if TESTDICT_SUPPORTS_COMPARISON else TypeError, None, True
+        TypeError, None, True
     ),
     (
         "Greater-comparing dicts with <=",
@@ -2964,7 +2936,7 @@ TESTCASES_NOCASEDICT_ORDERING = [
             op='<=',
             exp_result=False,
         ),
-        None if TESTDICT_SUPPORTS_COMPARISON else TypeError, None, True
+        TypeError, None, True
     ),
 
     # Note: More subtle cases of less- or greater-comparing dicts are not

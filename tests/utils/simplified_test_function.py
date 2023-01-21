@@ -6,10 +6,7 @@ from __future__ import absolute_import
 
 import functools
 from collections import namedtuple
-try:
-    from inspect import Signature, Parameter
-except ImportError:  # py2
-    from funcsigs import Signature, Parameter
+from inspect import Signature, Parameter
 import pytest
 
 __all__ = ['simplified_test_function']

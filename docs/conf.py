@@ -477,8 +477,8 @@ autodoc_mock_imports = []
 # https://www.sphinx-doc.org/en/stable/ext/intersphinx.html
 
 # Defines the prefixes for intersphinx links, and the targets they resolve to.
-# Example RST source for 'py2' prefix:
-#     :func:`py2:platform.dist`
+# Example RST source for 'py' prefix:
+#     :func:`py:platform.dist`
 #
 # Note: The URLs apparently cannot be the same for two different IDs; otherwise
 #       the links for one of them are not being created. A small difference
@@ -492,8 +492,6 @@ autodoc_mock_imports = []
 #
 intersphinx_mapping = {
   'py': ('https://docs.python.org/3', None), # default is Python 3
-  'py2': ('https://docs.python.org/2', None),
-  'py3': ('https://docs.python.org/3/', None),
 }
 
 intersphinx_cache_limit = 5
