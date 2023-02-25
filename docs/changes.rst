@@ -5,14 +5,10 @@ Change log
 ==========
 
 
-nocasedict 1.1.1.dev1
----------------------
+nocasedict 1.1.1
+----------------
 
-Released: not yet
-
-**Incompatible changes:**
-
-**Deprecations:**
+Released: 2022-02-25
 
 **Bug fixes:**
 
@@ -24,14 +20,6 @@ Released: not yet
 
 * Resurrected support for byte string keys that was removed in version 1.1.0.
   (issue #139)
-
-**Cleanup:**
-
-**Known issues:**
-
-* See `list of open issues`_.
-
-.. _`list of open issues`: https://github.com/pywbem/nocasedict/issues
 
 
 nocasedict 1.1.0
