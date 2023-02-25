@@ -19,6 +19,8 @@ Released: not yet
 
 **Bug fixes:**
 
+* Enabled Github Actions for stable branches.
+
 * Addressed new issues of Pylint 2.16.
 
 **Enhancements:**
