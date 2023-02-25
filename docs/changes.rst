@@ -16,6 +16,8 @@ Released: not yet
 
 **Bug fixes:**
 
+* Enabled Github Actions for stable branches.
+
 **Enhancements:**
 
 **Cleanup:**
