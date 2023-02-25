@@ -379,19 +379,37 @@ TESTCASES_NOCASEDICT_GETITEM = [
         KeyError if TEST_AGAINST_DICT else AttributeError, None, True
     ),
     (
-        "Empty dict, with empty string key (not found)",
+        "Empty dict, with empty unicode string key (not found)",
         dict(
             obj=NocaseDict(),
-            key='',
+            key=u'',
             exp_value=None,
         ),
         KeyError, None, True
     ),
     (
-        "Empty dict, with non-empty key (not found)",
+        "Empty dict, with empty byte string key (not found)",
         dict(
             obj=NocaseDict(),
-            key='Dog',
+            key=b'',
+            exp_value=None,
+        ),
+        KeyError, None, True
+    ),
+    (
+        "Empty dict, with non-empty unicode string key (not found)",
+        dict(
+            obj=NocaseDict(),
+            key=u'Dog',
+            exp_value=None,
+        ),
+        KeyError, None, True
+    ),
+    (
+        "Empty dict, with non-empty byte string key (not found)",
+        dict(
+            obj=NocaseDict(),
+            key=b'Dog',
             exp_value=None,
         ),
         KeyError, None, True
@@ -401,65 +419,145 @@ TESTCASES_NOCASEDICT_GETITEM = [
     (
         "Non-empty dict, with None key (not found)",
         dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            obj=NocaseDict([(u'Dog', 'Cat'), (u'Budgie', 'Fish')]),
             key=None,
             exp_value=None,
         ),
         KeyError, None, True
     ),
     (
-        "Non-empty dict, with empty string key (not found)",
+        "Non-empty dict, with empty unicode string key (not found)",
         dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='',
+            obj=NocaseDict([(u'Dog', 'Cat'), (u'Budgie', 'Fish')]),
+            key=u'',
             exp_value=None,
         ),
         KeyError, None, True
     ),
     (
-        "Non-empty dict, with non-empty non-existing key (not found)",
+        "Non-empty dict, with empty byte string key (not found)",
         dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='invalid',
+            obj=NocaseDict([(u'Dog', 'Cat'), (u'Budgie', 'Fish')]),
+            key=b'',
             exp_value=None,
         ),
         KeyError, None, True
     ),
     (
-        "Non-empty dict, with existing key in original case",
+        "Non-empty dict, with non-empty non-existing unicode string key "
+        "(not found)",
         dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='Dog',
+            obj=NocaseDict([(u'Dog', 'Cat'), (u'Budgie', 'Fish')]),
+            key=u'invalid',
+            exp_value=None,
+        ),
+        KeyError, None, True
+    ),
+    (
+        "Non-empty dict, with non-empty non-existing byte string key "
+        "(not found)",
+        dict(
+            obj=NocaseDict([(u'Dog', 'Cat'), (u'Budgie', 'Fish')]),
+            key=b'invalid',
+            exp_value=None,
+        ),
+        KeyError, None, True
+    ),
+    (
+        "Non-empty dict, with existing unicode string key in original case",
+        dict(
+            obj=NocaseDict([(u'Dog', 'Cat'), (u'Budgie', 'Fish')]),
+            key=u'Dog',
             exp_value='Cat',
         ),
         None, None, True
     ),
     (
-        "Non-empty dict, with existing key in non-original upper case",
+        "Non-empty dict, with existing byte string key in original case",
         dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='DOG',
+            obj=NocaseDict([(b'Dog', 'Cat'), (b'Budgie', 'Fish')]),
+            key=b'Dog',
+            exp_value='Cat',
+        ),
+        None, None, True
+    ),
+    (
+        "Non-empty dict, with existing unicode string key in non-original "
+        "upper case",
+        dict(
+            obj=NocaseDict([(u'Dog', 'Cat'), (u'Budgie', 'Fish')]),
+            key=u'DOG',
             exp_value='Cat',
         ),
         KeyError if TEST_AGAINST_DICT else None, None, True
     ),
     (
-        "Non-empty dict, with existing key in non-original lower case",
+        "Non-empty dict, with existing byte string key in non-original "
+        "upper case",
         dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='dog',
+            obj=NocaseDict([(b'Dog', 'Cat'), (b'Budgie', 'Fish')]),
+            key=b'DOG',
             exp_value='Cat',
         ),
         KeyError if TEST_AGAINST_DICT else None, None, True
     ),
     (
-        "Non-empty dict, with existing key in non-original mixed case",
+        "Non-empty dict, with existing unicode string key in non-original "
+        "lower case",
         dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='doG',
+            obj=NocaseDict([(u'Dog', 'Cat'), (u'Budgie', 'Fish')]),
+            key=u'dog',
             exp_value='Cat',
         ),
         KeyError if TEST_AGAINST_DICT else None, None, True
+    ),
+    (
+        "Non-empty dict, with existing byte string key in non-original "
+        "lower case",
+        dict(
+            obj=NocaseDict([(b'Dog', 'Cat'), (b'Budgie', 'Fish')]),
+            key=b'dog',
+            exp_value='Cat',
+        ),
+        KeyError if TEST_AGAINST_DICT else None, None, True
+    ),
+    (
+        "Non-empty dict, with existing unicode string key in non-original "
+        "mixed case",
+        dict(
+            obj=NocaseDict([(u'Dog', 'Cat'), (u'Budgie', 'Fish')]),
+            key=u'doG',
+            exp_value='Cat',
+        ),
+        KeyError if TEST_AGAINST_DICT else None, None, True
+    ),
+    (
+        "Non-empty dict, with existing byte string key in non-original "
+        "mixed case",
+        dict(
+            obj=NocaseDict([(b'Dog', 'Cat'), (b'Budgie', 'Fish')]),
+            key=b'doG',
+            exp_value='Cat',
+        ),
+        KeyError if TEST_AGAINST_DICT else None, None, True
+    ),
+    (
+        "Non-empty unicode string dict, with same byte string key",
+        dict(
+            obj=NocaseDict([(u'Dog', 'Cat'), (u'Budgie', 'Fish')]),
+            key=b'Dog',
+            exp_value='Cat',
+        ),
+        None if PY2 else KeyError, None, True
+    ),
+    (
+        "Non-empty byte string dict, with same unicode string key",
+        dict(
+            obj=NocaseDict([(b'Dog', 'Cat'), (b'Budgie', 'Fish')]),
+            key=u'Dog',
+            exp_value='Cat',
+        ),
+        None if PY2 else KeyError, None, True
     ),
 ]
 

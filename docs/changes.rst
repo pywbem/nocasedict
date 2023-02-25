@@ -22,6 +22,9 @@ Released: not yet
 
 **Enhancements:**
 
+* Resurrected support for byte string keys that was removed in version 1.1.0.
+  (issue #139)
+
 **Cleanup:**
 
 **Known issues:**
