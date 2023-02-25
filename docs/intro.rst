@@ -43,7 +43,12 @@ the following exceptions (and the case-insensitivity of course):
 
 The case-insensitivity is achieved by matching any key values as their
 casefolded values. By default, the casefolding is performed with
-:meth:`py:str.casefold` on Python 3 and with :meth:`py2:str.lower` on Python 2.
+:meth:`py:str.casefold` for unicode string keys and with :meth:`py:bytes.lower`
+for byte string keys.
+
+The :meth:`py:str.casefold` method implements the casefolding
+algorithm described in :term:`Default Case Folding in The Unicode Standard`.
+
 The default casefolding can be overridden with a user-defined casefold method.
 
 Functionality can be added using mixin classes:
@@ -64,21 +69,14 @@ not well maintained, or did not support the Python versions we needed.
 Overriding the default casefold method
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The case-insensitive behavior of the :class:`~nocasedict.NocaseDict` class
-is implemented in its :meth:`~nocasedict.NocaseDict.__casefold__` method. That
-method returns the casefolded key that is used for the case-insensitive lookup
-of dictionary items.
-
-The default implementation of the :meth:`~nocasedict.NocaseDict.__casefold__`
-method calls :meth:`py:str.casefold` on Python 3 and :meth:`py2:str.lower` on
-Python 2. The :meth:`py:str.casefold` method implements the casefolding
-algorithm described in :term:`Default Case Folding in The Unicode Standard`.
-
 If it is necessary to change the case-insensitive behavior of the
 :class:`~nocasedict.NocaseDict` class, that can be done by overriding its
 :meth:`~nocasedict.NocaseDict.__casefold__` method.
 
-The following Python 3 example shows how your own casefold method would
+That method returns the casefolded key that is used for the case-insensitive
+lookup of dictionary items.
+
+The following example shows how your own casefold method would
 be used, that normalizes the key in addition to casefolding it:
 
 
