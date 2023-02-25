@@ -19,6 +19,8 @@ Released: not yet
 
 **Bug fixes:**
 
+* Addressed new issues of Pylint 2.16.
+
 **Enhancements:**
 
 * Added type hints and type checking with MyPy (issue #123).
