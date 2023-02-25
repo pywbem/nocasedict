@@ -54,12 +54,12 @@ the following exceptions (and the case-insensitivity of course):
 
 The case-insensitivity is achieved by matching any key values as their
 casefolded values. By default, the casefolding is performed with
-`str.casefold()`_ on Python 3 and with `str.lower()`_ on Python 2.
+`str.casefold()`_ for unicode string keys and with `bytes.lower()`_ for byte
+string keys.
 The default casefolding can be overridden with a user-defined casefold method.
 
-
 .. _str.casefold(): https://docs.python.org/3/library/stdtypes.html#str.casefold
-.. _str.lower(): https://docs.python.org/2/library/stdtypes.html#str.lower
+.. _bytes.lower(): https://docs.python.org/3/library/stdtypes.html#bytes.lower
 
 Functionality can be added using mixin classes:
 

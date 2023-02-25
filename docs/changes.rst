@@ -27,6 +27,9 @@ Released: not yet
 
 * Added type hints and type checking with MyPy (issue #123).
 
+* Resurrected support for byte string keys that was removed in version 1.1.0.
+  (issue #139)
+
 **Cleanup:**
 
 **Known issues:**

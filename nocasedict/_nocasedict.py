@@ -37,7 +37,7 @@ import os
 import warnings
 from collections import OrderedDict
 from collections.abc import MutableMapping, KeysView, ValuesView, ItemsView
-from typing import Any, NoReturn, Optional, Iterator, Tuple, Dict
+from typing import Any, AnyStr, NoReturn, Optional, Iterator, Tuple, Dict
 
 from ._utils import _stacklevel_above_nocasedict
 
@@ -52,7 +52,7 @@ if sys.version_info[0:2] >= (3, 7):
 else:
     _ODICT_TYPE = OrderedDict
 
-Key = Optional[str]  # May be None
+Key = Optional[AnyStr]
 
 # This env var is set when building the docs. It causes the methods
 # that are supposed to exist only in a particular Python version, not to be
@@ -258,7 +258,6 @@ class NocaseDict(MutableMapping):
             dict6 = NocaseDict(dict1, BETA=3)
 
         Raises:
-          AttributeError: The key does not have the casefold method.
           TypeError: Expected at most 1 positional argument, got {n}.
           ValueError: Cannot unpack positional argument item #{i}.
         """
@@ -279,7 +278,7 @@ class NocaseDict(MutableMapping):
         return self.__casefold__(key)
 
     @staticmethod
-    def __casefold__(key: str) -> str:
+    def __casefold__(key: AnyStr) -> AnyStr:
         """
         This method implements the case-insensitive behavior of the class.
 
@@ -287,21 +286,28 @@ class NocaseDict(MutableMapping):
         "casefold method" on the key. The input key will not be `None`.
 
         The casefold method called by this method is :meth:`py:str.casefold`.
+        If that method does not exist on the key value (e.g. because it is a
+        byte string), :meth:`py:bytes.lower` is called, for compatibility with
+        earlier versions of the package.
 
         This method can be overridden by users in order to change the
         case-insensitive behavior of the class.
         See :ref:`Overriding the default casefold method` for details.
 
         Parameters:
-            key (str): Input key, as a unicode string. Will not be `None`.
+            key (AnyStr): Input key. Will not be `None`.
 
         Returns:
-            str: Case-insensitive form of the input key, as a unicode string.
+            AnyStr: Case-insensitive form of the input key.
 
         Raises:
           AttributeError: The key does not have the casefold method.
         """
-        return key.casefold()
+        try:
+            return key.casefold()  # type: ignore
+        except AttributeError:
+            # Probably a byte string, fall back to lower()
+            return key.lower()
 
     # Basic accessor and setter methods
 
