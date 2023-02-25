@@ -18,6 +18,8 @@ Released: not yet
 
 * Enabled Github Actions for stable branches.
 
+* Addressed new issues of Pylint 2.16.
+
 **Enhancements:**
 
 **Cleanup:**
