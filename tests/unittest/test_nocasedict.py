@@ -25,6 +25,8 @@ nocasedict = import_installed('nocasedict')
 from nocasedict import NocaseDict as _NocaseDict  # noqa: E402
 # pylint: enable=wrong-import-position, wrong-import-order, invalid-name
 
+# pylint: disable=use-dict-literal
+
 PY2 = sys.version_info[0] == 2
 
 # Controls whether the tests are run against a standard dict instead.
