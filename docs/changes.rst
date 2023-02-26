@@ -5,17 +5,17 @@ Change log
 ==========
 
 
-nocasedict 2.0.0.dev1
----------------------
+nocasedict 2.0.0
+----------------
 
-Released: not yet
+This version also contains all changes from 1.1.1.
+
+Released: 2023-02-26
 
 **Incompatible changes:**
 
 * Removed support for Python 2.7, 3.4, 3.5. The minimum required Python version
   is now 3.6. This was needed in order to add Python type hints (issue #123).
-
-**Deprecations:**
 
 **Bug fixes:**
 
@@ -29,14 +29,6 @@ Released: not yet
 
 * Resurrected support for byte string keys that was removed in version 1.1.0.
   (issue #139)
-
-**Cleanup:**
-
-**Known issues:**
-
-* See `list of open issues`_.
-
-.. _`list of open issues`: https://github.com/pywbem/nocasedict/issues
 
 
 nocasedict 1.1.0
