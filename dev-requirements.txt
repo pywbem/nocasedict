@@ -20,8 +20,7 @@ importlib-metadata>=1.1.0,<4.3; python_version <= '3.7'
 # Coverage reporting (no imports, invoked via coveralls script):
 coverage>=5.0
 pytest-cov>=2.7.0
-# TODO: Remove coveralls pinning to <3.0.0 once fixed (TheKevJames/coveralls-python#252)
-coveralls>=2.1.2,<3.0.0
+coveralls>=3.3.0
 
 # Safety CI by pyup.io
 # safety 2.2.0 resolves safety issue #51358
@@ -33,7 +32,7 @@ dparse>=0.6.2
 # safety 2.2.0 requires Click >=8.0.2
 Click>=8.0.2
 
-# PyYAML is pulled in by dparse and python-coveralls
+# PyYAML is pulled in by dparse
 # PyYAML 5.3.1 addressed issue 38100 reported by safety
 PyYAML>=5.3.1
 

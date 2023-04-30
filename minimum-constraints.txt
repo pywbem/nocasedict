@@ -67,13 +67,13 @@ importlib-metadata==1.1.0; python_version <= '3.7'
 # Coverage reporting (no imports, invoked via coveralls script):
 coverage==5.0
 pytest-cov==2.7.0
-coveralls==2.1.2
+coveralls==3.3.0
 
 # Safety CI by pyup.io
 safety==2.2.0
 dparse==0.6.2
 
-# PyYAML is pulled in by dparse and python-coveralls
+# PyYAML is pulled in by dparse
 PyYAML==5.3.1
 
 # Click is used by safety
