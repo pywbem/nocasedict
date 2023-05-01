@@ -5,28 +5,14 @@ Change log
 ==========
 
 
-nocasedict 2.0.1.dev1
----------------------
+nocasedict 2.0.1
+----------------
 
-Released: not yet
-
-**Incompatible changes:**
-
-**Deprecations:**
+Released: 2023-05-01
 
 **Bug fixes:**
 
 * Fixed coveralls issues with KeyError and HTTP 422 Unprocessable Entity.
-
-**Enhancements:**
-
-**Cleanup:**
-
-**Known issues:**
-
-* See `list of open issues`_.
-
-.. _`list of open issues`: https://github.com/pywbem/nocasedict/issues
 
 
 nocasedict 2.0.0
