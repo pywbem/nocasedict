@@ -5,10 +5,10 @@ Change log
 ==========
 
 
-nocasedict 1.1.2.dev1
----------------------
+nocasedict 1.1.2
+----------------
 
-Released: not yet
+Released: 2023-05-01
 
 **Incompatible changes:**
 
@@ -16,21 +16,9 @@ Released: not yet
   3/2019 and recently, Github Actions removed the ubuntu18.04 image which
   was the last one with Python 3.4 support.
 
-**Deprecations:**
-
 **Bug fixes:**
 
 * Fixed coveralls issues with KeyError and HTTP 422 Unprocessable Entity.
-
-**Enhancements:**
-
-**Cleanup:**
-
-**Known issues:**
-
-* See `list of open issues`_.
-
-.. _`list of open issues`: https://github.com/pywbem/nocasedict/issues
 
 
 nocasedict 1.1.1
