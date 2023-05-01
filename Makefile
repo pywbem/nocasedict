@@ -229,11 +229,7 @@ else
   pytest_warning_opts := -W default -W ignore::PendingDeprecationWarning
 endif
 
-ifeq ($(python_mn_version),3.4)
-  pytest_cov_opts :=
-else
-  pytest_cov_opts := --cov $(package_name) $(coverage_report) --cov-config .coveragerc
-endif
+pytest_cov_opts := --cov $(package_name) $(coverage_report) --cov-config .coveragerc
 
 # Files to be put into distribution archive.
 # This is also used for 'include' statements in MANIFEST.in.
@@ -545,16 +541,12 @@ pylint_$(pymn).done: develop_reqs_$(pymn).done Makefile $(pylint_rc_file) $(py_s
 ifeq ($(python_m_version),2)
 	@echo "makefile: Warning: Skipping Pylint on Python $(python_version)" >&2
 else
-ifeq ($(python_mn_version),3.4)
-	@echo "makefile: Warning: Skipping Pylint on Python $(python_version)" >&2
-else
 	@echo "Makefile: Running Pylint"
 	-$(call RM_FUNC,$@)
 	pylint --version
 	pylint $(pylint_opts) --rcfile=$(pylint_rc_file) $(py_src_files)
 	echo "done" >$@
 	@echo "Makefile: Done running Pylint"
-endif
 endif
 
 flake8_$(pymn).done: develop_reqs_$(pymn).done Makefile $(flake8_rc_file) $(py_src_files)

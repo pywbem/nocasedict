@@ -29,21 +29,11 @@ jobs:
         if [[ "${{ github.event_name }}" == "schedule" || "${{ github.head_ref }}" =~ ^release_ ]]; then \
           echo "matrix={ \
             \"os\": [ \"ubuntu-latest\", \"macos-latest\", \"windows-latest\" ], \
-            \"python-version\": [ \"2.7\", \"3.4\", \"3.5\", \"3.6\", \"3.7\", \"3.8\", \"3.9\", \"3.10\", \"3.11\" ], \
+            \"python-version\": [ \"2.7\", \"3.5\", \"3.6\", \"3.7\", \"3.8\", \"3.9\", \"3.10\", \"3.11\" ], \
             \"package_level\": [ \"minimum\", \"latest\" ], \
             \"exclude\": [ \
               { \
                 \"os\": \"ubuntu-latest\", \
-                \"python-version\": \"3.4\", \
-                \"package_level\": \"minimum\" \
-              }, \
-              { \
-                \"os\": \"ubuntu-latest\", \
-                \"python-version\": \"3.4\", \
-                \"package_level\": \"latest\" \
-              }, \
-              { \
-                \"os\": \"ubuntu-latest\", \
                 \"python-version\": \"3.5\", \
                 \"package_level\": \"minimum\" \
               }, \
@@ -60,30 +50,10 @@ jobs:
               { \
                 \"os\": \"ubuntu-latest\", \
                 \"python-version\": \"3.6\", \
-                \"package_level\": \"latest\" \
-              }, \
-              { \
-                \"os\": \"macos-latest\", \
-                \"python-version\": \"3.4\", \
-                \"package_level\": \"minimum\" \
-              }, \
-              { \
-                \"os\": \"macos-latest\", \
-                \"python-version\": \"3.4\", \
                 \"package_level\": \"latest\" \
               } \
             ], \
             \"include\": [ \
-              { \
-                \"os\": \"ubuntu-18.04\", \
-                \"python-version\": \"3.4\", \
-                \"package_level\": \"minimum\" \
-              }, \
-              { \
-                \"os\": \"ubuntu-18.04\", \
-                \"python-version\": \"3.4\", \
-                \"package_level\": \"latest\" \
-              }, \
               { \
                 \"os\": \"ubuntu-20.04\", \
                 \"python-version\": \"3.5\", \
@@ -113,13 +83,13 @@ jobs:
             \"package_level\": [ \"minimum\", \"latest\" ], \
             \"include\": [ \
               { \
-                \"os\": \"ubuntu-18.04\", \
-                \"python-version\": \"3.4\", \
+                \"os\": \"ubuntu-20.04\", \
+                \"python-version\": \"3.5\", \
                 \"package_level\": \"minimum\" \
               }, \
               { \
-                \"os\": \"ubuntu-18.04\", \
-                \"python-version\": \"3.4\", \
+                \"os\": \"ubuntu-20.04\", \
+                \"python-version\": \"3.5\", \
                 \"package_level\": \"latest\" \
               }, \
               { \
@@ -149,7 +119,7 @@ jobs:
               }, \
               { \
                 \"os\": \"windows-latest\", \
-                \"python-version\": \"3.4\", \
+                \"python-version\": \"3.5\", \
                 \"package_level\": \"latest\" \
               }, \
               { \
@@ -250,7 +220,7 @@ jobs:
         COVERALLS_SERVICE_JOB_ID: "${{ github.run_id }}"
         COVERALLS_SERVICE_NUMBER: "${{ github.workflow }}-${{ github.run_number }}"
       run: |
-        if ! [[ ${{ matrix.python-version }} =~ (3.4) ]]; then coveralls; fi
+        coveralls
     - name: Run installtest
       env:
         PACKAGE_LEVEL: ${{ matrix.package_level }}

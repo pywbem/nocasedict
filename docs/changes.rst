@@ -12,6 +12,10 @@ Released: not yet
 
 **Incompatible changes:**
 
+* Removed support for Python 3.4. It is unsupported by the PSF since
+  3/2019 and recently, Github Actions removed the ubuntu18.04 image which
+  was the last one with Python 3.4 support.
+
 **Deprecations:**
 
 **Bug fixes:**
