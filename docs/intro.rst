@@ -120,7 +120,7 @@ is regularly tested in GitHub Actions on the following operating systems:
 
 The package is supported and tested on the following Python versions:
 
-* Python: 2.7, 3.4 and all higher 3.x versions
+* Python: 2.7, 3.5 and all higher 3.x versions
 
 
 .. _`Installing`:
