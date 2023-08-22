@@ -20,6 +20,10 @@ Released: not yet
 
 **Enhancements:**
 
+* Improvements for safety check tool: Made passing the safety check mandatory;
+  Fixed safety issues; Separated the safety check into a separate make target;
+  Added a safety policy file.
+
 **Cleanup:**
 
 **Known issues:**

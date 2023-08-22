@@ -13,10 +13,16 @@
 # pip 10.0.0 introduced the --exclude-editable option.
 # Pip 20.2 introduced a new resolver whose backtracking had issues that were resolved only in 21.2.2.
 # pip>=21.0 is needed for the cryptography package on Windows on GitHub Actions.
-pip==21.2.2
-setuptools==49.0.0
-wheel==0.33.5
-
+# pip 21.1 fixes safety issues 42559,40291
+pip==21.2.4; python_version >= '3.6' and python_version <= '3.9'
+pip==23.0.1; python_version >= '3.10'
+# setuptools 59.7.0 removed support for py36
+# setuptools 65.5.1 fixes safety issue 52495
+setuptools==59.6.0; python_version == '3.6'
+setuptools==65.5.1; python_version >= '3.7'
+# wheel 0.38.1 fixes safety issue 51499
+wheel==0.33.5; python_version == '3.6'
+wheel==0.38.1; python_version >= '3.7'
 
 # Direct dependencies for installation (must be consistent with requirements.txt)
 
@@ -45,7 +51,7 @@ virtualenv==20.1.0
 
 # packaging (used by pytest)
 # Packaging 21.0 is required by safety 2.2.0
-packaging==21.0
+packaging==21.3
 
 # pluggy (used by pytest, tox)
 pluggy==0.13.1
@@ -86,12 +92,14 @@ tox==3.21.0
 Sphinx==4.2.0
 docutils==0.16
 sphinx-git==10.1.1
-GitPython==2.1.1
+GitPython==2.1.1; python_version == '3.6'
+GitPython==3.1.30; python_version >= '3.7'
 sphinxcontrib-fulltoc==1.2.0
 sphinxcontrib-websupport==1.1.2
-Pygments==2.7.4
+Pygments==2.7.4; python_version == '3.6'
+Pygments==2.15.0; python_version >= '3.7'
 sphinx-rtd-theme==1.0.0
-Babel==2.7.0
+Babel==2.9.1
 
 # PyLint (no imports, invoked via pylint script) - does not support py3:
 pylint==2.13.0; python_version <= '3.6'
@@ -119,7 +127,7 @@ pyflakes==2.4.0
 entrypoints==0.3.0
 
 # Twine (no imports, invoked via twine script):
-twine==1.8.1
+twine==3.0.0
 readme-renderer==23.0
 
 
@@ -137,8 +145,8 @@ colorama==0.4.5
 alabaster==0.7.9
 appdirs==1.4.4
 attrs==19.2.0
-bleach==2.1.4
-certifi==2019.9.11
+bleach==3.3.0
+certifi==2022.12.07
 chardet==3.0.3
 distlib==0.3.1
 docopt==0.6.1
@@ -146,17 +154,18 @@ filelock==3.0.0
 gitdb==4.0.1
 idna==2.5
 imagesize==0.7.1
-Jinja2==2.10.2
+Jinja2==3.0.0
 keyring==17.0.0
-MarkupSafe==1.1.0
+MarkupSafe==2.0.0
 more-itertools==5.0.0
-pkginfo==1.4.1
+pkginfo==1.4.2
 py==1.11.0
 pyparsing==2.4.7
 python-dateutil==2.6.0
 pyzmq==16.0.4
 qtconsole==4.2.1
-requests==2.20.1
+requests==2.25.0; python_version == '3.6'
+requests==2.31.0; python_version >= '3.7'
 requests-toolbelt==0.8.0
 rfc3986==1.3.0
 smmap==3.0.1
@@ -168,8 +177,8 @@ sphinxcontrib-jsmath==1.0.0
 sphinxcontrib-qthelp==1.0.0
 sphinxcontrib-serializinghtml==1.1.5
 toml==0.10.0
-tqdm==4.11.2
-urllib3==1.23
+tqdm==4.14
+urllib3==1.26.5
 wcwidth==0.1.7
 webencodings==0.5.1
 widgetsnbextension==1.2.6
