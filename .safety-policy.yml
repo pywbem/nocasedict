@@ -1,0 +1,45 @@
+# Safety policy file
+# For documentation, see https://docs.pyup.io/docs/safety-20-policy-file
+
+# Configuration for the 'safety check' command
+security:
+
+    # Ignore certain severities.
+    # A number between 0 and 10, with the following significant values:
+    # - 9: ignore all vulnerabilities except CRITICAL severity
+    # - 7: ignore all vulnerabilities except CRITICAL & HIGH severity
+    # - 4: ignore all vulnerabilities except CRITICAL, HIGH & MEDIUM severity
+    ignore-cvss-severity-below: 0
+
+    # Ignore unknown severities.
+    # Should be set to False.
+    ignore-cvss-unknown-severity: False
+
+    # List of specific vulnerabilities to ignore.
+    # {id}:                 # vulnerability ID
+    #     reason: {text}    # optional: Reason for ignoring it. Will be reported in the Safety reports
+    #     expires: {date}   # optional: Date when this ignore will expire
+    ignore-vulnerabilities:
+        37504:
+            reason: Fixed twine version 2.0.0 requires Python>=3.6 and is used there
+        39611:
+            reason: PyYAML full_load method or FullLoader is not used
+        51457:
+            reason: The py package is no longer being fixed (latest version 1.11.0)
+        51499:
+            reason: Fixed wheel version 0.38.1 requires Python>=3.7 and is used there; Risk is on Pypi side
+        52322:
+            reason: Fixed GitPython version 3.1.30 requires Python>=3.7 and is used there
+        52365:
+            reason: Fixed certifi version 2022.12.07 requires Python>=3.6 and is used there
+        52495:
+            reason: Fixed setuptools version 65.5.1 requires Python>=3.7 and is used there; Risk is on Pypi side
+        52518:
+            reason: Fixed GitPython version 3.1.27 requires Python>=3.7 and is used there
+        58755:
+            reason: Fixed requests version 2.31.0 requires Python>=3.7 and is used there
+        58910:
+            reason: Fixed Pygments version 2.15.0 requires Python>=3.7 and is used there
+
+    # Continue with exit code 0 when vulnerabilities are found.
+    continue-on-vulnerability-error: False

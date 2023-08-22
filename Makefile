@@ -209,6 +209,9 @@ mypy_opts := --follow-imports skip
 # Flake8 config file
 flake8_rc_file := .flake8
 
+# Safety policy file
+safety_policy_file := .safety-policy.yml
+
 # Test root directory
 test_dir := tests
 
@@ -253,6 +256,7 @@ help:
 	@echo "  check      - Run Flake8 on Python sources"
 	@echo "  pylint     - Run PyLint on Python sources"
 	@echo "  mypy       - Run Mypy on Python sources"
+	@echo "  safety     - Run safety on Python sources"
 	@echo "  installtest - Run install tests"
 	@echo "  test       - Run unit tests"
 	@echo "  testdict   - Run unit tests against standard dict"
@@ -415,7 +419,11 @@ builddoc: html
 	@echo "Makefile: Target $@ done."
 
 .PHONY: check
-check: flake8_$(pymn).done safety_$(pymn).done
+check: flake8_$(pymn).done
+	@echo "Makefile: Target $@ done."
+
+.PHONY: safety
+safety: safety_$(pymn).done
 	@echo "Makefile: Target $@ done."
 
 .PHONY: pylint
@@ -564,10 +572,10 @@ flake8_$(pymn).done: develop_reqs_$(pymn).done Makefile $(flake8_rc_file) $(py_s
 	echo "done" >$@
 	@echo "Makefile: Done running Flake8"
 
-safety_$(pymn).done: develop_reqs_$(pymn).done Makefile minimum-constraints.txt
+safety_$(pymn).done: develop_reqs_$(pymn).done Makefile $(safety_policy_file) minimum-constraints.txt
 	@echo "Makefile: Running pyup.io safety check"
 	-$(call RM_FUNC,$@)
-	-safety check -r minimum-constraints.txt --full-report
+	safety check --policy-file $(safety_policy_file) -r minimum-constraints.txt --full-report
 	echo "done" >$@
 	@echo "Makefile: Done running pyup.io safety check"
 
