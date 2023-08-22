@@ -16,6 +16,8 @@ Released: not yet
 
 **Bug fixes:**
 
+* Fixed flake8 issue about comparing types in test code.
+
 **Enhancements:**
 
 **Cleanup:**

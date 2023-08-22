@@ -133,4 +133,4 @@ def test_KeyableByMixin_init(testcase, ncd_class, init_arg, exp_tuples):
         assert exp_key in ncd
         value = ncd[exp_key]
         # pylint: disable=unidiomatic-typecheck
-        assert type(value) == type(exp_value)
+        assert type(value) == type(exp_value)  # noqa: E721
