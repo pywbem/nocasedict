@@ -18,6 +18,8 @@ Released: not yet
 
 * Fixed flake8 issue about comparing types in test code.
 
+* Fixed safety issues from 2023-08-27.
+
 **Enhancements:**
 
 * Improvements for safety check tool: Made passing the safety check mandatory;
