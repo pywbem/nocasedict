@@ -21,7 +21,7 @@ Released: not yet
 
 * Fixed flake8 issue about comparing types in test code.
 
-* Fixed safety issues from 2023-08-27.
+* Fixed safety issues from 2023-08-27 and 2023-10-15.
 
 * Test: Removed setup.py based installs from "make installtest", since one
   of them started installing a pre-release of a package on an unsupported Python
@@ -32,6 +32,10 @@ Released: not yet
 * Improvements for safety check tool: Made passing the safety check mandatory;
   Fixed safety issues; Separated the safety check into a separate make target;
   Added a safety policy file.
+
+* Test: Moved the Safety run to the end of the test workflow because it regularly
+  fails due to new issues introduced by other packages, in order to surface
+  our own issues in the test runs in any case.
 
 **Cleanup:**
 

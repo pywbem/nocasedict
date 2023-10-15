@@ -164,11 +164,6 @@ jobs:
         PACKAGE_LEVEL: ${{ matrix.package_level }}
       run: |
         make check
-    - name: Run safety
-      env:
-        PACKAGE_LEVEL: ${{ matrix.package_level }}
-      run: |
-        make safety
     - name: Run pylint
       env:
         PACKAGE_LEVEL: ${{ matrix.package_level }}
@@ -211,6 +206,11 @@ jobs:
         PACKAGE_LEVEL: ${{ matrix.package_level }}
       run: |
         make testdict
+    - name: Run safety
+      env:
+        PACKAGE_LEVEL: ${{ matrix.package_level }}
+      run: |
+        make safety
 
   test_finish:
     needs: test
