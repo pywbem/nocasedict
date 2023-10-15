@@ -27,6 +27,8 @@ Released: not yet
   of them started installing a pre-release of a package on an unsupported Python
   version. The recommendation has been for a while now to no longer use
 
+* Docs: Added RTD config file .readthedocs.yaml
+
 **Enhancements:**
 
 * Improvements for safety check tool: Made passing the safety check mandatory;
