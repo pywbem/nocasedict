@@ -178,7 +178,7 @@ sphinxcontrib-qthelp==1.0.0
 sphinxcontrib-serializinghtml==1.1.5
 toml==0.10.0
 tqdm==4.14
-urllib3==1.26.17
+urllib3==1.26.18
 wcwidth==0.1.7
 webencodings==0.5.1
 widgetsnbextension==1.2.6
