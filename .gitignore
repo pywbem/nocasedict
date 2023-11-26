@@ -15,6 +15,7 @@
 /try/
 .ipynb_checkpoints/
 /*.done
+/done/*.done
 *.pyc
 *.pyo
 *.log
