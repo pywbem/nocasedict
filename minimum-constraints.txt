@@ -13,16 +13,13 @@
 # pip 10.0.0 introduced the --exclude-editable option.
 # Pip 20.2 introduced a new resolver whose backtracking had issues that were resolved only in 21.2.2.
 # pip>=21.0 is needed for the cryptography package on Windows on GitHub Actions.
-# pip 21.1 fixes safety issues 42559,40291
 pip==21.3.1; python_version == '3.6'
 pip==23.3; python_version >= '3.7'
 
 # setuptools 59.7.0 removed support for py36
-# setuptools 65.5.1 fixes safety issue 52495
 setuptools==59.6.0; python_version == '3.6'
 setuptools==65.5.1; python_version >= '3.7'
 
-# wheel 0.38.1 fixes safety issue 51499
 wheel==0.33.5; python_version == '3.6'
 wheel==0.38.1; python_version >= '3.7'
 
