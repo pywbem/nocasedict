@@ -21,7 +21,7 @@ Released: not yet
 
 * Fixed flake8 issue about comparing types in test code.
 
-* Fixed safety issues up to 2023-11-12.
+* Fixed safety issues up to 2023-11-26.
 
 * Test: Removed setup.py based installs from "make installtest", since one
   of them started installing a pre-release of a package on an unsupported Python
