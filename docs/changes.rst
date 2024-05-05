@@ -29,6 +29,10 @@ Released: not yet
 
 * Docs: Added RTD config file .readthedocs.yaml
 
+* In the Github Actions test workflow for Python 3.6 and 3.7, changed
+  macos-latest back to macos-12 because macos-latest got upgraded from macOS 12
+  to macOS 14 which no longer supports these Python versions.
+
 **Enhancements:**
 
 * Improvements for safety check tool: Made passing the safety check mandatory;
