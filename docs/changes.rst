@@ -59,6 +59,9 @@ Released: not yet
 * Dev: Removed description of stable branches in development.rst because this
   project maintains only the master branch. (issue #171)
 
+* Converted percent-style and format() basedd string formatting to f-strings.
+  (issue #174)
+
 **Known issues:**
 
 * See `list of open issues`_.

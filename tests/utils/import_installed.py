@@ -49,8 +49,8 @@ def import_installed(module_name):
             ix = None
         if ix is not None:
             if test_installed == 'DEBUG':
-                print("Debug: Removing {0} at index {1} from module search "
-                      "path".format(dirpath, ix))
+                print(f"Debug: Removing {dirpath} at index {ix} from module "
+                      "search path")
             del sys.path[ix]
 
         # Move CWD to end. Reason is that when testing with an editable
@@ -64,16 +64,16 @@ def import_installed(module_name):
                 ix = sys.path.index(dirpath)
             except ValueError:
                 if test_installed == 'DEBUG':
-                    print("Debug: Appending {0} to end of module search "
-                          "path".format(dirpath))
+                    print(f"Debug: Appending {dirpath} to end of module "
+                          "search path")
                 sys.path.append(dirpath)
                 break
             if ix == len(sys.path) - 1:
                 # it exists once at the end
                 break
             if test_installed == 'DEBUG':
-                print("Debug: Removing {0} at index {1} from module search "
-                      "path".format(dirpath, ix))
+                print(f"Debug: Removing {dirpath} at index {ix} from module "
+                      "search path")
             del sys.path[ix]
 
     if module_name not in sys.modules:

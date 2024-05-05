@@ -44,7 +44,7 @@ class NonHashable:
     """
 
     def __hash__(self):
-        raise TypeError("Cannot hash %s" % type(self))
+        raise TypeError(f"Cannot hash {type(self)}")
 
 
 TESTCASES_HASHABLEMIXIN_HASH = [

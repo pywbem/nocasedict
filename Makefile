@@ -159,7 +159,7 @@ package_version := $(shell $(PYTHON_CMD) setup.py --version)
 python_full_version := $(shell $(PYTHON_CMD) -c "import sys; sys.stdout.write('{v[0]}.{v[1]}.{v[2]}'.format(v=sys.version_info))")
 python_mn_version := $(shell $(PYTHON_CMD) -c "import sys; sys.stdout.write('{v[0]}.{v[1]}'.format(v=sys.version_info))")
 python_m_version := $(shell $(PYTHON_CMD) -c "import sys; sys.stdout.write('{v[0]}'.format(v=sys.version_info))")
-python_bitsize := $(shell $(PYTHON_CMD) -c "import sys,ctypes; sys.stdout.write('{s}'.format(s=ctypes.sizeof(ctypes.c_void_p)*8))")
+python_bitsize := $(shell $(PYTHON_CMD) -c "import sys,ctypes; sys.stdout.write(f'{ctypes.sizeof(ctypes.c_void_p)*8}')")
 pymn := py$(python_mn_version)
 
 # Directory for the generated distribution files

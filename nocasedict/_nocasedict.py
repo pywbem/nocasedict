@@ -83,8 +83,7 @@ class _DictView:
         return reversed(list(iter(self)))
 
     def __repr__(self):
-        return "{t}({d!r})".format(
-            t=self.__class__.__name__, d=self._dict)
+        return f"{self.__class__.__name__}({self._dict!r})"
 
 
 class dict_keys(_DictView, KeysView):
@@ -326,7 +325,7 @@ class NocaseDict(MutableMapping):
         try:
             return self._data[k][1]
         except KeyError:
-            key_error = KeyError("Key {0!r} not found".format(key))
+            key_error = KeyError(f"Key {key!r} not found")
             key_error.__cause__ = None  # Suppress 'During handling..'
             raise key_error  # pylint: disable=raise-missing-from
 
@@ -358,7 +357,7 @@ class NocaseDict(MutableMapping):
         try:
             del self._data[k]
         except KeyError:
-            key_error = KeyError("Key {0!r} not found".format(key))
+            key_error = KeyError(f"Key {key!r} not found")
             key_error.__cause__ = None  # Suppress 'During handling..'
             raise key_error  # pylint: disable=raise-missing-from
 
@@ -537,10 +536,9 @@ class NocaseDict(MutableMapping):
 
         Invoked when using e.g.: ``repr(ncd)``
         """
-        items = ["{0!r}: {1!r}".format(key, value)
-                 for key, value in self.items()]
+        items = [f"{key!r}: {value!r}" for key, value in self.items()]
         items_str = ', '.join(items)
-        return "{0.__class__.__name__}({{{1}}})".format(self, items_str)
+        return f"{self.__class__.__name__}({{{items_str}}})"
 
     def update(self, *args, **kwargs) -> None:
         # pylint: disable=arguments-differ,signature-differs
