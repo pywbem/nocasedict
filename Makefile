@@ -347,7 +347,7 @@ _check_installed:
 	$(PYTHON_CMD) -c "import $(package_name)"
 	@echo "Makefile: Done verifying installation of package $(package_name)"
 
-$(done_dir)/pip_upgrade_$(pymn)_$(PACKAGE_LEVEL).done: Makefile
+$(done_dir)/pip_upgrade_$(pymn)_$(PACKAGE_LEVEL).done: Makefile minimum-constraints.txt
 	@echo "Makefile: Installing/upgrading Pip (with PACKAGE_LEVEL=$(PACKAGE_LEVEL))"
 	-$(call RM_FUNC,$@)
 	bash -c 'pv=$$($(PIP_CMD) --version); if [[ $$pv =~ (^pip [1-8]\..*) ]]; then $(PYTHON_CMD) -m pip $(pip_opts) install pip==9.0.1; fi'
@@ -355,21 +355,21 @@ $(done_dir)/pip_upgrade_$(pymn)_$(PACKAGE_LEVEL).done: Makefile
 	echo "done" >$@
 	@echo "Makefile: Done installing/upgrading Pip"
 
-$(done_dir)/install_basic_$(pymn)_$(PACKAGE_LEVEL).done: Makefile $(done_dir)/pip_upgrade_$(pymn)_$(PACKAGE_LEVEL).done
+$(done_dir)/install_basic_$(pymn)_$(PACKAGE_LEVEL).done: Makefile $(done_dir)/pip_upgrade_$(pymn)_$(PACKAGE_LEVEL).done minimum-constraints.txt
 	@echo "Makefile: Installing/upgrading basic Python packages (with PACKAGE_LEVEL=$(PACKAGE_LEVEL))"
 	-$(call RM_FUNC,$@)
 	$(PIP_CMD_MOD) $(pip_opts) install $(pip_level_opts) setuptools wheel
 	echo "done" >$@
 	@echo "Makefile: Done installing/upgrading basic Python packages"
 
-$(done_dir)/install_reqs_$(pymn)_$(PACKAGE_LEVEL).done: Makefile $(done_dir)/install_basic_$(pymn)_$(PACKAGE_LEVEL).done requirements.txt
+$(done_dir)/install_reqs_$(pymn)_$(PACKAGE_LEVEL).done: Makefile $(done_dir)/install_basic_$(pymn)_$(PACKAGE_LEVEL).done requirements.txt minimum-constraints.txt
 	@echo "Makefile: Installing Python installation prerequisites (with PACKAGE_LEVEL=$(PACKAGE_LEVEL))"
 	-$(call RM_FUNC,$@)
 	$(PIP_CMD_MOD) $(pip_opts) install $(pip_level_opts) -r requirements.txt
 	echo "done" >$@
 	@echo "Makefile: Done installing Python installation prerequisites"
 
-$(done_dir)/develop_reqs_$(pymn)_$(PACKAGE_LEVEL).done: $(done_dir)/install_basic_$(pymn)_$(PACKAGE_LEVEL).done dev-requirements.txt test-requirements.txt
+$(done_dir)/develop_reqs_$(pymn)_$(PACKAGE_LEVEL).done: $(done_dir)/install_basic_$(pymn)_$(PACKAGE_LEVEL).done dev-requirements.txt test-requirements.txt minimum-constraints.txt
 	@echo "Makefile: Installing development requirements (with PACKAGE_LEVEL=$(PACKAGE_LEVEL))"
 	-$(call RM_FUNC,$@)
 	$(PIP_CMD_MOD) $(pip_opts) install $(pip_level_opts) -r dev-requirements.txt
