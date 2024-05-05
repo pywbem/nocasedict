@@ -5,23 +5,21 @@ Change log
 ==========
 
 
-nocasedict 2.0.2.dev1
----------------------
+nocasedict 2.0.2
+----------------
 
-Released: not yet
+Released: 2024-05-05
 
 **Incompatible changes:**
 
 * Installation of this package using "setup.py" is no longer supported.
   Use "pip" instead.
 
-**Deprecations:**
-
 **Bug fixes:**
 
-* Fixed flake8 issue about comparing types in test code.
+* Dev: Fixed flake8 issue about comparing types in test code.
 
-* Fixed safety issues up to 2023-11-26.
+* Fixed safety issues up to 2024-05-05. No changes in package dependencies.
 
 * Test: Removed setup.py based installs from "make installtest", since one
   of them started installing a pre-release of a package on an unsupported Python
@@ -29,7 +27,7 @@ Released: not yet
 
 * Docs: Added RTD config file .readthedocs.yaml
 
-* In the Github Actions test workflow for Python 3.6 and 3.7, changed
+* Test: In the Github Actions test workflow for Python 3.6 and 3.7, changed
   macos-latest back to macos-12 because macos-latest got upgraded from macOS 12
   to macOS 14 which no longer supports these Python versions.
 
@@ -83,12 +81,6 @@ Released: not yet
 
 * Docs: In the Introduction section, removed statements about the nocasedict
   behavior in Python 2.
-
-**Known issues:**
-
-* See `list of open issues`_.
-
-.. _`list of open issues`: https://github.com/pywbem/nocasedict/issues
 
 
 nocasedict 2.0.1
