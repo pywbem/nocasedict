@@ -44,6 +44,8 @@ Released: not yet
 
 **Enhancements:**
 
+* Test: Added support for Python 3.12. (issue #178)
+
 * Improvements for safety check tool: Made passing the safety check mandatory;
   Fixed safety issues; Separated the safety check into a separate make target;
   Added a safety policy file.
