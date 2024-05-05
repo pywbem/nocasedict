@@ -386,7 +386,13 @@ Git repo.
       add text for any known issues you want users to know about.
     * Remove all empty list items.
 
-5.  Commit your changes and push the topic branch to the remote repo:
+5.  Update the authors:
+
+    .. code-block:: sh
+
+        make authors
+
+6.  Commit your changes and push the topic branch to the remote repo:
 
     .. code-block:: sh
 
@@ -394,19 +400,19 @@ Git repo.
         git commit -asm "Release ${MNU}"
         git push --set-upstream origin release_${MNU}
 
-6.  On GitHub, create a Pull Request for branch ``release_M.N.U``. This will
+7.  On GitHub, create a Pull Request for branch ``release_M.N.U``. This will
     trigger the CI runs.
 
     When creating Pull Requests, GitHub by default targets the ``master``
     branch.
 
-7.  On GitHub, close milestone ``M.N.U``.
+8.  On GitHub, close milestone ``M.N.U``.
 
-8.  On GitHub, once the checks for the Pull Request for branch ``start_M.N.U``
+9.  On GitHub, once the checks for the Pull Request for branch ``start_M.N.U``
     have succeeded, merge the Pull Request (no review is needed). This
     automatically deletes the branch on GitHub.
 
-9.  Add a new tag for the version that is being released and push it to
+10. Add a new tag for the version that is being released and push it to
     the remote repo. Clean up the local repo:
 
     .. code-block:: sh
@@ -417,12 +423,12 @@ Git repo.
         git push -f --tags
         git branch -d release_${MNU}
 
-10. On GitHub, edit the new tag ``M.N.U``, and create a release description on
+11. On GitHub, edit the new tag ``M.N.U``, and create a release description on
     it. This will cause it to appear in the Release tab.
 
     You can see the tags in GitHub via Code -> Releases -> Tags.
 
-11. Upload the package to PyPI:
+12. Upload the package to PyPI:
 
     .. code-block:: sh
 
