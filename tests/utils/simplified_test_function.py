@@ -5,6 +5,7 @@ simplified_test_function - Pytest extension for simplifying test functions.
 from __future__ import absolute_import
 
 import functools
+import warnings
 from collections import namedtuple
 from inspect import Signature, Parameter  # type: ignore
 import pytest
@@ -148,7 +149,7 @@ def simplified_test_function(test_func):
                     ret = None  # Debugging hint
                     assert len(rec_warnings) >= 1
         else:
-            with pytest.warns(None) as rec_warnings:
+            with warnings.catch_warnings(record=True) as rec_warnings:
                 if exp_exc_types:
                     with pytest.raises(exp_exc_types):
                         if condition == 'pdb':
@@ -170,7 +171,7 @@ def simplified_test_function(test_func):
                     # Verify that no warnings have occurred
                     if exp_warn_types is None and rec_warnings:
                         lines = []
-                        for w in rec_warnings.list:
+                        for w in rec_warnings:
                             tup = (w.filename, w.lineno, w.category.__name__,
                                    str(w.message))
                             line = "{t[0]}:{t[1]}: {t[2]}: {t[3]}".format(t=tup)
