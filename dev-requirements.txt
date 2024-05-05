@@ -116,6 +116,9 @@ readme-renderer>=23.0
 # safety 2.3.5 started pinning packaging to <22.0 and requires >=21.0
 packaging>=21.0,<22.0
 
+# Package dependency management tools
+pipdeptree>=2.2.0
+
 
 # Indirect dependencies with special constraints:
 
