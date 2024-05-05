@@ -17,7 +17,8 @@ pytest>=7.0.0
 
 # virtualenv
 # tox 3.21.0 requires virtualenv!=20.0.[0-7],>=16.0.0 and requires py>=3.5
-virtualenv>=20.1.0
+virtualenv>=20.15.0; python_version <= '3.11'
+virtualenv>=20.23.0; python_version >= '3.12'
 
 
 # Indirect dependencies with special constraints:
