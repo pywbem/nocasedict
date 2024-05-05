@@ -41,11 +41,11 @@ def get_version(version_file):
 XYZ_VAR = 'xyz'
 
 # RST variable substitutions
-rst_prolog = """
+rst_prolog = f"""
 
-.. |XYZ_VAR| replace:: ``"{var}"``
+.. |XYZ_VAR| replace:: ``"{XYZ_VAR}"``
 
-""".format(var=XYZ_VAR)
+"""
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -666,10 +666,8 @@ class AutoAutoSummary(Autosummary):
                     def_module_name = def_class.__module__
                     if def_module_name.startswith('nocasedict'):
                         def_module_name = def_module_name.split('.')[0]
-                    content_str = "~%s.%s.%s" % (
-                        def_module_name,
-                        def_class.__name__,
-                        method)
+                    content_str = \
+                        f"~{def_module_name}.{def_class.__name__}.{method}"
                     self.content.append(content_str)
             elif 'attributes' in self.options:
                 _, attributes = self._get_members(class_obj, 'attribute')
@@ -682,10 +680,8 @@ class AutoAutoSummary(Autosummary):
                     def_module_name = def_class.__module__
                     if def_module_name.startswith('nocasedict'):
                         def_module_name = def_module_name.split('.')[0]
-                    content_str = "~%s.%s.%s" % (
-                        def_module_name,
-                        def_class.__name__,
-                        attrib)
+                    content_str = \
+                        f"~{def_module_name}.{def_class.__name__}.{attrib}"
                     self.content.append(content_str)
 
         except Exception as exc:

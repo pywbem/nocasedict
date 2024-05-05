@@ -58,10 +58,10 @@ class NonEquatable:
     """
 
     def __eq__(self, other):
-        raise TypeError("Cannot compare %s to %s" % (type(self), type(other)))
+        raise TypeError(f"Cannot compare {type(self)} to {type(other)}")
 
     def __ne__(self, other):
-        raise TypeError("Cannot compare %s to %s" % (type(self), type(other)))
+        raise TypeError(f"Cannot compare {type(self)} to {type(other)}")
 
 
 TESTCASES_NOCASEDICT_INIT = [
@@ -313,18 +313,18 @@ def test_NocaseDict_init(testcase,
     act_items = []
     for key in act_dict:  # Uses NocaseDict iteration
         act_value = act_dict[key]  # Uses NocaseDict getitem
-        assert key in exp_dict, "Unexpected extra key %r" % key
+        assert key in exp_dict, f"Unexpected extra key {key!r}"
         exp_value = exp_dict[key]
-        assert act_value == exp_value, "Unexpected value at key %r" % key
+        assert act_value == exp_value, f"Unexpected value at key {key!r}"
         act_items.append((key, act_value))
 
     exp_items = []
     for key in exp_dict:
         exp_value = exp_dict[key]
         # Next line uses NocaseDict contains:
-        assert key in act_dict, "Unexpected missing key %r" % key
+        assert key in act_dict, f"Unexpected missing key {key!r}"
         act_value = act_dict[key]  # Uses NocaseDict getitem
-        assert act_value == exp_value, "Unexpected value at key %r" % key
+        assert act_value == exp_value, f"Unexpected value at key {key!r}"
         exp_items.append((key, exp_value))
 
     if verify_order:
@@ -565,7 +565,7 @@ def test_NocaseDict_getitem(testcase,
     # are not mistaken as expected exceptions
     assert testcase.exp_exc_types is None
 
-    assert act_value == exp_value, "Unexpected value at key %r" % key
+    assert act_value == exp_value, f"Unexpected value at key {key!r}"
 
 
 TESTCASES_NOCASEDICT_SETITEM = [
@@ -708,7 +708,7 @@ def test_NocaseDict_setitem(testcase, obj, key, value):
 
     act_value = obj[key]  # Uses NocaseDIct getitem
 
-    assert act_value == value, "Unexpected value at key %r" % key
+    assert act_value == value, f"Unexpected value at key {key!r}"
 
 
 TESTCASES_NOCASEDICT_DELITEM = [
@@ -1028,8 +1028,7 @@ def test_NocaseDict_contains(testcase, obj, key, exp_result):
     # are not mistaken as expected exceptions
     assert testcase.exp_exc_types is None
 
-    assert act_result == exp_result, \
-        "Unexpected result at key {k!r}".format(k=key)
+    assert act_result == exp_result, f"Unexpected result at key {key!r}"
 
 
 TESTCASES_NOCASEDICT_FROMKEYS = [
@@ -1884,8 +1883,8 @@ def test_NocaseDict_setdefault(testcase, obj, key, default, exp_value):
     # are not mistaken as expected exceptions
     assert testcase.exp_exc_types is None
 
-    assert act_value == exp_value, "Unexpected value at key %r with " \
-                                   "default %r" % (key, default)
+    assert act_value == exp_value, \
+        f"Unexpected value at key {key!r} with default {default!r}"
 
 
 TESTCASES_NOCASEDICT_ITEMS = [
@@ -2122,8 +2121,8 @@ def test_NocaseDict_repr(testcase, obj):
 
     # Note: This only tests for existence of each item, not for excess items
     # or representing the correct order.
-    for item in obj.items():
-        exp_item_result = "{0!r}: {1!r}".format(*item)
+    for key, value in obj.items():
+        exp_item_result = f"{key!r}: {value!r}"
         assert exp_item_result in result
 
 
@@ -3054,7 +3053,7 @@ def test_NocaseDict_ordering(testcase,
     Test function for NocaseDict.__le__(), __lt__(), __ge__(), __gt__() / ord.
     """
 
-    comp_str = 'obj1 %s obj2' % op
+    comp_str = f'obj1 {op} obj2'
 
     # Double check they are different objects
     assert id(obj1) != id(obj2)
