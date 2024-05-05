@@ -16,6 +16,9 @@ Released: not yet
 
 **Bug fixes:**
 
+* Docs: Added Python 3.12 to the supported versions in the package metadata.
+  (issue #196)
+
 **Enhancements:**
 
 **Cleanup:**
