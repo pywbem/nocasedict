@@ -42,7 +42,9 @@ PyYAML>=5.3.1
 # tox 3.17 requires six>=1.14.0 - covered in requirements.txt
 # tox 3.14 requires importlib-metadata<1,>=0.12 on py<3.8
 # tox 3.21 requires importlib-metadata>=0.12 on py<3.8
-tox>=3.21.0
+# Pinning tox to <4.0.1 is a pip backtracking optimization:
+#   tox 4.0.1 requires packaging>=22, but we need packaging<22
+tox>=3.21.0,<4.0.1
 
 # Sphinx (no imports, invoked via sphinx-build script):
 # Keep in sync with rtd-requirements.txt
@@ -52,7 +54,9 @@ tox>=3.21.0
 #   types.Union. This also drives docutils>=0.14.
 # Sphinx pins docutils to <0.18 (some versions even to <0.17) but the package
 #   version resolver in the pip version used on py27 ignores package dependencies
-Sphinx>=4.2.0
+# Pinning Sphinx to <6.0.0 is a pip backtracking optimization:
+#   Sphinx 6.0.0 requires docutils>=0.18,<0.20, but we need docutils>=0.16,<0.17
+Sphinx>=4.2.0,<6.0.0
 docutils>=0.16,<0.17
 sphinx-git>=10.1.1
 GitPython>=2.1.1; python_version == '3.6'
