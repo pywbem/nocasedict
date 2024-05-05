@@ -60,6 +60,10 @@ Released: not yet
 * Dev: Optimized pip backtracking when installing devlopment packages.
   (issue #177)
 
+* Test: Added a new make target 'check_reqs' that checks missing package
+  dependencies, and added a step to the test workflow that runs it.
+  (issue #176)
+
 **Cleanup:**
 
 * Dev: Removed description of stable branches in development.rst because this
