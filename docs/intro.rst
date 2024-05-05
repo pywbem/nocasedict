@@ -29,15 +29,13 @@ Example:
     NocaseDict({'Alpha': 1, 'Beta': 2})
 
 The :class:`~nocasedict.NocaseDict` class supports the functionality of the
-built-in `dict class of Python 3.8`_ on all Python versions it supports with
-the following exceptions (and the case-insensitivity of course):
+built-in `dict class of Python 3.8`_ on all Python versions it supports.
 
-* The ``iter..()``, ``view..()`` and ``has_key()`` methods are only present
-  on Python 2, consistent with the built-in ``dict`` class.
+Limitation: Any functionalities added to the ``dict`` class in Python 3.9 or
+later are not yet supported. These are:
 
-* The ``keys()``, ``values()`` and ``items()`` methods return a list on Python 2
-  and a dictionary view on Python 3, consistent with the built-in ``dict``
-  class.
+* ``d | other`` - Added in Python 3.9.
+* ``d |= other`` - Added in Python 3.9.
 
 .. _dict class of Python 3.8: https://docs.python.org/3.8/library/stdtypes.html#dict
 

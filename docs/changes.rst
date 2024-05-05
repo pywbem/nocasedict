@@ -69,13 +69,20 @@ Released: not yet
   dependencies, and added a step to the test workflow that runs it.
   (issue #176)
 
+* Docs: In the Introduction section, documented the limitation that 'd | other'
+  and 'd |= other' which were added to the standard Pyton 'dict' class in Python
+  3.9 are not yet supported by nocasedict.
+
 **Cleanup:**
 
 * Dev: Removed description of stable branches in development.rst because this
   project maintains only the master branch. (issue #171)
 
-* Converted percent-style and format() basedd string formatting to f-strings.
+* Converted percent-style and format() based string formatting to f-strings.
   (issue #174)
+
+* Docs: In the Introduction section, removed statements about the nocasedict
+  behavior in Python 2.
 
 **Known issues:**
 
