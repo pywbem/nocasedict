@@ -48,6 +48,9 @@ Released: not yet
 
 **Cleanup:**
 
+* Dev: Removed description of stable branches in development.rst because this
+  project maintains only the master branch. (issue #171)
+
 **Known issues:**
 
 * See `list of open issues`_.
