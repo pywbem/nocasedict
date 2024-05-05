@@ -133,7 +133,7 @@ highlight_language = 'python3'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = ["README.rst", "README_PYPI.rst",
+exclude_patterns = ["README.md",
                     ".tox", ".git", "design", "tests", "dist",
                     "build_doc"]
 

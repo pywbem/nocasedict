@@ -237,7 +237,7 @@ pytest_cov_opts := --cov $(package_name) $(coverage_report) --cov-config .covera
 # Wildcards can be used directly (i.e. without wildcard function).
 dist_included_files := \
     LICENSE \
-    README.rst \
+    README.md \
     INSTALL.md \
     requirements.txt \
     test-requirements.txt \

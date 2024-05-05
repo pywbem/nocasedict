@@ -36,6 +36,9 @@ Released: not yet
 * Test: Fixed issues resulting from removal of support for pytest.warns(None)
   in pytest version 8.
 
+* Docs: Converted README file from RST to MarkDown to fix badge alignment issue
+  (issue #172)
+
 **Enhancements:**
 
 * Improvements for safety check tool: Made passing the safety check mandatory;

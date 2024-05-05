@@ -171,7 +171,7 @@ particular version of the package into the current directory and unpack it:
     -rw-r--r--   1 johndoe  staff  26436 May 26 06:45 LICENSE.txt
     -rw-r--r--   1 johndoe  staff    367 Jul  3 07:54 MANIFEST.in
     -rw-r--r--   1 johndoe  staff   3451 Jul  3 07:55 PKG-INFO
-    -rw-r--r--   1 johndoe  staff   7665 Jul  2 23:20 README.rst
+    -rw-r--r--   1 johndoe  staff   7665 Jul  2 23:20 README.md
     drwxr-xr-x  29 johndoe  staff    928 Jul  3 07:55 nocasedict
     drwxr-xr-x   8 johndoe  staff    256 Jul  3 07:55 nocasedict.egg-info
     -rw-r--r--   1 johndoe  staff   1067 Jun 29 22:31 requirements.txt
