@@ -39,6 +39,9 @@ Released: not yet
 * Docs: Converted README file from RST to MarkDown to fix badge alignment issue
   (issue #172)
 
+* Dev: Added missing dependency to minimum-constraints.txt to several make
+  targets that used it with PACKAGE_LEVEL=minimum.
+
 **Enhancements:**
 
 * Improvements for safety check tool: Made passing the safety check mandatory;
