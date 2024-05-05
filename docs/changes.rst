@@ -33,6 +33,9 @@ Released: not yet
   macos-latest back to macos-12 because macos-latest got upgraded from macOS 12
   to macOS 14 which no longer supports these Python versions.
 
+* Test: Fixed issues resulting from removal of support for pytest.warns(None)
+  in pytest version 8.
+
 **Enhancements:**
 
 * Improvements for safety check tool: Made passing the safety check mandatory;
