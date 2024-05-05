@@ -194,6 +194,10 @@ jobs:
       run: |
         echo "Installed Python packages:"
         pip list
+    - name: Show package dependency tree
+      run: |
+        echo "Package dependency tree of installed Python packages:"
+        python -m pipdeptree --all
     - name: Run build
       env:
         PACKAGE_LEVEL: ${{ matrix.package_level }}

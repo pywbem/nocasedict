@@ -54,6 +54,9 @@ Released: not yet
   the description of how to release a version in the development
   documentation. (issue #173)
 
+* Test: Added a step to the test workflow for displaying the tree of all
+  package dependencies using pipdeptree. (issue #175)
+
 **Cleanup:**
 
 * Dev: Removed description of stable branches in development.rst because this
