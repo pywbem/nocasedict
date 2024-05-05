@@ -57,6 +57,9 @@ Released: not yet
 * Test: Added a step to the test workflow for displaying the tree of all
   package dependencies using pipdeptree. (issue #175)
 
+* Dev: Optimized pip backtracking when installing devlopment packages.
+  (issue #177)
+
 **Cleanup:**
 
 * Dev: Removed description of stable branches in development.rst because this
