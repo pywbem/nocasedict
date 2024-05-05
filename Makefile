@@ -264,6 +264,7 @@ help:
 	@echo "  test       - Run unit tests"
 	@echo "  testdict   - Run unit tests against standard dict"
 	@echo "  doclinkcheck - Run Sphinx linkcheck on the documentation"
+	@echo "  authors    - Generate AUTHORS.md file from git log"
 	@echo "  all        - Do all of the above"
 	@echo "  install    - Install $(package_name) as standalone and its dependent packages"
 	@echo "  upload     - build + upload the distribution archive files to PyPI"
@@ -438,7 +439,7 @@ mypy: $(done_dir)/mypy_$(pymn)_$(PACKAGE_LEVEL).done
 	@echo "Makefile: Target $@ done."
 
 .PHONY: all
-all: develop build builddoc check pylint mypy installtest test testdict doclinkcheck
+all: develop build builddoc check pylint mypy installtest test testdict doclinkcheck authors
 	@echo "Makefile: Target $@ done."
 
 .PHONY: clobber
@@ -521,6 +522,18 @@ doccoverage: $(done_dir)/develop_reqs_$(pymn)_$(PACKAGE_LEVEL).done
 	$(doc_cmd) -b coverage $(doc_opts) $(doc_build_dir)/coverage
 	@echo "Makefile: Done creating the doc coverage results file: $(doc_build_dir)/coverage/python.txt"
 	@echo "Makefile: Target $@ done."
+
+.PHONY: authors
+authors: _check_version original_authors.md
+	echo "# Authors of this project" >AUTHORS.md
+	echo "" >>AUTHORS.md
+	cat original_authors.md >>AUTHORS.md
+	echo "" >>AUTHORS.md
+	echo "Sorted list of authors derived from git commit history:" >>AUTHORS.md
+	echo '```' >>AUTHORS.md
+	git shortlog --summary --email | cut -f 2 | sort >>AUTHORS.md
+	echo '```' >>AUTHORS.md
+	@echo '$@ done.'
 
 # Note: distutils depends on the right files specified in MANIFEST.in, even when
 # they are already specified e.g. in 'package_data' in setup.py.
