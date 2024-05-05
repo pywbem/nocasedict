@@ -29,14 +29,13 @@ The
 [NocaseDict](https://nocasedict.readthedocs.io/en/stable/reference.html#nocasedict.NocaseDict)
 class supports the functionality of the built-in
 [dict class of Python 3.8](https://docs.python.org/3.8/library/stdtypes.html#dict)
-on all Python versions it supports with the following exceptions (and the
-case-insensitivity of course):
+on all Python versions it supports.
 
-- The `iter..()`, `view..()` and `has_key()` methods are only present
-  on Python 2, consistent with the built-in `dict` class.
-- The `keys()`, `values()` and `items()` methods return a list on
-  Python 2 and a dictionary view on Python 3, consistent with the
-  built-in `dict` class.
+Limitation: Any functionalities added to the `dict` class in Python 3.9 or
+later are not yet supported. These are:
+
+* `d | other` - Added in Python 3.9.
+* `d |= other` - Added in Python 3.9.
 
 The case-insensitivity is achieved by matching any key values as their
 casefolded values. By default, the casefolding is performed with

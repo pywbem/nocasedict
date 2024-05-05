@@ -19,6 +19,9 @@ Released: not yet
 * Docs: Added Python 3.12 to the supported versions in the package metadata.
   (issue #196)
 
+* Docs: Updated the README file with the changes from the introduction section
+  w.r.t. Python 2 and limitations. (issue #195)
+
 **Enhancements:**
 
 **Cleanup:**
