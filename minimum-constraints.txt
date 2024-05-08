@@ -56,10 +56,8 @@ packaging==21.3
 pluggy==0.13.1
 
 # six (used by virtualenv, tox, probably others)
-# virtualenv 20.0 requires six>=1.12.0 on py>=3.8
-# tox 3.17 requires six>=1.14.0
-six==1.14.0; python_version <= '3.9'
-six==1.16.0; python_version >= '3.10'
+six==1.14.0; python_version <= '3.11'
+six==1.16.0; python_version >= '3.12'
 
 
 # Indirect dependencies that must be handled early (must be consistent with dev-requirements.txt)
@@ -125,8 +123,8 @@ wrapt==1.14
 isort==4.3.8
 tomlkit==0.10.1
 dill==0.3.4; python_version == '3.6'
-dill==0.3.6; python_version >= '3.7' and python_version <= '3.10'
-dill==0.3.7; python_version >= '3.11'
+dill==0.3.6; python_version >= '3.7' and python_version <= '3.11'
+dill==0.3.7; python_version >= '3.12'
 
 platformdirs==2.2.0; python_version <= '3.11'
 platformdirs==3.2.0; python_version >= '3.12'
