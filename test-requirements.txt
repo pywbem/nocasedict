@@ -22,7 +22,7 @@ pytest>=7.0.0
 # virtualenv 20.2.1 started removing the prior pinning of importlib-metadata to <3
 # tox 3.21.0 requires virtualenv!=20.0.[0-7],>=16.0.0 and requires Python >=3.5
 virtualenv>=20.2.1,<20.16.3; python_version <= '3.7'
-virtualenv>=20.2.1; python_version >= '3.8'
+virtualenv>=20.23.0; python_version >= '3.8'
 
 
 # Indirect dependencies with special constraints:

@@ -48,6 +48,10 @@ security:
             reason: Fixed jinja2 version 3.1.3 requires Python>=3.7 and is used there
         63687:
             reason: Fixed gitpython version 3.1.41 requires Python>=3.7 and is used there
+        68477:
+            reason: Fixed virtualenv version 20.21.0 requires Python>=3.7 and is used on Python>=3.8
+        70612:
+            reason: Disputed issue in jinja2 version 3.1.3 - No known fix
 
     # Continue with exit code 0 when vulnerabilities are found.
     continue-on-vulnerability-error: False
