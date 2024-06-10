@@ -213,7 +213,8 @@ toml==0.10.0
 # tomli 2.0.0 removed support for py36
 tomli==1.1.0; python_version == '3.6'
 tomli==2.0.1; python_version >= '3.7'
-tqdm==4.14
+tqdm==4.14; python_version == '3.6'
+tqdm==4.66.3; python_version >= '3.7'
 urllib3==1.26.18
 wcwidth==0.1.7
 webencodings==0.5.1
