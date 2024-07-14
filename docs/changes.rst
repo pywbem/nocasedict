@@ -22,6 +22,9 @@ Released: not yet
 
 **Cleanup:**
 
+* Test: Increased vrsions of GitHub Actions plugins used, to eliminate warnings
+  about node v16.
+
 **Known issues:**
 
 * See `list of open issues`_.
