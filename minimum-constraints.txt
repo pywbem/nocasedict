@@ -116,7 +116,8 @@ pylint==3.0.3; python_version >= '3.12'
 astroid==2.11.0; python_version == '3.6'
 astroid==2.12.4; python_version >= '3.7' and python_version <= '3.11'
 astroid==3.0.2; python_version >= '3.12'
-typing-extensions==3.10; python_version <= '3.10'
+typing-extensions==3.10.0; python_version == '3.6'
+typing-extensions==4.6.0; python_version >= '3.7'
 typed-ast==1.4.0; python_version <= '3.7' and implementation_name=='cpython'
 lazy-object-proxy==1.4.3
 wrapt==1.14
@@ -126,8 +127,8 @@ dill==0.3.4; python_version == '3.6'
 dill==0.3.6; python_version >= '3.7' and python_version <= '3.11'
 dill==0.3.7; python_version >= '3.12'
 
-platformdirs==2.2.0; python_version <= '3.11'
-platformdirs==3.2.0; python_version >= '3.12'
+platformdirs==2.2.0; python_version == '3.6'
+platformdirs==3.2.0; python_version >= '3.7'
 
 # Mypy (no imports, invoked via mypy script)
 mypy==0.971
@@ -174,11 +175,10 @@ Authlib==1.2.0
 bleach==3.3.0
 certifi==2023.07.22
 chardet==3.0.3
-distlib==0.3.1; python_version <= '3.11'
-distlib==0.3.7; python_version >= '3.12'
+distlib==0.3.7
 docopt==0.6.1
-filelock==3.2.0; python_version <= '3.11'
-filelock==3.11.0; python_version >= "3.12"
+filelock==3.2.0; python_version == '3.6'
+filelock==3.11.0; python_version >= "3.7"
 gitdb==4.0.1
 # idna>3 requires using requests >=2.26.0
 idna==3.7
