@@ -248,7 +248,15 @@ dist_included_files := \
 done_dir := done
 
 # Packages whose dependencies are checked using pip-missing-reqs
-check_reqs_packages := pytest coverage coveralls flake8 pylint safety sphinx twine
+ifeq ($(python_mn_version),3.6)
+  check_reqs_packages := pytest coverage coveralls flake8 pylint twine
+else
+ifeq ($(python_mn_version),3.7)
+  check_reqs_packages := pytest coverage coveralls flake8 pylint twine safety
+else
+  check_reqs_packages := pytest coverage coveralls flake8 pylint twine safety sphinx
+endif
+endif
 
 .PHONY: help
 help:
@@ -480,14 +488,23 @@ upload: _check_version $(dist_files)
 html: $(done_dir)/develop_reqs_$(pymn)_$(PACKAGE_LEVEL).done $(doc_build_dir)/html/docs/index.html
 	@echo "Makefile: Target $@ done."
 
+# Boolean variable indicating that Sphinx should be run
+# We run Sphinx only on Python>=3.8 because lower Python versions require too old Sphinx versions
+run_sphinx := $(shell $(PYTHON_CMD) -c "import sys; py=sys.version_info[0:2]; sys.stdout.write('true' if py>=(3,8) else 'false')")
+
 $(doc_build_dir)/html/docs/index.html: Makefile $(doc_dependent_files)
+ifeq ($(run_sphinx),true)
 	@echo "Makefile: Creating the documentation as HTML pages"
 	-$(call RM_FUNC,$@)
 	$(doc_cmd) -b html $(doc_opts) $(doc_build_dir)/html
 	@echo "Makefile: Done creating the documentation as HTML pages; top level file: $@"
+else
+	@echo "Skipping Sphinx to create the documentation as HTML pages on Python version $(python_version)"
+endif
 
 .PHONY: pdf
 pdf: $(done_dir)/develop_reqs_$(pymn)_$(PACKAGE_LEVEL).done Makefile $(doc_dependent_files)
+ifeq ($(run_sphinx),true)
 	@echo "Makefile: Creating the documentation as PDF file"
 	-$(call RM_FUNC,$@)
 	$(doc_cmd) -b latex $(doc_opts) $(doc_build_dir)/pdf
@@ -495,37 +512,56 @@ pdf: $(done_dir)/develop_reqs_$(pymn)_$(PACKAGE_LEVEL).done Makefile $(doc_depen
 	$(MAKE) -C $(doc_build_dir)/pdf all-pdf
 	@echo "Makefile: Done creating the documentation as PDF file in: $(doc_build_dir)/pdf/"
 	@echo "Makefile: Target $@ done."
+else
+	@echo "Skipping Sphinx to create the documentation as PDF file on Python version $(python_version)"
+endif
 
 .PHONY: man
 man: $(done_dir)/develop_reqs_$(pymn)_$(PACKAGE_LEVEL).done Makefile $(doc_dependent_files)
+ifeq ($(run_sphinx),true)
 	@echo "Makefile: Creating the documentation as man pages"
 	-$(call RM_FUNC,$@)
 	$(doc_cmd) -b man $(doc_opts) $(doc_build_dir)/man
 	@echo "Makefile: Done creating the documentation as man pages in: $(doc_build_dir)/man/"
 	@echo "Makefile: Target $@ done."
+else
+	@echo "Skipping Sphinx to create the documentation as man pages on Python version $(python_version)"
+endif
 
 .PHONY: docchanges
 docchanges: $(done_dir)/develop_reqs_$(pymn)_$(PACKAGE_LEVEL).done
+ifeq ($(run_sphinx),true)
 	@echo "Makefile: Creating the doc changes overview file"
 	$(doc_cmd) -b changes $(doc_opts) $(doc_build_dir)/changes
 	@echo
 	@echo "Makefile: Done creating the doc changes overview file in: $(doc_build_dir)/changes/"
 	@echo "Makefile: Target $@ done."
+else
+	@echo "Skipping Sphinx to create the doc changes overview file on Python version $(python_version)"
+endif
 
 .PHONY: doclinkcheck
 doclinkcheck: $(done_dir)/develop_reqs_$(pymn)_$(PACKAGE_LEVEL).done
+ifeq ($(run_sphinx),true)
 	@echo "Makefile: Creating the doc link errors file"
 	$(doc_cmd) -b linkcheck $(doc_opts) $(doc_build_dir)/linkcheck
 	@echo
 	@echo "Makefile: Done creating the doc link errors file: $(doc_build_dir)/linkcheck/output.txt"
 	@echo "Makefile: Target $@ done."
+else
+	@echo "Skipping Sphinx to create the doc link errors file on Python version $(python_version)"
+endif
 
 .PHONY: doccoverage
 doccoverage: $(done_dir)/develop_reqs_$(pymn)_$(PACKAGE_LEVEL).done
+ifeq ($(run_sphinx),true)
 	@echo "Makefile: Creating the doc coverage results file"
 	$(doc_cmd) -b coverage $(doc_opts) $(doc_build_dir)/coverage
 	@echo "Makefile: Done creating the doc coverage results file: $(doc_build_dir)/coverage/python.txt"
 	@echo "Makefile: Target $@ done."
+else
+	@echo "Skipping Sphinx to create the doc coverage results file on Python version $(python_version)"
+endif
 
 .PHONY: authors
 authors: _check_version original_authors.md
@@ -594,11 +630,15 @@ $(done_dir)/flake8_$(pymn)_$(PACKAGE_LEVEL).done: $(done_dir)/develop_reqs_$(pym
 	@echo "Makefile: Done running Flake8"
 
 $(done_dir)/safety_$(pymn)_$(PACKAGE_LEVEL).done: $(done_dir)/develop_reqs_$(pymn)_$(PACKAGE_LEVEL).done Makefile $(safety_policy_file) minimum-constraints.txt
+ifeq ($(python_mn_version),3.6)
+	@echo "Makefile: Warning: Skipping Safety on Python $(python_version)" >&2
+else
 	@echo "Makefile: Running pyup.io safety check"
 	-$(call RM_FUNC,$@)
 	safety check --policy-file $(safety_policy_file) -r minimum-constraints.txt --full-report
 	echo "done" >$@
 	@echo "Makefile: Done running pyup.io safety check"
+endif
 
 .PHONY: check_reqs
 check_reqs: $(done_dir)/develop_reqs_$(pymn)_$(PACKAGE_LEVEL).done minimum-constraints.txt requirements.txt
