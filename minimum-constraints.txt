@@ -18,8 +18,8 @@ pip==23.3; python_version >= '3.7'
 
 # setuptools 59.7.0 removed support for py36
 setuptools==59.6.0; python_version == '3.6'
-setuptools==65.5.1; python_version >= '3.7' and python_version <= '3.11'
-setuptools==66.1.0; python_version >= '3.12'
+setuptools==65.5.1; python_version == '3.7'
+setuptools==70.0.0; python_version >= '3.8'
 
 wheel==0.33.5; python_version == '3.6'
 wheel==0.38.1; python_version >= '3.7'
@@ -88,6 +88,7 @@ pydantic==1.10.13; python_version >= '3.7'
 typer==0.12.0; python_version >= '3.7'
 typer-cli==0.12.0; python_version >= '3.7'
 typer-slim==0.12.0; python_version >= '3.7'
+psutil==6.0.0; python_version >= '3.7'
 
 # PyYAML is pulled in by dparse
 PyYAML==5.3.1
@@ -185,7 +186,7 @@ alabaster==0.7.9
 appdirs==1.4.4
 attrs==19.2.0
 bleach==3.3.0
-certifi==2023.07.22
+certifi==2024.7.4
 chardet==3.0.3
 distlib==0.3.7
 docopt==0.6.1
@@ -226,4 +227,5 @@ urllib3==1.26.19
 wcwidth==0.1.7
 webencodings==0.5.1
 widgetsnbextension==1.2.6
-zipp==1.2.0
+zipp==3.6.0; python_version <= '3.7'
+zipp==3.9.1; python_version >= '3.8'
