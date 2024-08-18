@@ -5,7 +5,7 @@ Change log
 ==========
 
 
-nocasedict 2.1.0.dev1
+nocasedict 2.0.4.dev1
 ---------------------
 
 Released: not yet
@@ -22,7 +22,7 @@ Released: not yet
 
 **Cleanup:**
 
-* Test: Increased vrsions of GitHub Actions plugins used, to eliminate warnings
+* Test: Increased versions of GitHub Actions plugins used, to eliminate warnings
   about node v16.
 
 **Known issues:**
