@@ -24,46 +24,8 @@ security:
             reason: PyYAML full_load method or FullLoader is not used
         51457:
             reason: The py package is no longer being fixed (latest version 1.11.0)
-        51499:
-            reason: Fixed wheel version 0.38.1 requires Python>=3.7 and is used there; Risk is on Pypi side
-        52322:
-            reason: Fixed GitPython version 3.1.30 requires Python>=3.7 and is used there
-        52495:
-            reason: Fixed setuptools version 65.5.1 requires Python>=3.7 and is used there; Risk is on Pypi side
-        52518:
-            reason: Fixed GitPython version 3.1.27 requires Python>=3.7 and is used there
-        58755:
-            reason: Fixed requests version 2.31.0 requires Python>=3.7 and is used there
-        58910:
-            reason: Fixed Pygments version 2.15.0 requires Python>=3.7 and is used there
-        60350:
-            reason: Fixed gitpython version 3.1.32 requires Python>=3.7 and is used there
-        60789:
-            reason: Fixed gitpython version 3.1.33 requires Python>=3.7 and is used there
-        60841:
-            reason: Fixed gitpython version 3.1.34 requires Python>=3.7 and is used there
-        62044:
-            reason: Fixed pip version 23.3 requires Python>=3.7 and is used there
-        64227:
-            reason: Fixed jinja2 version 3.1.3 requires Python>=3.7 and is used there
-        63687:
-            reason: Fixed gitpython version 3.1.41 requires Python>=3.7 and is used there
-        68477:
-            reason: Fixed virtualenv version 20.21.0 requires Python>=3.7 and is used on Python>=3.8
         70612:
             reason: Disputed issue in jinja2 version 3.1.3 - No known fix
-        70790:
-            reason: Fixed tqdm version 4.66.3 requires Python>=3.7 and is used there
-        71064:
-            reason: Fixed requests version 2.32.2 requires Python>=3.8 and is used there
-        71591:
-            reason: Fixed Jinja2 version 3.1.4 requires Python>=3.7 and is used there
-        71636:
-            reason: Fixed authlib version 1.3.1 requires Python>=3.8 and is used there
-        72132:
-            reason: Fixed zipp version 3.19.1 requires Python>=3.8 and is used there
-        72236:
-            reason: Fixed setuptools version 70.0.0 requires Python>=3.8 and is used there
 
     # Continue with exit code 0 when vulnerabilities are found.
     continue-on-vulnerability-error: False
