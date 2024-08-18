@@ -30,27 +30,16 @@
 The only class exposed by this package is :class:`nocasedict.NocaseDict`.
 """
 
-from __future__ import print_function, absolute_import
 
-import sys
 import os
-import warnings
-from collections import OrderedDict
 from collections.abc import MutableMapping, KeysView, ValuesView, ItemsView
 from typing import Any, AnyStr, NoReturn, Optional, Iterator, Tuple, Dict
 
-from ._utils import _stacklevel_above_nocasedict
-
 __all__ = ['NocaseDict']
 
-# Starting with Python 3.7, the standard dict is guaranteed to be ordered.
-# Note: In CPython, that already happened in 3.6, but it was not guaranteed
-# for all implementations.
-# pylint: disable=invalid-name
-if sys.version_info[0:2] >= (3, 7):
-    _ODICT_TYPE = dict
-else:
-    _ODICT_TYPE = OrderedDict
+# Note: Since the minimum version for nocasedict is Python 3.8, the standard
+# dict is guaranteed to be ordered and the implementation uses dict when an
+# ordered dict is needed.
 
 Key = Optional[AnyStr]
 
@@ -77,6 +66,7 @@ class _DictView:
         return len(self._dict)
 
     def __contains__(self, x):
+        # pylint: disable=invalid-name
         return x in iter(self)
 
     def __reversed__(self):
@@ -87,7 +77,7 @@ class _DictView:
 
 
 class dict_keys(_DictView, KeysView):
-    # pylint: disable=too-few-public-methods
+    # pylint: disable=too-few-public-methods,invalid-name
     """
     Dictionary values view.
     """
@@ -100,7 +90,7 @@ class dict_keys(_DictView, KeysView):
 
 
 class dict_values(_DictView, ValuesView):
-    # pylint: disable=too-few-public-methods
+    # pylint: disable=too-few-public-methods,invalid-name
     """
     Dictionary values view.
     """
@@ -113,7 +103,7 @@ class dict_values(_DictView, ValuesView):
 
 
 class dict_items(_DictView, ItemsView):
-    # pylint: disable=too-few-public-methods
+    # pylint: disable=too-few-public-methods,invalid-name
     """
     Dictionary items view.
     """
@@ -263,7 +253,7 @@ class NocaseDict(MutableMapping):
 
         # The internal dictionary, with casefolded keys. An item in this dict
         # is the tuple (original key, value).
-        self._data: Dict[Key, Any] = _ODICT_TYPE()
+        self._data: Dict[Key, Any] = {}
 
         self.update(*args, **kwargs)
 
@@ -597,23 +587,12 @@ class NocaseDict(MutableMapping):
         if args:
             if len(args) > 1:
                 raise TypeError(
-                    "Expected at most 1 positional argument, got {n}".
-                    format(n=len(args)))
+                    f"Expected at most 1 positional argument, got {len(args)}")
             other = args[0]
             try:
                 # Try mapping / dictionary
                 for key in other.keys():
                     self[key] = other[key]
-                # pylint: disable=unidiomatic-typecheck
-                if type(other) is dict and _ODICT_TYPE is not dict and \
-                        len(other.keys()) > 1:
-                    warnings.warn(
-                        "Before Python 3.7, initializing or updating a "
-                        "NocaseDict object from a dict object with more than "
-                        "one item is not guaranteed to preserve the order of "
-                        "its items",
-                        UserWarning,
-                        stacklevel=_stacklevel_above_nocasedict())
             except AttributeError:
                 # Expecting an iterable
 
@@ -632,9 +611,8 @@ class NocaseDict(MutableMapping):
                             key, value = item
                         except ValueError as exc:
                             value_error = ValueError(
-                                "Cannot unpack positional argument item #{i} "
-                                "of type {t} into key, value: {exc}".
-                                format(i=i, t=type(item), exc=exc))
+                                f"Cannot unpack positional argument item #{i} "
+                                f"of type {type(item)} into key, value: {exc}")
                             value_error.__cause__ = None  # Suppress 'During..'
                             # pylint: disable=raise-missing-from
                             raise value_error
@@ -642,13 +620,6 @@ class NocaseDict(MutableMapping):
 
         for key, val in kwargs.items():
             self[key] = val
-        if len(kwargs) > 1 and _ODICT_TYPE is not dict:
-            warnings.warn(
-                "Before Python 3.7, initializing or updating a NocaseDict "
-                "object from more than one keyword argument is not guaranteed "
-                "to preserve their order",
-                UserWarning,
-                stacklevel=_stacklevel_above_nocasedict())
 
     def clear(self) -> None:
         """
@@ -723,8 +694,8 @@ class NocaseDict(MutableMapping):
         is not supported.
         """
         raise TypeError(
-            "'{}' not supported between instances of '{}' and '{}'".
-            format(op, type(self), type(other)))
+            f"'{op}' not supported between instances of '{type(self)}' and "
+            f"'{type(other)}'")
 
     def __lt__(self, other: Any) -> NoReturn:
         self._raise_ordering_not_supported(other, '<')

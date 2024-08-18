@@ -2,7 +2,6 @@
 Test the HashableMixin mixin class.
 """
 
-from __future__ import absolute_import
 
 import os
 import pytest
@@ -155,7 +154,7 @@ TESTCASES_HASHABLEMIXIN_HASH = [
         "Comparing unicode value with bytes value",
         dict(
             obj1=MyNocaseDict([('k1', b'v1')]),
-            obj2=MyNocaseDict([('k2', u'v2')]),
+            obj2=MyNocaseDict([('k2', 'v2')]),
             exp_obj_equal=False,
         ),
         None, None, True
@@ -164,7 +163,7 @@ TESTCASES_HASHABLEMIXIN_HASH = [
         "Matching unicode key with string key",
         dict(
             obj1=MyNocaseDict([('k1', 'v1')]),
-            obj2=MyNocaseDict([(u'k2', 'v2')]),
+            obj2=MyNocaseDict([('k2', 'v2')]),
             exp_obj_equal=False,
         ),
         None, None, True

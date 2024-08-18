@@ -3,7 +3,6 @@ import_installed - Utility function for testing the installed version of the
 package.
 """
 
-from __future__ import absolute_import, print_function
 
 import sys
 import os
@@ -79,11 +78,11 @@ def import_installed(module_name):
     if module_name not in sys.modules:
         module = __import__(module_name, level=0)  # only absolute imports
         if test_installed == 'DEBUG':
-            print("Debug: {0} module newly loaded from: {1}".
-                  format(module_name, module.__file__))
+            print(f"Debug: {module_name} module newly loaded from: "
+                  f"{module.__file__}")
     else:
         module = sys.modules[module_name]
         if test_installed == 'DEBUG':
-            print("Debug: {0} module was already loaded from: {1}".
-                  format(module_name, module.__file__))
+            print(f"Debug: {module_name} module was already loaded from: "
+                  f"{module.__file__}")
     return module
