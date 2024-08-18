@@ -5,31 +5,19 @@ Change log
 ==========
 
 
-nocasedict 2.0.4.dev1
----------------------
+nocasedict 2.0.4
+----------------
 
-Released: not yet
-
-**Incompatible changes:**
-
-**Deprecations:**
+Released: 2024-08-18
 
 **Bug fixes:**
 
 * Fixed safety issues up to 2024-08-18.
 
-**Enhancements:**
-
 **Cleanup:**
 
 * Test: Increased versions of GitHub Actions plugins used, to eliminate warnings
   about node v16.
-
-**Known issues:**
-
-* See `list of open issues`_.
-
-.. _`list of open issues`: https://github.com/pywbem/nocasedict/issues
 
 
 nocasedict 2.0.3
