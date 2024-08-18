@@ -2,7 +2,6 @@
 Test the NocaseDict class.
 """
 
-from __future__ import absolute_import
 
 import sys
 import os
@@ -2679,7 +2678,7 @@ TESTCASES_NOCASEDICT_EQUAL = [
         "Comparing unicode value with bytes value",
         dict(
             obj1=NocaseDict([('k1', b'v1')]),
-            obj2=NocaseDict([('k2', u'v2')]),
+            obj2=NocaseDict([('k2', 'v2')]),
             exp_obj_equal=False,
         ),
         None, None, True
@@ -2688,7 +2687,7 @@ TESTCASES_NOCASEDICT_EQUAL = [
         "Matching unicode key with string key",
         dict(
             obj1=NocaseDict([('k1', 'v1')]),
-            obj2=NocaseDict([(u'k2', 'v2')]),
+            obj2=NocaseDict([('k2', 'v2')]),
             exp_obj_equal=False,
         ),
         None, None, True

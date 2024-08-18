@@ -31,7 +31,7 @@ def get_version(version_file):
     requirements list of this package (otherwise it cannot be executed in
     a fresh Python environment).
     """
-    with open(version_file, 'r') as fp:
+    with open(version_file) as fp:
         version_source = fp.read()
     globals = {}
     exec(version_source, globals)
@@ -97,12 +97,12 @@ else:
 os.environ['BUILDING_DOCS'] = '1'
 
 # General information about the project.
-project = u'nocasedict'
+project = 'nocasedict'
 #copyright = u''
-author = u"Andreas Maier"
+author = "Andreas Maier"
 
 # The short description of the package.
-_short_description = u"A case-insensitive ordered dictionary for Python"
+_short_description = "A case-insensitive ordered dictionary for Python"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -582,7 +582,7 @@ class AutoAutoSummary(Autosummary):
         self._logger = logging.getLogger(__name__)  # requires Sphinx 1.6.1
         self._log_prefix = "conf.py/AutoAutoSummary"
         self._excluded_classes = ['BaseException']
-        super(AutoAutoSummary, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def _get_members(self, class_obj, member_type, include_in_public=None):
         """
@@ -690,7 +690,7 @@ class AutoAutoSummary(Autosummary):
                 self._log_prefix, exc.__class__.__name__, exc)
 
         finally:
-            return super(AutoAutoSummary, self).run()
+            return super().run()
 
 
 def setup(app):

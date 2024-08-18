@@ -2,7 +2,6 @@
 This module provides class HashableMixin.
 """
 
-from __future__ import print_function, absolute_import
 
 from typing import Any
 from ._nocasedict import NocaseDict

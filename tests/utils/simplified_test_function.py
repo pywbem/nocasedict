@@ -2,7 +2,6 @@
 simplified_test_function - Pytest extension for simplifying test functions.
 """
 
-from __future__ import absolute_import
 
 import functools
 import warnings
@@ -174,7 +173,7 @@ def simplified_test_function(test_func):
                         for w in rec_warnings:
                             tup = (w.filename, w.lineno, w.category.__name__,
                                    str(w.message))
-                            line = "{t[0]}:{t[1]}: {t[2]}: {t[3]}".format(t=tup)
+                            line = f"{tup[0]}:{tup[1]}: {tup[2]}: {tup[3]}"
                             if line not in lines:
                                 lines.append(line)
                         msg = "Unexpected warnings:\n{}".format(

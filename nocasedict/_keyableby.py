@@ -3,7 +3,6 @@ This module provides function KeyableByMixin() returning a mixin class for
 class NocaseDict.
 """
 
-from __future__ import print_function, absolute_import
 
 from typing import Type
 
