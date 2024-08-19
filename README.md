@@ -2,13 +2,13 @@
 
 [![Version on Pypi](https://img.shields.io/pypi/v/nocasedict.svg)](https://pypi.python.org/pypi/nocasedict/)
 [![Test status (master)](https://github.com/pywbem/nocasedict/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/pywbem/nocasedict/actions/workflows/test.yml?query=branch%3Amaster)
-[![Docs status (master)](https://readthedocs.org/projects/nocasedict/badge/?version=latest)](https://readthedocs.org/projects/nocasedict/builds/)
+[![Docs status (master)](https://readthedocs.org/projects/nocasedict/badge/?version=master)](https://readthedocs.org/projects/nocasedict/builds/)
 [![Test coverage (master)](https://coveralls.io/repos/github/pywbem/nocasedict/badge.svg?branch=master)](https://coveralls.io/github/pywbem/nocasedict?branch=master)
 
 # Overview
 
 Class
-[NocaseDict](https://nocasedict.readthedocs.io/en/stable/reference.html#nocasedict.NocaseDict)
+[NocaseDict](https://nocasedict.readthedocs.io/en/master/reference.html#nocasedict.NocaseDict)
 is a case-insensitive ordered dictionary that preserves the original
 lexical case of its keys.
 
@@ -26,7 +26,7 @@ Example:
     NocaseDict({'Alpha': 1, 'Beta': 2})
 
 The
-[NocaseDict](https://nocasedict.readthedocs.io/en/stable/reference.html#nocasedict.NocaseDict)
+[NocaseDict](https://nocasedict.readthedocs.io/en/master/reference.html#nocasedict.NocaseDict)
 class supports the functionality of the built-in
 [dict class of Python 3.8](https://docs.python.org/3.8/library/stdtypes.html#dict)
 on all Python versions it supports.
@@ -47,9 +47,9 @@ user-defined casefold method.
 
 Functionality can be added using mixin classes:
 
-- [HashableMixin](https://nocasedict.readthedocs.io/en/stable/reference.html#nocasedict.HashableMixin)
+- [HashableMixin](https://nocasedict.readthedocs.io/en/master/reference.html#nocasedict.HashableMixin)
   mixin class: Adds case-insensitive hashability.
-- [KeyableByMixin](https://nocasedict.readthedocs.io/en/stable/reference.html#nocasedict.KeyableByMixin)
+- [KeyableByMixin](https://nocasedict.readthedocs.io/en/master/reference.html#nocasedict.KeyableByMixin)
   mixin generator function: Adds ability to get the key from an
   attribute of the value object.
 
@@ -68,20 +68,20 @@ your active Python environment:
 This will also install any prerequisite Python packages.
 
 For more details and alternative ways to install, see
-[Installation](https://nocasedict.readthedocs.io/en/stable/intro.html#installation).
+[Installation](https://nocasedict.readthedocs.io/en/master/intro.html#installation).
 
 # Documentation
 
-- [Documentation](https://nocasedict.readthedocs.io/en/stable/)
+- [Documentation](https://nocasedict.readthedocs.io/en/master/)
 
 # Change History
 
-- [Change history](https://nocasedict.readthedocs.io/en/stable/changes.html)
+- [Change history](https://nocasedict.readthedocs.io/en/master/changes.html)
 
 # Contributing
 
 For information on how to contribute to the nocasedict project, see
-[Contributing](https://nocasedict.readthedocs.io/en/stable/development.html#contributing).
+[Contributing](https://nocasedict.readthedocs.io/en/master/development.html#contributing).
 
 # License
 

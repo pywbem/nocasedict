@@ -12,6 +12,7 @@
 /dist/
 /packaging/*/*.tar.gz
 /packaging/*/*.done
+/nocasedict/_version_scm.py
 /try/
 .ipynb_checkpoints/
 /*.done
