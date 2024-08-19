@@ -15,13 +15,37 @@ Released: not yet
 * Dropped support for Python 3.6 and 3.7 because they are out of service and
   to simplify development dependencies. (issue #214)
 
+* Dev: Changed 'make install' to no longer perform an editable install, but
+  a standalone install, since pip will remove support for editable installs.
+  (related to issue #180)
+
+* Dev: Removed support for the env.var TEST_INSTALLED that used the installed
+  package for testing, for simplicity. Now, the local package in the repository
+  main directory is always used for testing.
+
 **Deprecations:**
 
 **Bug fixes:**
 
 **Enhancements:**
 
+* Added '__version_tuple__' with the integer versions. (related to issue #180)
+
+* Dev: Changed from setup.py to using pyproject.toml. (issue #180)
+
 **Cleanup:**
+
+* Dev: Split safety policy files into one for installation dependencies and one
+  for development dependencies. (issue #205, related to issue #180)
+
+* Dev: Split minimum-constraints.txt file into one for installation dependencies
+  and one for development dependencies. (related to issue #180)
+
+* Dev: Cleanup in the Makefile. (related to issue #180)
+
+* Docs: Changed versions shown for the documentation to be master and the
+  latest fix version of each minor version. Changed documentation links in
+  README file to reference the master version.
 
 **Known issues:**
 
