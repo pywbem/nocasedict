@@ -270,19 +270,7 @@ Git repo.
         git pull
         git checkout -b release_${MNU}
 
-3.  Edit the version file:
-
-    .. code-block:: sh
-
-        vi nocasedict/_version.py
-
-    and set the ``__version__`` variable to the version that is being released:
-
-    .. code-block:: python
-
-        __version__ = 'M.N.U'
-
-4.  Edit the change log:
+3.  Edit the change log:
 
     .. code-block:: sh
 
@@ -300,49 +288,49 @@ Git repo.
       add text for any known issues you want users to know about.
     * Remove all empty list items.
 
-5.  Update the authors:
+4.  Update the authors:
 
     .. code-block:: sh
 
         make authors
 
-6.  Commit your changes and push the topic branch to the remote repo:
+5.  Commit your changes and push the topic branch to the remote repo:
 
     .. code-block:: sh
 
-        git status  # Double check the changed files
         git commit -asm "Release ${MNU}"
         git push --set-upstream origin release_${MNU}
 
-7.  On GitHub, create a Pull Request for branch ``release_M.N.U``. This will
+6.  On GitHub, create a Pull Request for branch ``release_M.N.U``. This will
     trigger the CI runs.
 
     When creating Pull Requests, GitHub by default targets the ``master``
     branch.
 
-8.  On GitHub, close milestone ``M.N.U``.
+7.  On GitHub, close milestone ``M.N.U``.
 
-9.  On GitHub, once the checks for the Pull Request for branch ``start_M.N.U``
+8.  On GitHub, once the checks for the Pull Request for branch ``start_M.N.U``
     have succeeded, merge the Pull Request (no review is needed). This
     automatically deletes the branch on GitHub.
 
-10. Add a new tag for the version that is being released and push it to
+9.  Add a new tag for the version that is being released and push it to
     the remote repo. Clean up the local repo:
 
     .. code-block:: sh
 
         git checkout ${BRANCH}
         git pull
+        git branch -D release_${MNU}
+        git branch -D -r origin/release_${MNU}
         git tag -f ${MNU}
         git push -f --tags
-        git branch -d release_${MNU}
 
-11. On GitHub, edit the new tag ``M.N.U``, and create a release description on
+10. On GitHub, edit the new tag ``M.N.U``, and create a release description on
     it. This will cause it to appear in the Release tab.
 
     You can see the tags in GitHub via Code -> Releases -> Tags.
 
-12. Upload the package to PyPI:
+11. Upload the package to PyPI:
 
     .. code-block:: sh
 
@@ -416,24 +404,12 @@ Git repo.
 
     .. code-block:: sh
 
+        git fetch origin
         git checkout ${BRANCH}
         git pull
         git checkout -b start_${MNU}
 
-3.  Edit the version file:
-
-    .. code-block:: sh
-
-        vi nocasedict/_version.py
-
-    and update the version to a draft version of the version that is being
-    started:
-
-    .. code-block:: python
-
-        __version__ = 'M.N.U.dev1'
-
-4.  Edit the change log:
+3.  Edit the change log:
 
     .. code-block:: sh
 
@@ -464,36 +440,43 @@ Git repo.
 
         .. _`list of open issues`: https://github.com/pywbem/nocasedict/issues
 
-5.  Commit your changes and push them to the remote repo:
+4.  Commit your changes and push them to the remote repo:
 
     .. code-block:: sh
 
-        git status  # Double check the changed files
         git commit -asm "Start ${MNU}"
         git push --set-upstream origin start_${MNU}
 
-6.  On GitHub, create a Pull Request for branch ``start_M.N.U``.
+5.  On GitHub, create a Pull Request for branch ``start_M.N.U``.
 
     When creating Pull Requests, GitHub by default targets the ``master``
     branch.
 
-7.  On GitHub, create a milestone for the new version ``M.N.U``.
+6.  On GitHub, create a milestone for the new version ``M.N.U``.
 
     You can create a milestone in GitHub via Issues -> Milestones -> New
     Milestone.
 
-8.  On GitHub, go through all open issues and pull requests that still have
+7.  On GitHub, go through all open issues and pull requests that still have
     milestones for previous releases set, and either set them to the new
     milestone, or to have no milestone.
 
-9.  On GitHub, once the checks for the Pull Request for branch ``start_M.N.U``
+8.  On GitHub, once the checks for the Pull Request for branch ``start_M.N.U``
     have succeeded, merge the Pull Request (no review is needed). This
     automatically deletes the branch on GitHub.
 
-10. Update and clean up the local repo:
+9.  Add release start tag and clean up the local repo:
+
+    Note: An initial tag is necessary because the automatic version calculation
+    done by setuptools-scm uses the most recent tag in the commit history and
+    increases the least significant part of the version by one, without
+    providing any controls to change that behavior.
 
     .. code-block:: sh
 
         git checkout ${BRANCH}
         git pull
-        git branch -d start_${MNU}
+        git branch -D start_${MNU}
+        git branch -D -r origin/start_${MNU}
+        git tag -f ${MNU}a0
+        git push -f --tags

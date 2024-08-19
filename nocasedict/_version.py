@@ -6,8 +6,8 @@ Version of the nocasedict package.
 try:
     from ._version_scm import version, version_tuple
 except ImportError:
-    version = "unknown"
-    version_tuple = tuple("unknown")
+    version: str = "unknown"  # type: ignore
+    version_tuple: tuple = tuple("unknown")  # type: ignore
 
 __all__ = ['__version__', '__version_tuple__']
 
