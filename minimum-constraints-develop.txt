@@ -28,21 +28,21 @@ pytest-cov==2.7.0
 coveralls==3.3.0
 
 # Safety CI by pyup.io
-safety==3.0.1
-safety-schemas==0.0.1
+safety==3.1.0
+safety-schemas==0.0.2
 # TODO: Change to dparse 0.6.4 once released
 dparse==0.6.4b0
 ruamel.yaml==0.17.21
 Authlib==1.3.1
 marshmallow==3.15.0
-pydantic==1.10.13
+pydantic==2.8.0
 typer==0.12.0
 typer-cli==0.12.0
 typer-slim==0.12.0
 psutil==6.0.0
 
 # PyYAML is pulled in by dparse
-PyYAML==5.3.1
+PyYAML==6.0.2
 
 # Click is used by safety
 Click==8.0.2
@@ -68,11 +68,13 @@ sphinxcontrib-serializinghtml==1.1.5; python_version == '3.8'
 sphinxcontrib-serializinghtml==1.1.9; python_version >= '3.9'
 sphinxcontrib-websupport==1.2.4
 autodocsumm==0.2.12
-Babel==2.9.1
+Babel==2.11.0
 
 # PyLint (no imports, invoked via pylint script)
-pylint>=3.0.1
-astroid==3.0.1
+pylint==3.0.1; python_version == '3.8'
+pylint==3.3.1; python_version >= '3.9'
+astroid==3.0.1; python_version == '3.8'
+astroid==3.3.5; python_version >= '3.9'
 lazy-object-proxy==1.4.3
 wrapt==1.14
 platformdirs==4.1.0
@@ -135,11 +137,10 @@ MarkupSafe==2.0.0
 more-itertools==5.0.0
 pkginfo==1.4.2
 py==1.11.0
-pydantic==1.10.13
 pyparsing==2.4.7
 python-dateutil==2.6.0
-pyzmq==16.0.4; python_version <= '3.11'
-pyzmq==25.1.1; python_version >= '3.12'
+# pyzmq 26.1.0 added wheel archives for Python 3.13
+pyzmq==26.1.0
 qtconsole==4.2.1
 requests==2.32.2
 requests-toolbelt==0.8.0
