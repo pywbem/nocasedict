@@ -6,7 +6,7 @@
 
 # PEP517 package builder, used in Makefile
 build>=1.0.0
-virtualenv>=20.25.0
+virtualenv>=20.26.6
 pyproject-hooks>=1.1.0
 
 # Coverage reporting (no imports, invoked via coveralls script):
