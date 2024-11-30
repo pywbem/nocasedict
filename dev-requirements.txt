@@ -110,7 +110,7 @@ dill>=0.3.6; python_version >= '3.7' and python_version <= '3.11'
 dill>=0.3.7; python_version >= '3.12'
 # platformdirs is used by pylint starting with its 2.10
 platformdirs>=2.2.0; python_version <= '3.11'
-platformdirs>=3.2.0; python_version >= '3.12'
+platformdirs>=3.9.1; python_version >= '3.12'
 
 # Mypy (no imports, invoked via mypy script)
 # Mypy 0.981 removed support for py36
