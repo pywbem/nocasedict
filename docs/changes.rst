@@ -23,6 +23,9 @@ Released: not yet
   package for testing, for simplicity. Now, the local package in the repository
   main directory is always used for testing.
 
+* Test: Python 3.13 was pinned to 3.13.0 to work around a pylint issue on
+  Python 3.13.1.
+
 **Deprecations:**
 
 **Bug fixes:**
