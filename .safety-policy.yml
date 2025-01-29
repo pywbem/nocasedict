@@ -66,6 +66,8 @@ security:
             reason: Fixed setuptools version 70.0.0 requires Python>=3.8 and is used there
         73456:
             reason: Fixed virtualenv version 20.26.6 requires Python>=3.8 and is used there
+        74735:
+            reason: Fixed jinja2 version 3.1.5 requires Python>=3.7 and is used there
 
     # Continue with exit code 0 when vulnerabilities are found.
     continue-on-vulnerability-error: False
