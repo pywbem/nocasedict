@@ -22,6 +22,10 @@ Released: not yet
   with Python 3.9-3.11, by running it without login shell. Added Python 3.11 on
   MacOS to the normal tests.
 
+* Test: Changed macos-12 to macos-13 since macos-12 was removed in GitHub Actions.
+  Changed ubuntu-latest for Python 3.7 to ubuntu-22.04 because GitHub Actions
+  upgraded ubuntu-latest to be ubuntu-24.04.
+
 **Enhancements:**
 
 **Cleanup:**
