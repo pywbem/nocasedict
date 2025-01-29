@@ -119,7 +119,7 @@ jobs:
         else \
           echo "matrix={ \
             \"os\": [ \"ubuntu-latest\" ], \
-            \"python-version\": [ \"3.7\", \"3.12\" ], \
+            \"python-version\": [ \"3.8\", \"3.12\" ], \
             \"package_level\": [ \"minimum\", \"latest\" ], \
             \"include\": [ \
               { \
@@ -153,13 +153,8 @@ jobs:
                 \"package_level\": \"latest\" \
               }, \
               { \
-                \"os\": \"macos-latest\", \
-                \"python-version\": \"3.8\", \
-                \"package_level\": \"latest\" \
-              }, \
-              { \
-                \"os\": \"macos-latest\", \
-                \"python-version\": \"3.11\", \
+                \"os\": \"macos-13\", \
+                \"python-version\": \"3.7\", \
                 \"package_level\": \"latest\" \
               }, \
               { \
@@ -170,6 +165,11 @@ jobs:
               { \
                 \"os\": \"windows-latest\", \
                 \"python-version\": \"3.6\", \
+                \"package_level\": \"latest\" \
+              }, \
+              { \
+                \"os\": \"windows-latest\", \
+                \"python-version\": \"3.7\", \
                 \"package_level\": \"latest\" \
               }, \
               { \
