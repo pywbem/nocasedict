@@ -5,10 +5,10 @@ Change log
 ==========
 
 
-nocasedict 2.1.0.dev1
----------------------
+nocasedict 2.1.0
+----------------
 
-Released: not yet
+Released: 2025-04-27
 
 **Incompatible changes:**
 
@@ -25,8 +25,6 @@ Released: not yet
 
 * Test: Python 3.13 was pinned to 3.13.0 to work around a pylint issue on
   Python 3.13.1.
-
-**Deprecations:**
 
 **Bug fixes:**
 
@@ -60,12 +58,6 @@ Released: not yet
 * Docs: Changed versions shown for the documentation to be master and the
   latest fix version of each minor version. Changed documentation links in
   README file to reference the master version.
-
-**Known issues:**
-
-* See `list of open issues`_.
-
-.. _`list of open issues`: https://github.com/pywbem/nocasedict/issues
 
 
 nocasedict 2.0.4
