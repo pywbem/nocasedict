@@ -16,7 +16,7 @@ Released: not yet
 
 **Bug fixes:**
 
-* Addressed safety issues up to 2025-03-01.
+* Addressed safety issues up to 2025-04-27.
 
 * Dev: Added missing dependencies for development.
 
