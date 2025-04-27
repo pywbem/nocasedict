@@ -5,14 +5,10 @@ Change log
 ==========
 
 
-nocasedict 2.0.5.dev1
----------------------
+nocasedict 2.0.5
+----------------
 
-Released: not yet
-
-**Incompatible changes:**
-
-**Deprecations:**
+Released: 2025-04-27
 
 **Bug fixes:**
 
@@ -26,16 +22,6 @@ Released: not yet
 
 * Test: Adjusted OS versions in GitHub Actions test workflow because macos-12
   is no longer supported, and ubuntu-latest changed to ubuntu-24.04.
-
-**Enhancements:**
-
-**Cleanup:**
-
-**Known issues:**
-
-* See `list of open issues`_.
-
-.. _`list of open issues`: https://github.com/pywbem/nocasedict/issues
 
 
 nocasedict 2.0.4
