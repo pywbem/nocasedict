@@ -16,6 +16,8 @@ Released: not yet
 
 **Bug fixes:**
 
+* Addressed safety issues up to 2025-06-29.
+
 **Enhancements:**
 
 **Cleanup:**
