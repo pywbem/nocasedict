@@ -88,7 +88,7 @@ entrypoints==0.3.0
 
 # Twine (no imports, invoked via twine script):
 twine==3.0.0
-readme-renderer==23.0
+readme-renderer==43.0
 # importlib-metadata is used by twine and others
 importlib-metadata==4.8.3
 
@@ -96,12 +96,12 @@ importlib-metadata==4.8.3
 mypy==1.2.0
 
 # Package dependency management tools
-pipdeptree==2.2.0
+pipdeptree==2.24.0
 pip-check-reqs==2.4.3; python_version <= '3.8'
 pip-check-reqs==2.5.1; python_version >= '3.9'
 
 # packaging (used by pytest, safety)
-packaging==22.0
+packaging==24.1
 
 # pluggy (used by pytest, tox)
 pluggy==0.13.1
