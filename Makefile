@@ -513,16 +513,18 @@ AUTHORS.md: _always original_authors.md
 	echo '```' >>AUTHORS.md.tmp
 	git shortlog --summary --email | cut -f 2 | sort >>AUTHORS.md.tmp
 	echo '```' >>AUTHORS.md.tmp
-	sh -c "if ! diff -q AUTHORS.md.tmp AUTHORS.md; then mv AUTHORS.md.tmp AUTHORS.md; else rm AUTHORS.md.tmp; fi"
+	bash -c "if ! diff -q AUTHORS.md.tmp AUTHORS.md; then mv AUTHORS.md.tmp AUTHORS.md; else rm AUTHORS.md.tmp; fi"
 
 $(sdist_file): pyproject.toml $(dist_dependent_files)
 	@echo "Makefile: Building the source distribution archive: $(sdist_file)"
-	$(PYTHON_CMD) -m build --sdist --outdir $(dist_dir) .
+	$(PYTHON_CMD) -m build --no-isolation --sdist --outdir $(dist_dir) .
+	bash -c "ls -l $(sdist_file) || ls -l $(dist_dir) && echo package_level=$(package_level) && $(PYTHON_CMD) -m setuptools_scm"
 	@echo "Makefile: Done building the source distribution archive: $(sdist_file)"
 
 $(bdist_file) $(version_file): pyproject.toml $(dist_dependent_files)
 	@echo "Makefile: Building the wheel distribution archive: $(bdist_file)"
-	$(PYTHON_CMD) -m build --wheel --outdir $(dist_dir) -C--universal .
+	$(PYTHON_CMD) -m build --no-isolation --wheel --outdir $(dist_dir) -C--universal .
+	bash -c "ls -l $(bdist_file) $(version_file) || ls -l $(dist_dir) && echo package_level=$(package_level) && $(PYTHON_CMD) -m setuptools_scm"
 	@echo "Makefile: Done building the wheel distribution archive: $(bdist_file)"
 
 $(done_dir)/flake8_$(pymn)_$(PACKAGE_LEVEL).done: $(done_dir)/develop_$(pymn)_$(PACKAGE_LEVEL).done Makefile $(flake8_rc_file) $(check_py_files)
