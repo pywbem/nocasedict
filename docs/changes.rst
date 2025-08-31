@@ -27,6 +27,8 @@ Released: not yet
 * Dev: Circumvented safety issue with import of typer module by pinning typer
   to <0.17.0.
 
+* Dev: Made order of names in AUTHORS.md reliable.
+
 **Enhancements:**
 
 **Cleanup:**

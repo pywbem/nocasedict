@@ -503,17 +503,16 @@ doccoverage: $(done_dir)/develop_$(pymn)_$(PACKAGE_LEVEL).done
 authors: AUTHORS.md
 	@echo "Makefile: $@ done."
 
-# Make sure the AUTHORS.md file is up to date but has the old date when it did not change to prevent redoing dependent targets
-AUTHORS.md: _always original_authors.md
+# Make sure the AUTHORS.md file is up to date but has the old date when it did
+# not change to prevent redoing dependent targets.
+AUTHORS.md: _always
 	echo "# Authors of this project" >AUTHORS.md.tmp
-	echo "" >>AUTHORS.md.tmp
-	cat original_authors.md >>AUTHORS.md.tmp
 	echo "" >>AUTHORS.md.tmp
 	echo "Sorted list of authors derived from git commit history:" >>AUTHORS.md.tmp
 	echo '```' >>AUTHORS.md.tmp
-	git shortlog --summary --email | cut -f 2 | sort >>AUTHORS.md.tmp
+	bash -c "git shortlog --summary --email HEAD | cut -f 2 | LC_ALL=C.UTF-8 sort >>AUTHORS.md.tmp"
 	echo '```' >>AUTHORS.md.tmp
-	bash -c "if ! diff -q AUTHORS.md.tmp AUTHORS.md; then mv AUTHORS.md.tmp AUTHORS.md; else rm AUTHORS.md.tmp; fi"
+	bash -c "if ! diff -q AUTHORS.md.tmp AUTHORS.md; then echo 'Updating AUTHORS.md as follows:'; diff AUTHORS.md.tmp AUTHORS.md; mv AUTHORS.md.tmp AUTHORS.md; else echo 'AUTHORS.md was already up to date'; rm AUTHORS.md.tmp; fi"
 
 $(sdist_file): pyproject.toml $(dist_dependent_files)
 	@echo "Makefile: Building the source distribution archive: $(sdist_file)"
