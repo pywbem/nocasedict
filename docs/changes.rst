@@ -24,6 +24,9 @@ Released: not yet
   of the 'build' module) and increasing the minimum version of 'setuptools-scm'
   to 9.2.0, which fixes a number of version related issues.
 
+* Dev: Circumvented safety issue with import of typer module by pinning typer
+  to <0.17.0.
+
 **Enhancements:**
 
 **Cleanup:**
