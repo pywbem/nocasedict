@@ -33,6 +33,9 @@ Released: not yet
 
 **Cleanup:**
 
+* Test: Added retries for sending coverage data to the coveralls.io site to
+  address issues with the site.
+
 **Known issues:**
 
 * See `list of open issues`_.
