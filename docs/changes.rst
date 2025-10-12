@@ -27,6 +27,8 @@ Released: not yet
 * Dev: Circumvented safety issue with import of typer module by pinning typer
   to <0.17.0.
 
+* Test: Fixed new issues raised by pylint 4.0.0.
+
 **Enhancements:**
 
 **Cleanup:**
