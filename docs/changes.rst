@@ -29,6 +29,8 @@ Released: not yet
 
 * Dev: Made order of names in AUTHORS.md reliable.
 
+* Test: Fixed new issues raised by pylint 4.0.0.
+
 **Enhancements:**
 
 **Cleanup:**
