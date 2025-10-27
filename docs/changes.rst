@@ -16,7 +16,7 @@ Released: not yet
 
 **Bug fixes:**
 
-* Addressed safety issues up to 2025-06-29.
+* Addressed safety issues up to 2025-10-27.
 
 * Dev: Fixed issue where the package version used for distribution archive file
   names were generated inconsistently between setuptools_scm (used in Makefile)
