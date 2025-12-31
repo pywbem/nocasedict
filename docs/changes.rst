@@ -35,6 +35,8 @@ Released: not yet
 
 **Enhancements:**
 
+* Added support for Python 3.14.
+
 **Cleanup:**
 
 * Test: Added retries for sending coverage data to the coveralls.io site to
