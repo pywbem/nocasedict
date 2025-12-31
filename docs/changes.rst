@@ -29,6 +29,8 @@ Released: not yet
 
 * Test: Fixed new issues raised by pylint 4.0.0.
 
+* Dev: Added dependencies for Sphinx.
+
 **Enhancements:**
 
 **Cleanup:**
