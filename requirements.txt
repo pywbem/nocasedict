@@ -6,10 +6,9 @@
 
 # Direct dependencies for installation (must be consistent with minimum-constraints-install.txt)
 
-# The typing-extensions features used by nocaselist are in standard Python on Python>=3.10
-# nocaselist 2.0 requires typing-extensions>=3.10
-# safety 3.0 requires typing-extensions>=4.7.1
-typing-extensions>=4.7.1; python_version >= '3.8' and python_version <= '3.9'
+# typing-extensions 4.14.0 removed support for Python 3.8
+typing-extensions>=4.13.2; python_version == '3.8'
+typing-extensions>=4.14.1; python_version >= '3.9'
 
 
 # Indirect dependencies for installation that are needed for some reason (must be consistent with minimum-constraints-install.txt)

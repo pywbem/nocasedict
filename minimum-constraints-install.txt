@@ -17,7 +17,9 @@ wheel==0.41.3
 
 # Direct dependencies for installation (must be consistent with requirements.txt)
 
-typing-extensions==4.7.1; python_version >= '3.8' and python_version <= '3.9'
+# typing-extensions 4.14.0 removed support for Python 3.8
+typing-extensions==4.13.2; python_version == '3.8'
+typing-extensions==4.14.1; python_version >= '3.9'
 
 
 # Indirect dependencies for installation (must be consistent with requirements.txt, if present)
