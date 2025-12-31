@@ -7,9 +7,8 @@
 
 # Base dependencies (must be consistent with base-requirements.txt)
 
-pip==25.0; python_version == '3.8'
-pip==25.2; python_version >= '3.9'
-setuptools==70.0.0
+pip==25.2
+setuptools==78.1.1
 # Note on not specifying 'setuptools-scm[toml]': Extras cannot be in constraints files
 setuptools-scm==9.2.0
 wheel==0.41.3
@@ -17,9 +16,7 @@ wheel==0.41.3
 
 # Direct dependencies for installation (must be consistent with requirements.txt)
 
-# typing-extensions 4.14.0 removed support for Python 3.8
-typing-extensions==4.13.2; python_version == '3.8'
-typing-extensions==4.14.1; python_version >= '3.9'
+typing-extensions==4.14.1
 
 
 # Indirect dependencies for installation (must be consistent with requirements.txt, if present)

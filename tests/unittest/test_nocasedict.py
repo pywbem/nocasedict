@@ -3,7 +3,6 @@ Test the NocaseDict class.
 """
 
 
-import sys
 import os
 import re
 from collections import OrderedDict
@@ -30,19 +29,6 @@ if TEST_AGAINST_DICT:
 # The dictionary class being tested
 # pylint: disable=invalid-name
 NocaseDict = dict if TEST_AGAINST_DICT else _NocaseDict
-
-# Indicates that the dict being tested is guaranteed to preserve order
-TESTDICT_IS_ORDERED = \
-    not TEST_AGAINST_DICT or sys.version_info[0:2] >= (3, 7)
-
-# Indicates the dict being tested is reversible
-TESTDICT_SUPPORTS_REVERSED = \
-    not TEST_AGAINST_DICT or sys.version_info[0:2] >= (3, 8)
-
-# Indicates the dict being tested issues UserWarning about not preserving order
-# of items in kwargs or in standard dict
-TESTDICT_WARNS_ORDER = \
-    not TEST_AGAINST_DICT and sys.version_info[0:2] < (3, 7)
 
 # Used as indicator not to pass an argument in the testcases.
 # Note this has nothing to do with the _OMITTED flag in _nocasedict.py and
@@ -146,7 +132,7 @@ TESTCASES_NOCASEDICT_INIT = [
             init_args=([('Dog', 'Cat'), ('Budgie', 'Fish')],),
             init_kwargs={},
             exp_dict=OrderedDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            verify_order=TESTDICT_IS_ORDERED,
+            verify_order=True,
         ),
         None, None, True
     ),
@@ -156,7 +142,7 @@ TESTCASES_NOCASEDICT_INIT = [
             init_args=((('Dog', 'Cat'), ('Budgie', 'Fish')),),
             init_kwargs={},
             exp_dict=OrderedDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            verify_order=TESTDICT_IS_ORDERED,
+            verify_order=True,
         ),
         None, None, True
     ),
@@ -168,7 +154,7 @@ TESTCASES_NOCASEDICT_INIT = [
             exp_dict=OrderedDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
             verify_order=False,
         ),
-        None, UserWarning if TESTDICT_WARNS_ORDER else None, True
+        None, None, True
     ),
     (
         "Dict from keyword args",
@@ -178,7 +164,7 @@ TESTCASES_NOCASEDICT_INIT = [
             exp_dict=OrderedDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
             verify_order=False,
         ),
-        None, UserWarning if TESTDICT_WARNS_ORDER else None, True
+        None, None, True
     ),
     (
         "Dict from list as positional arg and keyword args",
@@ -186,7 +172,7 @@ TESTCASES_NOCASEDICT_INIT = [
             init_args=([('Dog', 'Cat')],),
             init_kwargs={'Budgie': 'Fish'},
             exp_dict=OrderedDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            verify_order=TESTDICT_IS_ORDERED,
+            verify_order=True,
         ),
         None, None, True
     ),
@@ -196,7 +182,7 @@ TESTCASES_NOCASEDICT_INIT = [
             init_args=((('Dog', 'Cat'),),),
             init_kwargs={'Budgie': 'Fish'},
             exp_dict=OrderedDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            verify_order=TESTDICT_IS_ORDERED,
+            verify_order=True,
         ),
         None, None, True
     ),
@@ -206,7 +192,7 @@ TESTCASES_NOCASEDICT_INIT = [
             init_args=({'Dog': 'Cat'},),
             init_kwargs={'Budgie': 'Fish'},
             exp_dict=OrderedDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            verify_order=TESTDICT_IS_ORDERED,
+            verify_order=True,
         ),
         None, None, True
     ),
@@ -1227,7 +1213,7 @@ TESTCASES_NOCASEDICT_REVERSED = [
             obj=NocaseDict(),
             exp_keys=[],
         ),
-        None, None, TESTDICT_SUPPORTS_REVERSED
+        None, None, True
     ),
     (
         "Dict with one item",
@@ -1235,7 +1221,7 @@ TESTCASES_NOCASEDICT_REVERSED = [
             obj=NocaseDict([('Dog', 'Cat')]),
             exp_keys=['Dog'],
         ),
-        None, None, TESTDICT_SUPPORTS_REVERSED
+        None, None, True
     ),
     (
         "Dict with two items",
@@ -1243,7 +1229,7 @@ TESTCASES_NOCASEDICT_REVERSED = [
             obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
             exp_keys=['Budgie', 'Dog'],
         ),
-        None, None, TESTDICT_SUPPORTS_REVERSED
+        None, None, True
     ),
 ]
 
@@ -1669,7 +1655,7 @@ TESTCASES_NOCASEDICT_POPITEM = [
             obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
             exp_item=('Budgie', 'Fish'),
         ),
-        None, None, TESTDICT_IS_ORDERED
+        None, None, True
     ),
 ]
 
@@ -1958,12 +1944,8 @@ def test_NocaseDict_keys(testcase, obj, exp_items):
     assert isinstance(act_keys, KeysView)
 
     exp_keys = [item[0] for item in exp_items]
-    if TESTDICT_IS_ORDERED:
-        assert act_keys_list == exp_keys
-        assert act_keys_list2 == exp_keys
-    else:
-        assert sorted(act_keys_list) == sorted(exp_keys)
-        assert sorted(act_keys_list2) == sorted(exp_keys)
+    assert act_keys_list == exp_keys
+    assert act_keys_list2 == exp_keys
 
 
 @pytest.mark.parametrize(
@@ -1998,12 +1980,8 @@ def test_NocaseDict_values(testcase, obj, exp_items):
     assert isinstance(act_values, ValuesView)
 
     exp_values = [item[1] for item in exp_items]
-    if TESTDICT_IS_ORDERED:
-        assert act_values_list == exp_values
-        assert act_values_list2 == exp_values
-    else:
-        assert sorted(act_values_list) == sorted(exp_values)
-        assert sorted(act_values_list2) == sorted(exp_values)
+    assert act_values_list == exp_values
+    assert act_values_list2 == exp_values
 
 
 @pytest.mark.parametrize(
@@ -2037,12 +2015,8 @@ def test_NocaseDict_items(testcase, obj, exp_items):
 
     assert isinstance(act_items, ItemsView)
 
-    if TESTDICT_IS_ORDERED:
-        assert act_items_list == exp_items
-        assert act_items_list2 == exp_items
-    else:
-        assert sorted(act_items_list) == sorted(exp_items)
-        assert sorted(act_items_list2) == sorted(exp_items)
+    assert act_items_list == exp_items
+    assert act_items_list2 == exp_items
 
 
 @pytest.mark.parametrize(
@@ -2064,10 +2038,7 @@ def test_NocaseDict_iter(testcase, obj, exp_items):
     assert testcase.exp_exc_types is None
 
     exp_keys = [item[0] for item in exp_items]
-    if TESTDICT_IS_ORDERED:
-        assert act_keys == exp_keys
-    else:
-        assert sorted(act_keys) == sorted(exp_keys)
+    assert act_keys == exp_keys
 
 
 TESTCASES_NOCASEDICT_REPR = [
