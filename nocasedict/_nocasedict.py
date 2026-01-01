@@ -708,3 +708,52 @@ class NocaseDict(MutableMapping):
 
     def __le__(self, other: Any) -> NoReturn:
         self._raise_ordering_not_supported(other, '<=')
+
+    def __or__(self, other: Any) -> 'NocaseDict':
+        """
+        Return the union of this dictionary and the other dictionary.
+
+        This operation is not commutative: If a key from the other dictionary
+        is already present in this dictionary (looked up case-insensitively),
+        its key and value is updated (without affecting its position in the
+        dictionary iteration order). Otherwise, an item with the key and value
+        is added to this dictionary.
+
+        The other dictionary may be a :class:`NocaseDict` object or any other
+        mapping. In all cases, the matching of keys takes place
+        case-insensitively.
+
+        Invoked when using e.g.: ``ncd | other``
+
+        Raises:
+          AttributeError: The key does not have the casefold method.
+        """
+        result = NocaseDict(self)
+        result.update(other)
+        return result
+
+    def __ror__(self, other: Any) -> 'NocaseDict':
+        result = NocaseDict(other)
+        result.update(self)
+        return result
+
+    def __ior__(self, other: Any) -> 'NocaseDict':
+        """
+        Update the dictionary from the other dictionary.
+
+        If a key is already present in the dictionary (looked up
+        case-insensitively), its key and value is updated (without affecting
+        its position in the dictionary iteration order). Otherwise, an item
+        with the key and value is added to the dictionary.
+
+        The other dictionary may be a :class:`NocaseDict` object or any other
+        mapping. In all cases, the matching of keys takes place
+        case-insensitively.
+
+        Invoked when using e.g.: ``ncd |= other``
+
+        Raises:
+          AttributeError: The key does not have the casefold method.
+        """
+        self.update(other)
+        return self
