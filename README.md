@@ -28,14 +28,8 @@ Example:
 The
 [NocaseDict](https://nocasedict.readthedocs.io/en/master/reference.html#nocasedict.NocaseDict)
 class supports the functionality of the built-in
-[dict class of Python 3.8](https://docs.python.org/3.8/library/stdtypes.html#dict)
-on all Python versions it supports.
-
-Limitation: Any functionalities added to the `dict` class in Python 3.9 or
-later are not yet supported. These are:
-
-* `d | other` - Added in Python 3.9.
-* `d |= other` - Added in Python 3.9.
+[dict class of Python 3.14](https://docs.python.org/3.14/library/stdtypes.html#dict)
+on all Python versions it supports (except for being case-insensitive, of course).
 
 The case-insensitivity is achieved by matching any key values as their
 casefolded values. By default, the casefolding is performed with
