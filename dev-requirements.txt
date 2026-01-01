@@ -9,6 +9,9 @@ build>=1.0.0
 virtualenv>=20.26.6
 pyproject-hooks>=1.1.0
 
+# Change log
+towncrier>=22.8.0
+
 # Unit test (e.g. imports into testcases):
 pytest>=8.0.2
 

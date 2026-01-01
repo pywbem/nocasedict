@@ -4,51 +4,17 @@
 Change log
 ==========
 
+.. ============================================================================
+..
+.. Do not add change records here directly, but create fragment files instead!
+..
+.. ============================================================================
 
-nocasedict 2.2.0.dev1
----------------------
+.. only:: dev
 
-Released: not yet
+   .. include:: tmp_changes.rst
 
-**Incompatible changes:**
-
-**Deprecations:**
-
-**Bug fixes:**
-
-* Addressed safety issues up to 2025-10-27.
-
-* Dev: Fixed issue where the package version used for distribution archive file
-  names were generated inconsistently between setuptools_scm (used in Makefile)
-  and the 'build' module, by using no build isolation ('--no-isolation' option
-  of the 'build' module) and increasing the minimum version of 'setuptools-scm'
-  to 9.2.0, which fixes a number of version related issues.
-
-* Dev: Circumvented safety issue with import of typer module by pinning typer
-  to <0.17.0.
-
-* Dev: Made order of names in AUTHORS.md reliable.
-
-* Test: Fixed new issues raised by pylint 4.0.0.
-
-* Dev: Added dependencies for Sphinx.
-
-**Enhancements:**
-
-* Added support for Python 3.14.
-
-**Cleanup:**
-
-* Test: Added retries for sending coverage data to the coveralls.io site to
-  address issues with the site.
-
-**Known issues:**
-
-* See `list of open issues`_.
-
-.. _`list of open issues`: https://github.com/pywbem/nocasedict/issues
-
-
+.. towncrier start
 nocasedict 2.1.0
 ----------------
 
@@ -195,8 +161,8 @@ Released: 2024-05-05
   dependencies, and added a step to the test workflow that runs it.
   (issue #176)
 
-* Docs: In the Introduction section, documented the limitation that 'd | other'
-  and 'd |= other' which were added to the standard Pyton 'dict' class in Python
+* Docs: In the Introduction section, documented the limitation that 'd \| other'
+  and 'd \|= other' which were added to the standard Pyton 'dict' class in Python
   3.9 are not yet supported by nocasedict.
 
 **Cleanup:**
