@@ -655,8 +655,11 @@ class AutoAutoSummary(Autosummary):
                     def_module_name = def_class.__module__
                     if def_module_name.startswith('nocasedict'):
                         def_module_name = def_module_name.split('.')[0]
-                    content_str = \
-                        f"~{def_module_name}.{def_class.__name__}.{method}"
+                    # As of Sphinx 8.2.3, autosummary method references need
+                    # to be relative to the Python package, in order to avoid
+                    # the warning:
+                    # "Summarised items should not include the current module".
+                    content_str = f"~{def_class.__name__}.{method}"
                     self.content.append(content_str)
             elif 'attributes' in self.options:
                 _, attributes = self._get_members(class_obj, 'attribute')
@@ -669,8 +672,11 @@ class AutoAutoSummary(Autosummary):
                     def_module_name = def_class.__module__
                     if def_module_name.startswith('nocasedict'):
                         def_module_name = def_module_name.split('.')[0]
-                    content_str = \
-                        f"~{def_module_name}.{def_class.__name__}.{attrib}"
+                    # As of Sphinx 8.2.3, autosummary attribute references need
+                    # to be relative to the Python package, in order to avoid
+                    # the warning:
+                    # "Summarised items should not include the current module".
+                    content_str = f"~{def_class.__name__}.{attrib}"
                     self.content.append(content_str)
 
         except Exception as exc:  # pylint: disable=broad-exception-caught
