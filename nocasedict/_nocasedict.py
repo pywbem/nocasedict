@@ -37,9 +37,9 @@ from typing import Any, AnyStr, NoReturn, Optional, Iterator, Tuple, Dict
 
 __all__ = ['NocaseDict']
 
-# Note: Since the minimum version for nocasedict is Python 3.8, the standard
-# dict is guaranteed to be ordered and the implementation uses dict when an
-# ordered dict is needed.
+# Note: The minimum version of Python supported for nocasedict guarantees that
+# the standard dict is ordered, so nocasedict code uses the standard dict when
+# an ordered dict is needed.
 
 Key = Optional[AnyStr]
 

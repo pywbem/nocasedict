@@ -116,7 +116,7 @@ is regularly tested in GitHub Actions on the following operating systems:
 
 The package is supported and tested on the following Python versions:
 
-* Python: 3.8 and higher
+* Python: 3.9 and higher
 
 
 .. _`Installing`:
