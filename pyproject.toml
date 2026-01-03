@@ -7,7 +7,7 @@
 requires = [
     # Keep in sync with base-requirements.txt and the base dependencies in
     # minimum-constraints-install.txt
-    "setuptools>=70.0.0",
+    "setuptools>=78.1.1",
     "setuptools-scm[toml]>=9.2.0",
     "wheel>=0.41.3"
 ]
@@ -36,15 +36,15 @@ maintainers = [
     {name = "Andreas Maier", email = "maiera@de.ibm.com"},
 ]
 readme = "README.md"
-license = {text = "GNU Lesser General Public License v2 or later (LGPLv2+)"}
+# License info in new PEP 639 format (since setuptools 77.0.3)
+license = "LGPL-2.1-or-later"
+license-files = ["LICENSE"]
 keywords = ["list", "case-insensitive"]
 classifiers = [
     'Development Status :: 5 - Production/Stable',
     'Intended Audience :: Developers',
-    'License :: OSI Approved :: GNU Lesser General Public License v2 or later (LGPLv2+)',
     'Operating System :: OS Independent',
     'Programming Language :: Python :: 3',
-    'Programming Language :: Python :: 3.8',
     'Programming Language :: Python :: 3.9',
     'Programming Language :: Python :: 3.10',
     'Programming Language :: Python :: 3.11',
@@ -53,7 +53,7 @@ classifiers = [
     'Programming Language :: Python :: 3.14',
     'Topic :: Software Development :: Libraries :: Python Modules',
 ]
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 dynamic = ["version", "dependencies", "optional-dependencies"]
 
 [project.urls]
