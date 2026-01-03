@@ -143,7 +143,7 @@ active, as long as the Python `tox` package is installed in it:
 .. code-block:: bash
 
     $ tox                              # Run tests on all supported Python versions
-    $ tox -e py38                      # Run tests on Python 3.8
+    $ tox -e py313                     # Run tests on Python 3.13
 
 
 .. _`Contributing`:

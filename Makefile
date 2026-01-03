@@ -103,9 +103,7 @@ ifeq ($(OS),Windows_NT)
     endif
     .SHELLFLAGS := /c
   endif
-  # Note: On native Windows with Python 3.8, Pip fails with "ERROR: To modify
-  # pip ...", even when the package does not require Pip (e.g. for six).
-  PIP_CMD_MOD := $(PYTHON_CMD) -m pip
+  PIP_CMD_MOD := $(PIP_CMD)
 else
   # Values: Linux, Darwin
   PLATFORM := $(shell uname -s)
