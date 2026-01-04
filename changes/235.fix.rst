@@ -1,0 +1,3 @@
+License: Increased the license from LGPL 2 or later to LGPL 2.1 or later for
+consistency with pywbem project, because the license was incorrectly copied
+when nocasedict was separated out from pywbem.
