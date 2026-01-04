@@ -14,16 +14,8 @@ BuildArch:      noarch
 Python class 'NocaseDict' is a case-insensitive ordered dictionary that
 preserves the original lexical case of its keys.
 
-It supports the functionality of the built-in 'dict' class of Python 3.8 on all
-Python versions it supports with the following exceptions (and the
-case-insensitivity of course):
-
-* The 'iter..()', 'view..()' and 'has_key()' methods are only present
-  on Python 2, consistent with the built-in 'dict' class.
-
-* The 'keys()', 'values()' and 'items()' methods return a list on Python 2
-  and a dictionary view on Python 3, consistent with the built-in 'dict'
-  class.}
+It supports the functionality of the built-in 'dict' class of Python 3.14 on all
+Python versions it supports (except for being case-insensitive, of course).
 
 %description %{_description}
 

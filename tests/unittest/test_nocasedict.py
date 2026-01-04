@@ -3,6 +3,7 @@ Test the NocaseDict class.
 """
 
 
+import sys
 import os
 import re
 from collections import OrderedDict
@@ -29,6 +30,12 @@ if TEST_AGAINST_DICT:
 # The dictionary class being tested
 # pylint: disable=invalid-name
 NocaseDict = dict if TEST_AGAINST_DICT else _NocaseDict
+
+# Indicates that the dict being tested supports union operators ('|', '|=')
+TESTDICT_SUPPORTS_UNION = \
+    not TEST_AGAINST_DICT or sys.version_info[0:2] >= (3, 9)
+
+PY38 = sys.version_info[0:2] == (3, 8)
 
 # Used as indicator not to pass an argument in the testcases.
 # Note this has nothing to do with the _OMITTED flag in _nocasedict.py and
@@ -3088,3 +3095,379 @@ def test_casefold_override():
     act_value = dic["c\u0327"]
 
     assert act_value == exp_value
+
+
+TESTCASES_NOCASEDICT_OR_ROR = [
+
+    # Testcases for NocaseDict.__or__(), __ror__()
+
+    # Each list item is a testcase tuple with these items:
+    # * desc: Short testcase description.
+    # * dict1: Left side NocaseDict object to use.
+    # * dict2: Right side NocaseDict object to use.
+    # * exp_dict: Expected NocaseDict object.
+    # * exp_exc_types: Expected exception type(s), or None.
+    # * exp_warn_types: Expected warning type(s), or None.
+    # * condition: Boolean condition for testcase to run, or 'pdb' for debugger
+
+    # Two NocaseDict objects
+    (
+        "Two empty NocaseDicts",
+        NocaseDict([]),
+        NocaseDict([]),
+        NocaseDict([]),
+        None, None, TESTDICT_SUPPORTS_UNION
+    ),
+    (
+        "Non-empty NocaseDict and empty NocaseDict",
+        NocaseDict([('k1', 'v1')]),
+        NocaseDict([]),
+        NocaseDict([('k1', 'v1')]),
+        None, None, TESTDICT_SUPPORTS_UNION
+    ),
+    (
+        "Empty NocaseDict and non-empty NocaseDict",
+        NocaseDict([]),
+        NocaseDict([('k1', 'v1')]),
+        NocaseDict([('k1', 'v1')]),
+        None, None, TESTDICT_SUPPORTS_UNION
+    ),
+    (
+        "NocaseDicts with distinct keys",
+        NocaseDict([('k1', 'v1')]),
+        NocaseDict([('k2', 'v2')]),
+        NocaseDict([('k1', 'v1'), ('k2', 'v2')]),
+        None, None, TESTDICT_SUPPORTS_UNION
+    ),
+    (
+        "NocaseDicts with equal keys in same case",
+        NocaseDict([('k1', 'v1')]),
+        NocaseDict([('k1', 'v1_x')]),
+        NocaseDict([('k1', 'v1_x')]),
+        None, None, TESTDICT_SUPPORTS_UNION
+    ),
+    (
+        "NocaseDicts with equal keys in different case",
+        NocaseDict([('k1', 'v1')]),
+        NocaseDict([('K1', 'v1_x')]),
+        NocaseDict([('K1', 'v1_x')]) if not TEST_AGAINST_DICT else
+        dict([('k1', 'v1'), ('K1', 'v1_x')]),
+        None, None, TESTDICT_SUPPORTS_UNION
+    ),
+
+    # NocaseDict and dict objects
+    (
+        "Empty NocaseDict and empty dict",
+        NocaseDict([]),
+        dict([]),
+        NocaseDict([]),
+        None, None, TESTDICT_SUPPORTS_UNION
+    ),
+    (
+        "Non-empty NocaseDict and empty dict",
+        NocaseDict([('k1', 'v1')]),
+        dict([]),
+        NocaseDict([('k1', 'v1')]),
+        None, None, TESTDICT_SUPPORTS_UNION
+    ),
+    (
+        "Empty NocaseDict and non-empty dict",
+        NocaseDict([]),
+        dict([('k1', 'v1')]),
+        NocaseDict([('k1', 'v1')]),
+        None, None, TESTDICT_SUPPORTS_UNION
+    ),
+    (
+        "NocaseDict and dict with distinct keys",
+        NocaseDict([('k1', 'v1')]),
+        dict([('k2', 'v2')]),
+        NocaseDict([('k1', 'v1'), ('k2', 'v2')]),
+        None, None, TESTDICT_SUPPORTS_UNION
+    ),
+    (
+        "NocaseDict and dict with equal keys in same case",
+        NocaseDict([('k1', 'v1')]),
+        dict([('k1', 'v1_x')]),
+        NocaseDict([('k1', 'v1_x')]),
+        None, None, TESTDICT_SUPPORTS_UNION
+    ),
+    (
+        "NocaseDict and dict with equal keys in different case",
+        NocaseDict([('k1', 'v1')]),
+        dict([('K1', 'v1_x')]),
+        NocaseDict([('K1', 'v1_x')]) if not TEST_AGAINST_DICT else
+        dict([('k1', 'v1'), ('K1', 'v1_x')]),
+        None, None, TESTDICT_SUPPORTS_UNION
+    ),
+
+    # dict and NocaseDict objects
+    (
+        "Empty dict and empty NocaseDict",
+        dict([]),
+        NocaseDict([]),
+        NocaseDict([]),
+        None, None, TESTDICT_SUPPORTS_UNION
+    ),
+    (
+        "Non-empty dict and empty NocaseDict",
+        dict([('k1', 'v1')]),
+        NocaseDict([]),
+        NocaseDict([('k1', 'v1')]),
+        None, None, TESTDICT_SUPPORTS_UNION
+    ),
+    (
+        "Empty dict and non-empty NocaseDict",
+        dict([]),
+        NocaseDict([('k1', 'v1')]),
+        NocaseDict([('k1', 'v1')]),
+        None, None, TESTDICT_SUPPORTS_UNION
+    ),
+    (
+        "dict and NocaseDict with distinct keys",
+        dict([('k1', 'v1')]),
+        NocaseDict([('k2', 'v2')]),
+        NocaseDict([('k1', 'v1'), ('k2', 'v2')]),
+        None, None, TESTDICT_SUPPORTS_UNION
+    ),
+    (
+        "dict and NocaseDict with equal keys in same case",
+        dict([('k1', 'v1')]),
+        NocaseDict([('k1', 'v1_x')]),
+        NocaseDict([('k1', 'v1_x')]),
+        None, None, TESTDICT_SUPPORTS_UNION
+    ),
+    (
+        "dict and NocaseDict with equal keys in different case",
+        dict([('k1', 'v1')]),
+        NocaseDict([('K1', 'v1_x')]),
+        NocaseDict([('K1', 'v1_x')]) if not TEST_AGAINST_DICT else
+        dict([('k1', 'v1'), ('K1', 'v1_x')]),
+        None, None, TESTDICT_SUPPORTS_UNION
+    ),
+]
+
+
+@pytest.mark.parametrize(
+    "desc, dict1, dict2, exp_dict, exp_exc_types, exp_warn_types, condition",
+    TESTCASES_NOCASEDICT_OR_ROR)
+def test_NocaseDict_or_ror(
+        desc, dict1, dict2, exp_dict, exp_exc_types, exp_warn_types, condition):
+    # pylint: disable=unused-argument,too-many-positional-arguments
+    """
+    Test function for NocaseDict.__or__(), __ror__()
+    """
+
+    if not condition:
+        pytest.skip("Condition not met")
+
+    # Double check they are different objects
+    assert id(dict1) != id(dict2)
+
+    if exp_exc_types is None:
+
+        # The code to be tested
+        res_dict = dict1 | dict2
+
+        assert id(res_dict) != id(dict1)
+        assert id(res_dict) != id(dict2)
+
+        assert type(res_dict) is type(exp_dict)
+        assert res_dict == exp_dict
+
+        assert dict(res_dict) == dict(exp_dict)  # case sensitive comparison
+
+    else:
+        raise NotImplementedError
+
+
+TESTCASES_NOCASEDICT_IOR = [
+
+    # Testcases for NocaseDict.__ior__()
+
+    # Each list item is a testcase tuple with these items:
+    # * desc: Short testcase description.
+    # * dict1: Left side NocaseDict object to use.
+    # * dict2: Right side NocaseDict object to use.
+    # * exp_dict: Expected NocaseDict object.
+    # * exp_exc_types: Expected exception type(s), or None.
+    # * exp_warn_types: Expected warning type(s), or None.
+    # * condition: Boolean condition for testcase to run, or 'pdb' for debugger
+
+    # Two NocaseDict objects
+    (
+        "Two empty NocaseDicts",
+        NocaseDict([]),
+        NocaseDict([]),
+        NocaseDict([]),
+        None, None, TESTDICT_SUPPORTS_UNION
+    ),
+    (
+        "Non-empty NocaseDict and empty NocaseDict",
+        NocaseDict([('k1', 'v1')]),
+        NocaseDict([]),
+        NocaseDict([('k1', 'v1')]),
+        None, None, TESTDICT_SUPPORTS_UNION
+    ),
+    (
+        "Empty NocaseDict and non-empty NocaseDict",
+        NocaseDict([]),
+        NocaseDict([('k1', 'v1')]),
+        NocaseDict([('k1', 'v1')]),
+        None, None, TESTDICT_SUPPORTS_UNION
+    ),
+    (
+        "NocaseDicts with distinct keys",
+        NocaseDict([('k1', 'v1')]),
+        NocaseDict([('k2', 'v2')]),
+        NocaseDict([('k1', 'v1'), ('k2', 'v2')]),
+        None, None, TESTDICT_SUPPORTS_UNION
+    ),
+    (
+        "NocaseDicts with equal keys in same case",
+        NocaseDict([('k1', 'v1')]),
+        NocaseDict([('k1', 'v1_x')]),
+        NocaseDict([('k1', 'v1_x')]),
+        None, None, TESTDICT_SUPPORTS_UNION
+    ),
+    (
+        "NocaseDicts with equal keys in different case",
+        NocaseDict([('k1', 'v1')]),
+        NocaseDict([('K1', 'v1_x')]),
+        NocaseDict([('K1', 'v1_x')]) if not TEST_AGAINST_DICT else
+        dict([('k1', 'v1'), ('K1', 'v1_x')]),
+        None, None, TESTDICT_SUPPORTS_UNION
+    ),
+
+    # NocaseDict and dict objects
+    (
+        "Empty NocaseDict and empty dict",
+        NocaseDict([]),
+        dict([]),
+        NocaseDict([]),
+        None, None, TESTDICT_SUPPORTS_UNION
+    ),
+    (
+        "Non-empty NocaseDict and empty dict",
+        NocaseDict([('k1', 'v1')]),
+        dict([]),
+        NocaseDict([('k1', 'v1')]),
+        None, None, TESTDICT_SUPPORTS_UNION
+    ),
+    (
+        "Empty NocaseDict and non-empty dict",
+        NocaseDict([]),
+        dict([('k1', 'v1')]),
+        NocaseDict([('k1', 'v1')]),
+        None, None, TESTDICT_SUPPORTS_UNION
+    ),
+    (
+        "NocaseDict and dict with distinct keys",
+        NocaseDict([('k1', 'v1')]),
+        dict([('k2', 'v2')]),
+        NocaseDict([('k1', 'v1'), ('k2', 'v2')]),
+        None, None, TESTDICT_SUPPORTS_UNION
+    ),
+    (
+        "NocaseDict and dict with equal keys in same case",
+        NocaseDict([('k1', 'v1')]),
+        dict([('k1', 'v1_x')]),
+        NocaseDict([('k1', 'v1_x')]),
+        None, None, TESTDICT_SUPPORTS_UNION
+    ),
+    (
+        "NocaseDict and dict with equal keys in different case",
+        NocaseDict([('k1', 'v1')]),
+        dict([('K1', 'v1_x')]),
+        NocaseDict([('K1', 'v1_x')]) if not TEST_AGAINST_DICT else
+        dict([('k1', 'v1'), ('K1', 'v1_x')]),
+        None, None, TESTDICT_SUPPORTS_UNION
+    ),
+
+    # dict and NocaseDict objects
+    (
+        "Empty dict and empty NocaseDict",
+        dict([]),
+        NocaseDict([]),
+        dict([]),
+        None, None, TESTDICT_SUPPORTS_UNION
+    ),
+    (
+        "Non-empty dict and empty NocaseDict",
+        dict([('k1', 'v1')]),
+        NocaseDict([]),
+        dict([('k1', 'v1')]),
+        None, None, TESTDICT_SUPPORTS_UNION
+    ),
+    (
+        "Empty dict and non-empty NocaseDict",
+        dict([]),
+        NocaseDict([('k1', 'v1')]),
+        dict([('k1', 'v1')]),
+        None, None, TESTDICT_SUPPORTS_UNION
+    ),
+    (
+        "dict and NocaseDict with distinct keys",
+        dict([('k1', 'v1')]),
+        NocaseDict([('k2', 'v2')]),
+        dict([('k1', 'v1'), ('k2', 'v2')]),
+        None, None, TESTDICT_SUPPORTS_UNION
+    ),
+    (
+        "dict and NocaseDict with equal keys in same case",
+        dict([('k1', 'v1')]),
+        NocaseDict([('k1', 'v1_x')]),
+        dict([('k1', 'v1_x')]),
+        None, None, TESTDICT_SUPPORTS_UNION
+    ),
+    (
+        # make      Python  d2 type     Run  Result
+        # test      3.8     NocaseDict  Yes  NocaseDict(K1)
+        # test      3.9     NocaseDict  Yes  dict(k1, K1)
+        # testdict  3.8     dict        No   N/A
+        # testdict  3.9     dict        Yes  dict(k1, K1)
+        "dict and NocaseDict with equal keys in different case",
+        dict([('k1', 'v1')]),
+        NocaseDict([('K1', 'v1_x')]),
+        NocaseDict([('K1', 'v1_x')]) if PY38 else
+        dict([('k1', 'v1'), ('K1', 'v1_x')]),
+        None, None, TESTDICT_SUPPORTS_UNION
+    ),
+]
+
+
+@pytest.mark.parametrize(
+    "desc, dict1, dict2, exp_dict, exp_exc_types, exp_warn_types, condition",
+    TESTCASES_NOCASEDICT_IOR)
+def test_NocaseDict_ior(
+        desc, dict1, dict2, exp_dict, exp_exc_types, exp_warn_types, condition):
+    # pylint: disable=unused-argument,too-many-positional-arguments
+    """
+    Test function for NocaseDict.__ior__()
+    """
+
+    if not condition:
+        pytest.skip("Condition not met")
+
+    # Double check they are different objects
+    assert id(dict1) != id(dict2)
+
+    if exp_exc_types is None:
+
+        res_dict = dict1.copy()
+
+        # The code to be tested
+        res_dict |= dict2
+
+        # Note: The above falls back to res_dict = res_dict | dict2 if res_dict
+        # does not provide __ior__(), and evaluating res_dict | dict2 causes
+        # dict2.__ror__() to be called if res_dict.__or__() is not implemented.
+        # So on Python 3.8 (where dict did not yet implement union operators),
+        # if res_dict is a dict and dict2 is NocaseDict, the above causes
+        # res_dict to become a NocaseDict.
+
+        assert res_dict == exp_dict
+
+        assert dict(res_dict) == dict(exp_dict)  # case sensitive comparison
+
+    else:
+        raise NotImplementedError
