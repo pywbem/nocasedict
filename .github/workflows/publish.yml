@@ -172,7 +172,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         INPUT_TAG_NAME: ${{ steps.set-tag.outputs.result }}
         INPUT_NAME: "Release ${{ steps.set-tag.outputs.result }}"
-        INPUT_BODY: "Change log https://pywbem.readthedocs.io/en/${{ steps.set-tag.outputs.result }}/changes.html"
+        INPUT_BODY: "Change log https://nocasedict.readthedocs.io/en/${{ steps.set-tag.outputs.result }}/changes.html"
 
     #-------- Creation of stable branch
     # Note: This does not seem to depend on the disablement of the "Restrict pushes
