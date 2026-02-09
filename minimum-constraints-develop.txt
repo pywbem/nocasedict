@@ -38,7 +38,7 @@ dparse==0.6.4
 ruamel.yaml==0.17.21
 click==8.0.2
 Authlib==1.6.5
-marshmallow==3.15.0
+marshmallow==3.26.2
 pydantic==2.8.0; python_version == '3.8'
 pydantic==2.12.0; python_version >= '3.9'
 pydantic_core==2.20.0; python_version == '3.8'
@@ -166,7 +166,7 @@ tenacity==8.5.0
 toml==0.10.0
 tomli==2.0.1
 tqdm==4.66.3
-urllib3==2.5.0
+urllib3==2.6.3
 wcwidth==0.1.7
 webencodings==0.5.1
 widgetsnbextension==1.2.6
