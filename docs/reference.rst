@@ -15,24 +15,10 @@ Class NocaseDict
 
 .. autoclass:: nocasedict.NocaseDict
    :members:
-   :special-members: __getitem__
-
-   .. # Note, we want to exclude __init__. Specifying one other special member
-   .. # ba name causes __init__ to be excluded and all other special methods to
-   .. # be included.
-
-   .. rubric:: Methods
-
-   .. autoautosummary:: nocasedict.NocaseDict
-      :methods:
-      :nosignatures:
-
-   .. rubric:: Attributes
-
-   .. autoautosummary:: nocasedict.NocaseDict
-      :attributes:
-
-   .. rubric:: Details
+   :special-members:
+   :exclude-members: __init__,__weakref__,__hash__
+   :autosummary:
+   :autosummary-inherited-members:
 
 
 .. _`Class HashableMixin`:
@@ -44,19 +30,9 @@ Mixin class HashableMixin
 .. autoclass:: nocasedict.HashableMixin
    :members:
    :special-members: __hash__
-
-   .. rubric:: Methods
-
-   .. autoautosummary:: nocasedict.HashableMixin
-      :methods:
-      :nosignatures:
-
-   .. rubric:: Attributes
-
-   .. autoautosummary:: nocasedict.HashableMixin
-      :attributes:
-
-   .. rubric:: Details
+   :exclude-members: __init__,__weakref__
+   :autosummary:
+   :autosummary-inherited-members:
 
 
 .. _`Mixin generator function KeyableByMixin()`:
