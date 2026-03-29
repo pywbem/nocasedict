@@ -140,7 +140,9 @@ keyring==17.0.0
 levenshtein==0.25.1
 MarkupSafe==2.0.0
 more-itertools==5.0.0
-nltk==3.9.2
+# Need to comment out nltk==3.9.2 due to issue https://github.com/pyupio/safety/issues/847
+# nltk==3.9.2; python_version == '3.9'
+nltk==3.9.3; python_version >= '3.10'
 pkginfo==1.4.2
 py==1.11.0
 pyparsing==2.4.7
