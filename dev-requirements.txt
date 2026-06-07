@@ -15,7 +15,10 @@ pyproject-hooks>=1.1.0
 towncrier>=22.8.0
 
 # Unit test (e.g. imports into testcases):
-pytest>=8.0.2
+pytest>=8.0.2; python_version == '3.9'
+pytest>=9.0.3; python_version >= '3.10'
+pluggy>=1.3.0; python_version == '3.9'
+pluggy>=1.5.0; python_version >= '3.10'
 
 # Coverage reporting (no imports, invoked via coveralls script):
 # coveralls 3.3.0 pins coverage to <7.0, causing pip backtracking to happen. Pinning
@@ -59,8 +62,8 @@ tox>=3.21.0
 Sphinx>=7.2.0
 docutils>=0.18.1
 sphinx-git>=10.1.1
-GitPython>=3.1.47
-Pygments>=2.15.0
+GitPython>=3.1.50
+Pygments>=2.20.0
 sphinx-rtd-theme>=2.0.0
 sphinxcontrib-applehelp>=1.0.4
 sphinxcontrib-devhelp>=1.0.2
@@ -105,9 +108,6 @@ mypy>=1.17.1
 # packaging (used by pytest, safety)
 # setuptools>=77.0.0 requires packaging>=24.2 to work properly
 packaging>=24.2
-
-# pluggy (used by pytest, tox)
-pluggy>=1.3.0
 
 # Package dependency management tools
 pipdeptree>=2.24.0
