@@ -166,7 +166,8 @@ toml==0.10.0
 tomli==2.0.1
 truststore==0.9.1
 tqdm==4.66.3
-urllib3==2.6.3
+urllib3==2.6.3; python_version == '3.9'
+urllib3==2.7.0; python_version >= '3.10'
 wcwidth==0.1.7
 webencodings==0.5.1
 widgetsnbextension==1.2.6
