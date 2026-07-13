@@ -128,6 +128,8 @@ attrs==19.2.0
 bleach==3.3.0
 certifi==2024.7.4
 chardet==3.0.3
+# defusedxml is used only by nltk>=3.10.0 which requires Python>=3.10
+defusedxml==0.7.1; python_version >= '3.10'
 distlib==0.3.7
 docopt==0.6.1
 gitdb==4.0.1
