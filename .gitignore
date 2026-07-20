@@ -32,3 +32,4 @@ MANIFEST
 MANIFEST.in
 cprofilerstats*.profile
 .DS_Store
+/extra_reqs*.txt

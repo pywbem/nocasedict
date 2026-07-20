@@ -206,23 +206,23 @@ dist_dependent_files := \
 # Directory for .done files
 done_dir := done
 
-# Packages whose dependencies are checked using pip-missing-reqs
-check_reqs_packages := pytest coverage coveralls flake8 pylint twine safety sphinx towncrier
-
 .PHONY: help
 help:
 	@echo "Makefile for $(project_name) project"
 	@echo "$(package_name) package version: $(package_version)"
 	@echo ""
 	@echo "Make targets:"
+	@echo "  check_reqs_prepare - Prepare dependency checks (must be run before install)"
+	@echo "  install    - Install $(package_name) as standalone and its dependent packages"
+	@echo "  check_reqs_install - Perform missing install dependency checks (must be run before develop)"
 	@echo "  develop    - Set up development of $(project_name) project (installs $(package_name) as editable)"
+	@echo "  check_reqs - Perform missing dependency checks (must be run after develop)"
 	@echo "  build      - Build the distribution archive files in: $(dist_dir)"
 	@echo "  builddoc   - Build documentation in: $(doc_build_dir)"
 	@echo "  check      - Run Flake8 on Python sources"
 	@echo "  pylint     - Run PyLint on Python sources"
 	@echo "  mypy       - Run Mypy on Python sources"
 	@echo "  safety     - Run safety on Python sources"
-	@echo "  check_reqs - Perform missing dependency checks"
 	@echo "  installtest - Run install tests"
 	@echo "  test       - Run unit testss against local package"
 	@echo "  testdict   - Run unit tests against standard dict"
@@ -233,7 +233,6 @@ help:
 	@echo "  release_publish - Publish to PyPI when releasing a version (requires VERSION and optionally BRANCH to be set)"
 	@echo "  start_branch - Create a start branch when starting a new version (requires VERSION and optionally BRANCH to be set)"
 	@echo "  start_tag - Create a start tag when starting a new version (requires VERSION and optionally BRANCH to be set)"
-	@echo "  install    - Install $(package_name) as standalone and its dependent packages"
 	@echo "  clean      - Remove any temporary files"
 	@echo "  clobber    - Remove everything created to ensure clean start"
 	@echo "  pip_list   - Display the installed Python packages as seen by make"
@@ -315,10 +314,6 @@ builddoc: $(doc_build_dir)/html/docs/index.html
 check: $(done_dir)/flake8_$(pymn)_$(PACKAGE_LEVEL).done
 	@echo "Makefile: $@ done."
 
-.PHONY: check_reqs
-check_reqs: $(done_dir)/check_reqs_$(pymn)_$(PACKAGE_LEVEL).done
-	@echo "Makefile: $@ done."
-
 .PHONY: pylint
 pylint: $(done_dir)/pylint_$(pymn)_$(PACKAGE_LEVEL).done
 	@echo "Makefile: $@ done."
@@ -328,7 +323,7 @@ mypy: $(done_dir)/mypy_$(pymn)_$(PACKAGE_LEVEL).done
 	@echo "Makefile: $@ done."
 
 .PHONY: all
-all: develop check_reqs build builddoc check pylint mypy installtest test testdict doclinkcheck authors
+all: install develop check_reqs build builddoc check pylint mypy installtest test testdict doclinkcheck authors
 	@echo "Makefile: $@ done."
 
 .PHONY: release_branch
@@ -571,22 +566,45 @@ safety: $(done_dir)/develop_$(pymn)_$(PACKAGE_LEVEL).done Makefile $(safety_deve
 	safety check --policy-file $(safety_develop_policy_file) -r minimum-constraints-develop.txt --full-report || test '$(RUN_TYPE)' == 'normal' || test '$(RUN_TYPE)' == 'scheduled' || exit 1
 	@echo "Makefile: Done running Safety"
 
-$(done_dir)/check_reqs_$(pymn)_$(PACKAGE_LEVEL).done: $(done_dir)/develop_$(pymn)_$(PACKAGE_LEVEL).done minimum-constraints-develop.txt minimum-constraints-install.txt requirements.txt
-	@echo "Makefile: Checking missing dependencies of the package"
-	pip-missing-reqs $(package_name) --requirements-file=requirements.txt
-	pip-missing-reqs $(package_name) --requirements-file=minimum-constraints-install.txt
-	@echo "Makefile: Done checking missing dependencies of the package"
+.PHONY: check_reqs_prepare
+check_reqs_prepare: Makefile
+	@echo "Makefile: Preparing check for missing and extra install dependencies of this package"
+	pip freeze | cut -d '=' -f 1 | grep -v '@' | tr '-' '.' | tr '_' '.' >tmp_initial-packages.txt
+
+.PHONY: check_reqs_install
+check_reqs_install: Makefile $(done_dir)/install_$(pymn)_$(PACKAGE_LEVEL).done minimum-constraints-install.txt
+	@echo "Makefile: Checking missing and extra install dependencies of this package"
+# Create empty tmp_initial-packages.txt for local runs that missed running check_reqs_prepare
+	touch tmp_initial-packages.txt
+	pip freeze | cut -d '=' -f 1 | grep -v '@' | tr '-' '.' | tr '_' '.' | grep -v -F -f tmp_initial-packages.txt | xargs -I {} sh -c 'if ! grep -iE ^{}== minimum-constraints-install.txt >/dev/null; then sh -c "pip freeze | grep -iE ^{}=="; fi' >tmp_missing-reqs.txt
+	if [ -s tmp_missing-reqs.txt ]; then echo 'Error: Missing packages in minimum-constraints-install.txt compared to what is installed:'; cat tmp_missing-reqs.txt; exit 1; fi
+	rm -f tmp_missing-reqs.txt
+	for pkg in $$(grep -E '^[a-z_0-9A-Z\-\.]+==' minimum-constraints-install.txt | cut -d '=' -f 1 | sort | uniq); do if ! pip show $$pkg >/dev/null 2>&1; then echo $$pkg; fi; done >extra_reqs_install_$(PLATFORM)_$(pymn)_$(PACKAGE_LEVEL).txt
+	if [ -s extra_reqs_install_$(PLATFORM)_$(pymn)_$(PACKAGE_LEVEL).txt ]; then echo 'Warning: Extra packages in minimum-constraints-install.txt compared to what is installed:'; cat extra_reqs_install_$(PLATFORM)_$(pymn)_$(PACKAGE_LEVEL).txt; fi
+	@echo "Makefile: Done checking missing and extra install dependencies of this package"
+	@echo "Makefile: $@ done."
+
+.PHONY: check_reqs
+check_reqs: Makefile $(done_dir)/develop_$(pymn)_$(PACKAGE_LEVEL).done minimum-constraints-install.txt minimum-constraints-develop.txt requirements.txt
+	@echo "Makefile: Checking missing and extra dependencies of this package"
 ifeq ($(PLATFORM),Windows_native)
 # Reason for skipping on Windows is https://github.com/r1chardj0n3s/pip-check-reqs/issues/67
-	@echo "Makefile: Warning: Skipping the checking of missing dependencies of site-packages directory on native Windows" >&2
+	@echo "Makefile: Warning: Skipping the use of pip-missing-reqs on native Windows" >&2
 else
-	@echo "Makefile: Checking missing dependencies of some development packages"
-	cat minimum-constraints-develop.txt minimum-constraints-install.txt >tmp_minimum-constraints.txt
-	@rc=0; for pkg in $(check_reqs_packages); do dir=$$($(PYTHON_CMD) -c "import $${pkg} as m,os; dm=os.path.dirname(m.__file__); d=dm if not dm.endswith('site-packages') else m.__file__; print(d)"); cmd="pip-missing-reqs $${dir} --requirements-file=tmp_minimum-constraints.txt"; echo $${cmd}; $${cmd}; rc=$$(expr $${rc} + $${?}); done; exit $${rc}
-	rm -f tmp_minimum-constraints.txt
-	@echo "Makefile: Done checking missing dependencies of some development packages"
+	pip-missing-reqs $(package_name) --ignore-module $(package_name) --requirements-file=requirements.txt
+	pip-missing-reqs $(package_name) --ignore-module $(package_name) --requirements-file=minimum-constraints-install.txt
 endif
-	echo "done" >$@
+	cat minimum-constraints-develop.txt minimum-constraints-install.txt >tmp_minimum-constraints.txt
+# Create empty tmp_initial-packages.txt for local runs that missed running check_reqs_prepare
+	touch tmp_initial-packages.txt
+	pip freeze | cut -d '=' -f 1 | grep -v '@' | tr '-' '.' | tr '_' '.' | grep -v -F -f tmp_initial-packages.txt | xargs -I {} sh -c 'if ! grep -iE ^{}== tmp_minimum-constraints.txt >/dev/null; then sh -c "pip freeze | grep -iE ^{}=="; fi' >tmp_missing-reqs.txt
+	if [ -s tmp_missing-reqs.txt ]; then echo 'Error: Missing packages in minimum-constraints files compared to what is installed:'; cat tmp_missing-reqs.txt; exit 1; fi
+	rm -f tmp_missing-reqs.txt tmp_initial-packages.txt
+	for pkg in $$(grep -E '^[a-z_0-9A-Z\-\.]+==' tmp_minimum-constraints.txt | cut -d '=' -f 1 | sort | uniq); do if ! pip show $$pkg >/dev/null 2>&1; then echo $$pkg; fi; done >extra_reqs_all_$(PLATFORM)_$(pymn)_$(PACKAGE_LEVEL).txt
+	if [ -s extra_reqs_all_$(PLATFORM)_$(pymn)_$(PACKAGE_LEVEL).txt ]; then echo 'Warning: Extra packages in minimum-constraints files compared to what is installed:'; cat extra_reqs_all_$(PLATFORM)_$(pymn)_$(PACKAGE_LEVEL).txt; fi
+	rm -f tmp_minimum-constraints.txt
+	@echo "Makefile: Done checking missing dependencies of this package"
+	@echo "Makefile: $@ done."
 
 .PHONY: test
 test: $(test_unit_py_files)
