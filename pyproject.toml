@@ -7,7 +7,7 @@
 requires = [
     # Keep in sync with base-requirements.txt and the base dependencies in
     # minimum-constraints-install.txt
-    "setuptools>=78.1.1",
+    "setuptools>=82.0.0",
     "setuptools-scm[toml]>=9.2.0",
     "wheel>=0.46.2"
 ]
