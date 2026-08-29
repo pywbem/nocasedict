@@ -15,7 +15,6 @@
 #     python (This Makefile uses the active Python environment, virtual Python
 #       environments are supported)
 #     pip (in the active Python environment)
-#     twine (in the active Python environment)
 #   These additional commands are used on Linux, OS-X and on Windows with
 #   UNIX-like environments:
 #     uname
