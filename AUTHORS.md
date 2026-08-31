@@ -4,4 +4,5 @@ Sorted list of authors derived from git commit history:
 ```
 Andreas Maier <andreas.r.maier@gmx.de>
 Andreas Maier <andy-maier@users.noreply.github.com>
+github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
 ```
