@@ -73,210 +73,210 @@ TESTCASES_NOCASEDICT_INIT = [
     # Empty NocaseDict
     (
         "Empty dict from no args",
-        dict(
-            init_args=(),
-            init_kwargs={},
-            exp_dict=OrderedDict(),
-            verify_order=True,
-        ),
+        {
+            'init_args': (),
+            'init_kwargs': {},
+            'exp_dict': OrderedDict(),
+            'verify_order': True,
+        },
         None, None, True
     ),
     (
         "Empty dict from None as positional arg (not iterable)",
-        dict(
-            init_args=(None,),
-            init_kwargs={},
-            exp_dict=OrderedDict(),
-            verify_order=True,
-        ),
+        {
+            'init_args': (None,),
+            'init_kwargs': {},
+            'exp_dict': OrderedDict(),
+            'verify_order': True,
+        },
         TypeError, None, True
     ),
     (
         "Empty dict from empty list as positional arg",
-        dict(
-            init_args=([],),
-            init_kwargs={},
-            exp_dict=OrderedDict(),
-            verify_order=True,
-        ),
+        {
+            'init_args': ([],),
+            'init_kwargs': {},
+            'exp_dict': OrderedDict(),
+            'verify_order': True,
+        },
         None, None, True
     ),
     (
         "Empty dict from empty tuple as positional arg",
-        dict(
-            init_args=(tuple(),),
-            init_kwargs={},
-            exp_dict=OrderedDict(),
-            verify_order=True,
-        ),
+        {
+            'init_args': ((),),
+            'init_kwargs': {},
+            'exp_dict': OrderedDict(),
+            'verify_order': True,
+        },
         None, None, True
     ),
     (
         "Empty dict from empty dict as positional arg",
-        dict(
-            init_args=({},),
-            init_kwargs={},
-            exp_dict=OrderedDict(),
-            verify_order=True,
-        ),
+        {
+            'init_args': ({},),
+            'init_kwargs': {},
+            'exp_dict': OrderedDict(),
+            'verify_order': True,
+        },
         None, None, True
     ),
     (
         "Empty dict from empty NocaseDict as positional arg",
-        dict(
-            init_args=(NocaseDict(),),
-            init_kwargs={},
-            exp_dict=OrderedDict(),
-            verify_order=True,
-        ),
+        {
+            'init_args': (NocaseDict(),),
+            'init_kwargs': {},
+            'exp_dict': OrderedDict(),
+            'verify_order': True,
+        },
         None, None, True
     ),
 
     # Non-empty NocaseDict
     (
         "Dict from list as positional arg",
-        dict(
-            init_args=([('Dog', 'Cat'), ('Budgie', 'Fish')],),
-            init_kwargs={},
-            exp_dict=OrderedDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            verify_order=True,
-        ),
+        {
+            'init_args': ([('Dog', 'Cat'), ('Budgie', 'Fish')],),
+            'init_kwargs': {},
+            'exp_dict': OrderedDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'verify_order': True,
+        },
         None, None, True
     ),
     (
         "Dict from tuple as positional arg",
-        dict(
-            init_args=((('Dog', 'Cat'), ('Budgie', 'Fish')),),
-            init_kwargs={},
-            exp_dict=OrderedDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            verify_order=True,
-        ),
+        {
+            'init_args': ((('Dog', 'Cat'), ('Budgie', 'Fish')),),
+            'init_kwargs': {},
+            'exp_dict': OrderedDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'verify_order': True,
+        },
         None, None, True
     ),
     (
         "Dict from dict as positional arg",
-        dict(
-            init_args=({'Dog': 'Cat', 'Budgie': 'Fish'},),
-            init_kwargs={},
-            exp_dict=OrderedDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            verify_order=False,
-        ),
+        {
+            'init_args': ({'Dog': 'Cat', 'Budgie': 'Fish'},),
+            'init_kwargs': {},
+            'exp_dict': OrderedDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'verify_order': False,
+        },
         None, None, True
     ),
     (
         "Dict from keyword args",
-        dict(
-            init_args=(),
-            init_kwargs={'Dog': 'Cat', 'Budgie': 'Fish'},
-            exp_dict=OrderedDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            verify_order=False,
-        ),
+        {
+            'init_args': (),
+            'init_kwargs': {'Dog': 'Cat', 'Budgie': 'Fish'},
+            'exp_dict': OrderedDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'verify_order': False,
+        },
         None, None, True
     ),
     (
         "Dict from list as positional arg and keyword args",
-        dict(
-            init_args=([('Dog', 'Cat')],),
-            init_kwargs={'Budgie': 'Fish'},
-            exp_dict=OrderedDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            verify_order=True,
-        ),
+        {
+            'init_args': ([('Dog', 'Cat')],),
+            'init_kwargs': {'Budgie': 'Fish'},
+            'exp_dict': OrderedDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'verify_order': True,
+        },
         None, None, True
     ),
     (
         "Dict from tuple as positional arg and keyword args",
-        dict(
-            init_args=((('Dog', 'Cat'),),),
-            init_kwargs={'Budgie': 'Fish'},
-            exp_dict=OrderedDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            verify_order=True,
-        ),
+        {
+            'init_args': ((('Dog', 'Cat'),),),
+            'init_kwargs': {'Budgie': 'Fish'},
+            'exp_dict': OrderedDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'verify_order': True,
+        },
         None, None, True
     ),
     (
         "Dict from dict as positional arg and keyword args",
-        dict(
-            init_args=({'Dog': 'Cat'},),
-            init_kwargs={'Budgie': 'Fish'},
-            exp_dict=OrderedDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            verify_order=True,
-        ),
+        {
+            'init_args': ({'Dog': 'Cat'},),
+            'init_kwargs': {'Budgie': 'Fish'},
+            'exp_dict': OrderedDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'verify_order': True,
+        },
         None, None, True
     ),
 
     # Error cases
     (
         "String as positional arg (items cannot be unpacked into k,v)",
-        dict(
-            init_args=('illegal',),
-            init_kwargs={},
-            exp_dict=None,
-            verify_order=None,
-        ),
+        {
+            'init_args': ('illegal',),
+            'init_kwargs': {},
+            'exp_dict': None,
+            'verify_order': None,
+        },
         ValueError, None, True
     ),
     (
         "Integer as positional arg (not iterable)",
-        dict(
-            init_args=(42,),
-            init_kwargs={},
-            exp_dict=None,
-            verify_order=None,
-        ),
+        {
+            'init_args': (42,),
+            'init_kwargs': {},
+            'exp_dict': None,
+            'verify_order': None,
+        },
         TypeError, None, True
     ),
     (
         "Two positional args (too many args)",
-        dict(
-            init_args=([], []),
-            init_kwargs={},
-            exp_dict=None,
-            verify_order=None,
-        ),
+        {
+            'init_args': ([], []),
+            'init_kwargs': {},
+            'exp_dict': None,
+            'verify_order': None,
+        },
         TypeError, None, True
     ),
     (
         "List as positional arg, whose item has only one item (cannot be "
         "unpacked into k,v)",
-        dict(
-            init_args=([('Dog',)],),
-            init_kwargs={},
-            exp_dict=None,
-            verify_order=None,
-        ),
+        {
+            'init_args': ([('Dog',)],),
+            'init_kwargs': {},
+            'exp_dict': None,
+            'verify_order': None,
+        },
         ValueError, None, True
     ),
     (
         "List as positional arg, whose item has too many items (cannot be "
         "unpacked into k,v)",
-        dict(
-            init_args=([('Dog', 'Cat', 'bad')],),
-            init_kwargs={},
-            exp_dict=None,
-            verify_order=None,
-        ),
+        {
+            'init_args': ([('Dog', 'Cat', 'bad')],),
+            'init_kwargs': {},
+            'exp_dict': None,
+            'verify_order': None,
+        },
         ValueError, None, True
     ),
     (
         "Tuple as positional arg, whose item has only one item (cannot be "
         "unpacked into k,v)",
-        dict(
-            init_args=((('Dog',),),),
-            init_kwargs={},
-            exp_dict=None,
-            verify_order=None,
-        ),
+        {
+            'init_args': ((('Dog',),),),
+            'init_kwargs': {},
+            'exp_dict': None,
+            'verify_order': None,
+        },
         ValueError, None, True
     ),
     (
         "Tuple as positional arg, whose item has too many items (cannot be "
         "unpacked into k,v)",
-        dict(
-            init_args=((('Dog', 'Cat', 'bad'),),),
-            init_kwargs={},
-            exp_dict=None,
-            verify_order=None,
-        ),
+        {
+            'init_args': ((('Dog', 'Cat', 'bad'),),),
+            'init_kwargs': {},
+            'exp_dict': None,
+            'verify_order': None,
+        },
         ValueError, None, True
     ),
 ]
@@ -340,201 +340,201 @@ TESTCASES_NOCASEDICT_GETITEM = [
     # Empty NocaseDict
     (
         "Empty dict, with None key (not found)",
-        dict(
-            obj=NocaseDict(),
-            key=None,
-            exp_value=None,
-        ),
+        {
+            'obj': NocaseDict(),
+            'key': None,
+            'exp_value': None,
+        },
         KeyError, None, True
     ),
     (
         "Empty dict, with integer key (no casefold / not found)",
-        dict(
-            obj=NocaseDict(),
-            key=1234,
-            exp_value=None,
-        ),
+        {
+            'obj': NocaseDict(),
+            'key': 1234,
+            'exp_value': None,
+        },
         KeyError if TEST_AGAINST_DICT else AttributeError, None, True
     ),
     (
         "Empty dict, with empty unicode string key (not found)",
-        dict(
-            obj=NocaseDict(),
-            key='',
-            exp_value=None,
-        ),
+        {
+            'obj': NocaseDict(),
+            'key': '',
+            'exp_value': None,
+        },
         KeyError, None, True
     ),
     (
         "Empty dict, with empty byte string key (not found)",
-        dict(
-            obj=NocaseDict(),
-            key=b'',
-            exp_value=None,
-        ),
+        {
+            'obj': NocaseDict(),
+            'key': b'',
+            'exp_value': None,
+        },
         KeyError, None, True
     ),
     (
         "Empty dict, with non-empty unicode string key (not found)",
-        dict(
-            obj=NocaseDict(),
-            key='Dog',
-            exp_value=None,
-        ),
+        {
+            'obj': NocaseDict(),
+            'key': 'Dog',
+            'exp_value': None,
+        },
         KeyError, None, True
     ),
     (
         "Empty dict, with non-empty byte string key (not found)",
-        dict(
-            obj=NocaseDict(),
-            key=b'Dog',
-            exp_value=None,
-        ),
+        {
+            'obj': NocaseDict(),
+            'key': b'Dog',
+            'exp_value': None,
+        },
         KeyError, None, True
     ),
 
     # Non-empty NocaseDict
     (
         "Non-empty dict, with None key (not found)",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key=None,
-            exp_value=None,
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': None,
+            'exp_value': None,
+        },
         KeyError, None, True
     ),
     (
         "Non-empty dict, with empty unicode string key (not found)",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='',
-            exp_value=None,
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': '',
+            'exp_value': None,
+        },
         KeyError, None, True
     ),
     (
         "Non-empty dict, with empty byte string key (not found)",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key=b'',
-            exp_value=None,
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': b'',
+            'exp_value': None,
+        },
         KeyError, None, True
     ),
     (
         "Non-empty dict, with non-empty non-existing unicode string key "
         "(not found)",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='invalid',
-            exp_value=None,
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': 'invalid',
+            'exp_value': None,
+        },
         KeyError, None, True
     ),
     (
         "Non-empty dict, with non-empty non-existing byte string key "
         "(not found)",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key=b'invalid',
-            exp_value=None,
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': b'invalid',
+            'exp_value': None,
+        },
         KeyError, None, True
     ),
     (
         "Non-empty dict, with existing unicode string key in original case",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='Dog',
-            exp_value='Cat',
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': 'Dog',
+            'exp_value': 'Cat',
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with existing byte string key in original case",
-        dict(
-            obj=NocaseDict([(b'Dog', 'Cat'), (b'Budgie', 'Fish')]),
-            key=b'Dog',
-            exp_value='Cat',
-        ),
+        {
+            'obj': NocaseDict([(b'Dog', 'Cat'), (b'Budgie', 'Fish')]),
+            'key': b'Dog',
+            'exp_value': 'Cat',
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with existing unicode string key in non-original "
         "upper case",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='DOG',
-            exp_value='Cat',
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': 'DOG',
+            'exp_value': 'Cat',
+        },
         KeyError if TEST_AGAINST_DICT else None, None, True
     ),
     (
         "Non-empty dict, with existing byte string key in non-original "
         "upper case",
-        dict(
-            obj=NocaseDict([(b'Dog', 'Cat'), (b'Budgie', 'Fish')]),
-            key=b'DOG',
-            exp_value='Cat',
-        ),
+        {
+            'obj': NocaseDict([(b'Dog', 'Cat'), (b'Budgie', 'Fish')]),
+            'key': b'DOG',
+            'exp_value': 'Cat',
+        },
         KeyError if TEST_AGAINST_DICT else None, None, True
     ),
     (
         "Non-empty dict, with existing unicode string key in non-original "
         "lower case",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='dog',
-            exp_value='Cat',
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': 'dog',
+            'exp_value': 'Cat',
+        },
         KeyError if TEST_AGAINST_DICT else None, None, True
     ),
     (
         "Non-empty dict, with existing byte string key in non-original "
         "lower case",
-        dict(
-            obj=NocaseDict([(b'Dog', 'Cat'), (b'Budgie', 'Fish')]),
-            key=b'dog',
-            exp_value='Cat',
-        ),
+        {
+            'obj': NocaseDict([(b'Dog', 'Cat'), (b'Budgie', 'Fish')]),
+            'key': b'dog',
+            'exp_value': 'Cat',
+        },
         KeyError if TEST_AGAINST_DICT else None, None, True
     ),
     (
         "Non-empty dict, with existing unicode string key in non-original "
         "mixed case",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='doG',
-            exp_value='Cat',
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': 'doG',
+            'exp_value': 'Cat',
+        },
         KeyError if TEST_AGAINST_DICT else None, None, True
     ),
     (
         "Non-empty dict, with existing byte string key in non-original "
         "mixed case",
-        dict(
-            obj=NocaseDict([(b'Dog', 'Cat'), (b'Budgie', 'Fish')]),
-            key=b'doG',
-            exp_value='Cat',
-        ),
+        {
+            'obj': NocaseDict([(b'Dog', 'Cat'), (b'Budgie', 'Fish')]),
+            'key': b'doG',
+            'exp_value': 'Cat',
+        },
         KeyError if TEST_AGAINST_DICT else None, None, True
     ),
     (
         "Non-empty unicode string dict, with same byte string key",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key=b'Dog',
-            exp_value='Cat',
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': b'Dog',
+            'exp_value': 'Cat',
+        },
         KeyError, None, True
     ),
     (
         "Non-empty byte string dict, with same unicode string key",
-        dict(
-            obj=NocaseDict([(b'Dog', 'Cat'), (b'Budgie', 'Fish')]),
-            key='Dog',
-            exp_value='Cat',
-        ),
+        {
+            'obj': NocaseDict([(b'Dog', 'Cat'), (b'Budgie', 'Fish')]),
+            'key': 'Dog',
+            'exp_value': 'Cat',
+        },
         KeyError, None, True
     ),
 ]
@@ -577,103 +577,103 @@ TESTCASES_NOCASEDICT_SETITEM = [
     # Empty NocaseDict
     (
         "Empty dict, with None key",
-        dict(
-            obj=NocaseDict(),
-            key=None,
-            value=None,
-        ),
+        {
+            'obj': NocaseDict(),
+            'key': None,
+            'value': None,
+        },
         None, None, True
     ),
     (
         "Empty dict, with integer key (no casefold / success)",
-        dict(
-            obj=NocaseDict(),
-            key=1234,
-            value=None,
-        ),
+        {
+            'obj': NocaseDict(),
+            'key': 1234,
+            'value': None,
+        },
         None if TEST_AGAINST_DICT else AttributeError, None, True
     ),
     (
         "Empty dict, with empty string key",
-        dict(
-            obj=NocaseDict(),
-            key='',
-            value='Newbie',
-        ),
+        {
+            'obj': NocaseDict(),
+            'key': '',
+            'value': 'Newbie',
+        },
         None, None, True
     ),
     (
         "Empty dict, with non-empty key",
-        dict(
-            obj=NocaseDict(),
-            key='Dog',
-            value='Kitten',
-        ),
+        {
+            'obj': NocaseDict(),
+            'key': 'Dog',
+            'value': 'Kitten',
+        },
         None, None, True
     ),
 
     # Non-empty NocaseDict
     (
         "Non-empty dict, with None key",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key=None,
-            value='Kitten',
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': None,
+            'value': 'Kitten',
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with empty string key",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='',
-            value='Newbie',
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': '',
+            'value': 'Newbie',
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with non-empty non-existing key",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='newkey',
-            value='Newbie',
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': 'newkey',
+            'value': 'Newbie',
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with existing key in original case",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='Dog',
-            value='Kitten',
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': 'Dog',
+            'value': 'Kitten',
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with existing key in non-original upper case",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='DOG',
-            value='Kitten',
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': 'DOG',
+            'value': 'Kitten',
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with existing key in non-original lower case",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='dog',
-            value='Kitten',
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': 'dog',
+            'value': 'Kitten',
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with existing key in non-original mixed case",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='doG',
-            value='Kitten',
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': 'doG',
+            'value': 'Kitten',
+        },
         None, None, True
     ),
 ]
@@ -719,92 +719,92 @@ TESTCASES_NOCASEDICT_DELITEM = [
     # Empty NocaseDict
     (
         "Empty dict, with None key (not found)",
-        dict(
-            obj=NocaseDict(),
-            key=None,
-        ),
+        {
+            'obj': NocaseDict(),
+            'key': None,
+        },
         KeyError, None, True
     ),
     (
         "Empty dict, with integer key (no casefold / not found)",
-        dict(
-            obj=NocaseDict(),
-            key=1234,
-        ),
+        {
+            'obj': NocaseDict(),
+            'key': 1234,
+        },
         KeyError if TEST_AGAINST_DICT else AttributeError, None, True
     ),
     (
         "Empty dict, with empty string key (not found)",
-        dict(
-            obj=NocaseDict(),
-            key='',
-        ),
+        {
+            'obj': NocaseDict(),
+            'key': '',
+        },
         KeyError, None, True
     ),
     (
         "Empty dict, with non-empty key (not found)",
-        dict(
-            obj=NocaseDict(),
-            key='Dog',
-        ),
+        {
+            'obj': NocaseDict(),
+            'key': 'Dog',
+        },
         KeyError, None, True
     ),
 
     # Non-empty NocaseDict
     (
         "Non-empty dict, with None key (not found)",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key=None,
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': None,
+        },
         KeyError, None, True
     ),
     (
         "Non-empty dict, with empty non-existing string key (not found)",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='',
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': '',
+        },
         KeyError, None, True
     ),
     (
         "Non-empty dict, with non-empty non-existing key (not found)",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='invalid',
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': 'invalid',
+        },
         KeyError, None, True
     ),
     (
         "Non-empty dict, with existing key in original case",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='Dog',
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': 'Dog',
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with existing key in non-original upper case",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='DOG',
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': 'DOG',
+        },
         KeyError if TEST_AGAINST_DICT else None, None, True
     ),
     (
         "Non-empty dict, with existing key in non-original lower case",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='dog',
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': 'dog',
+        },
         KeyError if TEST_AGAINST_DICT else None, None, True
     ),
     (
         "Non-empty dict, with existing key in non-original mixed case",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='doG',
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': 'doG',
+        },
         KeyError if TEST_AGAINST_DICT else None, None, True
     ),
 ]
@@ -849,18 +849,18 @@ TESTCASES_NOCASEDICT_LEN = [
 
     (
         "Empty dict",
-        dict(
-            obj=NocaseDict(),
-            exp_len=0,
-        ),
+        {
+            'obj': NocaseDict(),
+            'exp_len': 0,
+        },
         None, None, True
     ),
     (
         "Dict with two items",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            exp_len=2,
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'exp_len': 2,
+        },
         None, None, True
     ),
 ]
@@ -902,103 +902,103 @@ TESTCASES_NOCASEDICT_CONTAINS = [
     # Empty NocaseDict
     (
         "Empty dict, with None key",
-        dict(
-            obj=NocaseDict(),
-            key=None,
-            exp_result=False,
-        ),
+        {
+            'obj': NocaseDict(),
+            'key': None,
+            'exp_result': False,
+        },
         None, None, True
     ),
     (
         "Empty dict, with integer key (no casefold / success)",
-        dict(
-            obj=NocaseDict(),
-            key=1234,
-            exp_result=False if TEST_AGAINST_DICT else None,
-        ),
+        {
+            'obj': NocaseDict(),
+            'key': 1234,
+            'exp_result': False if TEST_AGAINST_DICT else None,
+        },
         None if TEST_AGAINST_DICT else AttributeError, None, True
     ),
     (
         "Empty dict, with empty string key (not found)",
-        dict(
-            obj=NocaseDict(),
-            key='',
-            exp_result=False,
-        ),
+        {
+            'obj': NocaseDict(),
+            'key': '',
+            'exp_result': False,
+        },
         None, None, True
     ),
     (
         "Empty dict, with non-empty key (not found)",
-        dict(
-            obj=NocaseDict(),
-            key='Dog',
-            exp_result=False,
-        ),
+        {
+            'obj': NocaseDict(),
+            'key': 'Dog',
+            'exp_result': False,
+        },
         None, None, True
     ),
 
     # Non-empty NocaseDict
     (
         "Non-empty dict, with non-existing None key",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key=None,
-            exp_result=False,
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': None,
+            'exp_result': False,
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with empty non-existing string key (not found)",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='',
-            exp_result=False,
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': '',
+            'exp_result': False,
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with non-empty non-existing key (not found)",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='invalid',
-            exp_result=False,
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': 'invalid',
+            'exp_result': False,
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with existing key in original case",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='Dog',
-            exp_result=True,
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': 'Dog',
+            'exp_result': True,
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with existing key in non-original upper case",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='DOG',
-            exp_result=not TEST_AGAINST_DICT,
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': 'DOG',
+            'exp_result': not TEST_AGAINST_DICT,
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with existing key in non-original lower case",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='dog',
-            exp_result=not TEST_AGAINST_DICT,
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': 'dog',
+            'exp_result': not TEST_AGAINST_DICT,
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with existing key in non-original mixed case",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='doG',
-            exp_result=not TEST_AGAINST_DICT,
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': 'doG',
+            'exp_result': not TEST_AGAINST_DICT,
+        },
         None, None, True
     ),
 ]
@@ -1040,141 +1040,141 @@ TESTCASES_NOCASEDICT_FROMKEYS = [
     # Empty key sequences
     (
         "Empty key sequence, as list",
-        dict(
-            seq=[],
-            value=_OMIT_ARG,
-            exp_obj=NocaseDict(),
-        ),
+        {
+            'seq': [],
+            'value': _OMIT_ARG,
+            'exp_obj': NocaseDict(),
+        },
         None, None, True
     ),
     (
         "Empty key sequence, as tuple",
-        dict(
-            seq=(),
-            value=_OMIT_ARG,
-            exp_obj=NocaseDict(),
-        ),
+        {
+            'seq': (),
+            'value': _OMIT_ARG,
+            'exp_obj': NocaseDict(),
+        },
         None, None, True
     ),
     (
         "Empty key sequence, as dict",
-        dict(
-            seq={},
-            value=_OMIT_ARG,
-            exp_obj=NocaseDict(),
-        ),
+        {
+            'seq': {},
+            'value': _OMIT_ARG,
+            'exp_obj': NocaseDict(),
+        },
         None, None, True
     ),
 
     # Key sewquences with one item
     (
         "Key sequence with one item, as list, with value omitted",
-        dict(
-            seq=['Cat'],
-            value=_OMIT_ARG,
-            exp_obj=NocaseDict([('Cat', None)]),
-        ),
+        {
+            'seq': ['Cat'],
+            'value': _OMIT_ARG,
+            'exp_obj': NocaseDict([('Cat', None)]),
+        },
         None, None, True
     ),
     (
         "Key sequence with one item, as tuple, with value omitted",
-        dict(
-            seq=('Cat',),
-            value=_OMIT_ARG,
-            exp_obj=NocaseDict([('Cat', None)]),
-        ),
+        {
+            'seq': ('Cat',),
+            'value': _OMIT_ARG,
+            'exp_obj': NocaseDict([('Cat', None)]),
+        },
         None, None, True
     ),
     (
         "Key sequence with one item, as dict, with value omitted",
-        dict(
-            seq={'Cat': 'Dog'},
-            value=_OMIT_ARG,
-            exp_obj=NocaseDict([('Cat', None)]),
-        ),
+        {
+            'seq': {'Cat': 'Dog'},
+            'value': _OMIT_ARG,
+            'exp_obj': NocaseDict([('Cat', None)]),
+        },
         None, None, True
     ),
     (
         "Key sequence with one item, as list, with value specified",
-        dict(
-            seq=['Cat'],
-            value='NewBie',
-            exp_obj=NocaseDict([('Cat', 'NewBie')]),
-        ),
+        {
+            'seq': ['Cat'],
+            'value': 'NewBie',
+            'exp_obj': NocaseDict([('Cat', 'NewBie')]),
+        },
         None, None, True
     ),
     (
         "Key sequence with one item, as tuple, with value specified",
-        dict(
-            seq=('Cat',),
-            value='NewBie',
-            exp_obj=NocaseDict([('Cat', 'NewBie')]),
-        ),
+        {
+            'seq': ('Cat',),
+            'value': 'NewBie',
+            'exp_obj': NocaseDict([('Cat', 'NewBie')]),
+        },
         None, None, True
     ),
     (
         "Key sequence with one item, as dict, with value specified",
-        dict(
-            seq={'Cat': 'Dog'},
-            value='NewBie',
-            exp_obj=NocaseDict([('Cat', 'NewBie')]),
-        ),
+        {
+            'seq': {'Cat': 'Dog'},
+            'value': 'NewBie',
+            'exp_obj': NocaseDict([('Cat', 'NewBie')]),
+        },
         None, None, True
     ),
 
     # Key sewquences with two items
     (
         "Key sequence with two items, as list, with value omitted",
-        dict(
-            seq=['Cat', 'Budgie'],
-            value=_OMIT_ARG,
-            exp_obj=NocaseDict([('Cat', None), ('Budgie', None)]),
-        ),
+        {
+            'seq': ['Cat', 'Budgie'],
+            'value': _OMIT_ARG,
+            'exp_obj': NocaseDict([('Cat', None), ('Budgie', None)]),
+        },
         None, None, True
     ),
     (
         "Key sequence with two items, as tuple, with value omitted",
-        dict(
-            seq=('Cat', 'Budgie'),
-            value=_OMIT_ARG,
-            exp_obj=NocaseDict([('Cat', None), ('Budgie', None)]),
-        ),
+        {
+            'seq': ('Cat', 'Budgie'),
+            'value': _OMIT_ARG,
+            'exp_obj': NocaseDict([('Cat', None), ('Budgie', None)]),
+        },
         None, None, True
     ),
     (
         "Key sequence with two items, as dict, with value omitted",
-        dict(
-            seq={'Cat': 'Dog', 'Budgie': 'Fish'},
-            value=_OMIT_ARG,
-            exp_obj=NocaseDict([('Cat', None), ('Budgie', None)]),
-        ),
+        {
+            'seq': {'Cat': 'Dog', 'Budgie': 'Fish'},
+            'value': _OMIT_ARG,
+            'exp_obj': NocaseDict([('Cat', None), ('Budgie', None)]),
+        },
         None, None, True
     ),
     (
         "Key sequence with two items, as list, with value specified",
-        dict(
-            seq=['Cat', 'Budgie'],
-            value='NewBie',
-            exp_obj=NocaseDict([('Cat', 'NewBie'), ('Budgie', 'NewBie')]),
-        ),
+        {
+            'seq': ['Cat', 'Budgie'],
+            'value': 'NewBie',
+            'exp_obj': NocaseDict([('Cat', 'NewBie'), ('Budgie', 'NewBie')]),
+        },
         None, None, True
     ),
     (
         "Key sequence with two items, as tuple, with value specified",
-        dict(
-            seq=('Cat', 'Budgie'),
-            value='NewBie',
-            exp_obj=NocaseDict([('Cat', 'NewBie'), ('Budgie', 'NewBie')]),
-        ),
+        {
+            'seq': ('Cat', 'Budgie'),
+            'value': 'NewBie',
+            'exp_obj': NocaseDict([('Cat', 'NewBie'), ('Budgie', 'NewBie')]),
+        },
         None, None, True
     ),
     (
         "Key sequence with two items, as dict, with value specified",
-        dict(
-            seq={'Cat': 'Dog', 'Budgie': 'Fish'},
-            value='NewBie',
-            exp_obj=NocaseDict([('Cat', 'NewBie'), ('Budgie', 'NewBie')]),
-        ),
+        {
+            'seq': {'Cat': 'Dog', 'Budgie': 'Fish'},
+            'value': 'NewBie',
+            'exp_obj': NocaseDict([('Cat', 'NewBie'), ('Budgie', 'NewBie')]),
+        },
         None, None, True
     ),
 ]
@@ -1216,26 +1216,26 @@ TESTCASES_NOCASEDICT_REVERSED = [
 
     (
         "Empty dict",
-        dict(
-            obj=NocaseDict(),
-            exp_keys=[],
-        ),
+        {
+            'obj': NocaseDict(),
+            'exp_keys': [],
+        },
         None, None, True
     ),
     (
         "Dict with one item",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat')]),
-            exp_keys=['Dog'],
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat')]),
+            'exp_keys': ['Dog'],
+        },
         None, None, True
     ),
     (
         "Dict with two items",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            exp_keys=['Budgie', 'Dog'],
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'exp_keys': ['Budgie', 'Dog'],
+        },
         None, None, True
     ),
 ]
@@ -1285,158 +1285,158 @@ TESTCASES_NOCASEDICT_GET = [
     # Empty NocaseDict
     (
         "Empty dict, with None key",
-        dict(
-            obj=NocaseDict(),
-            key=None,
-            default=_OMIT_ARG,
-            exp_value=None,
-        ),
+        {
+            'obj': NocaseDict(),
+            'key': None,
+            'default': _OMIT_ARG,
+            'exp_value': None,
+        },
         None, None, True
     ),
     (
         "Empty dict, with integer key (no casefold / success)",
-        dict(
-            obj=NocaseDict(),
-            key=1234,
-            default=_OMIT_ARG,
-            exp_value=None,
-        ),
+        {
+            'obj': NocaseDict(),
+            'key': 1234,
+            'default': _OMIT_ARG,
+            'exp_value': None,
+        },
         None if TEST_AGAINST_DICT else AttributeError, None, True
     ),
     (
         "Empty dict, with empty string key (defaulted without default)",
-        dict(
-            obj=NocaseDict(),
-            key='',
-            default=_OMIT_ARG,
-            exp_value=None,
-        ),
+        {
+            'obj': NocaseDict(),
+            'key': '',
+            'default': _OMIT_ARG,
+            'exp_value': None,
+        },
         None, None, True
     ),
     (
         "Empty dict, with empty string key (defaulted to a value)",
-        dict(
-            obj=NocaseDict(),
-            key='',
-            default='Newbie',
-            exp_value='Newbie',
-        ),
+        {
+            'obj': NocaseDict(),
+            'key': '',
+            'default': 'Newbie',
+            'exp_value': 'Newbie',
+        },
         None, None, True
     ),
     (
         "Empty dict, with non-empty key (defaulted without default)",
-        dict(
-            obj=NocaseDict(),
-            key='Dog',
-            default=_OMIT_ARG,
-            exp_value=None,
-        ),
+        {
+            'obj': NocaseDict(),
+            'key': 'Dog',
+            'default': _OMIT_ARG,
+            'exp_value': None,
+        },
         None, None, True
     ),
     (
         "Empty dict, with non-empty key (defaulted to a value)",
-        dict(
-            obj=NocaseDict(),
-            key='Dog',
-            default='Kitten',
-            exp_value='Kitten',
-        ),
+        {
+            'obj': NocaseDict(),
+            'key': 'Dog',
+            'default': 'Kitten',
+            'exp_value': 'Kitten',
+        },
         None, None, True
     ),
 
     # Non-empty NocaseDict
     (
         "Non-empty dict, with None key",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key=None,
-            default=_OMIT_ARG,
-            exp_value=None,
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': None,
+            'default': _OMIT_ARG,
+            'exp_value': None,
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with empty string key (defaulted without default)",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='',
-            default=_OMIT_ARG,
-            exp_value=None,
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': '',
+            'default': _OMIT_ARG,
+            'exp_value': None,
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with empty string key (defaulted to a value)",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='',
-            default='Newbie',
-            exp_value='Newbie',
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': '',
+            'default': 'Newbie',
+            'exp_value': 'Newbie',
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with non-empty non-existing key (defaulted without "
         "default)",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='invalid',
-            default=_OMIT_ARG,
-            exp_value=None,
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': 'invalid',
+            'default': _OMIT_ARG,
+            'exp_value': None,
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with non-empty non-existing key (defaulted to a "
         "value)",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='invalid',
-            default='Newbie',
-            exp_value='Newbie',
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': 'invalid',
+            'default': 'Newbie',
+            'exp_value': 'Newbie',
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with existing key in original case (no default)",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='Dog',
-            default=_OMIT_ARG,
-            exp_value='Cat',
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': 'Dog',
+            'default': _OMIT_ARG,
+            'exp_value': 'Cat',
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with existing key in original case (with default)",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='Dog',
-            default='Newbie',
-            exp_value='Cat',
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': 'Dog',
+            'default': 'Newbie',
+            'exp_value': 'Cat',
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with existing key in non-original mixed case "
         "(no default)",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='doG',
-            default=_OMIT_ARG,
-            exp_value=None if TEST_AGAINST_DICT else 'Cat',
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': 'doG',
+            'default': _OMIT_ARG,
+            'exp_value': None if TEST_AGAINST_DICT else 'Cat',
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with existing key in non-original mixed case "
         "(with default)",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='doG',
-            default='Newbie',
-            exp_value='Newbie' if TEST_AGAINST_DICT else 'Cat',
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': 'doG',
+            'default': 'Newbie',
+            'exp_value': 'Newbie' if TEST_AGAINST_DICT else 'Cat',
+        },
         None, None, True
     ),
 ]
@@ -1484,119 +1484,119 @@ TESTCASES_NOCASEDICT_POP = [
     # Empty NocaseDict
     (
         "Empty dict, with None key and default omitted",
-        dict(
-            obj=NocaseDict(),
-            key=None,
-            default=_OMIT_ARG,
-            exp_value=None,
-        ),
+        {
+            'obj': NocaseDict(),
+            'key': None,
+            'default': _OMIT_ARG,
+            'exp_value': None,
+        },
         KeyError, None, True
     ),
     (
         "Empty dict, with integer key and default omitted "
         "(no casefold / dict empty)",
-        dict(
-            obj=NocaseDict(),
-            key=1234,
-            default=_OMIT_ARG,
-            exp_value=None,
-        ),
+        {
+            'obj': NocaseDict(),
+            'key': 1234,
+            'default': _OMIT_ARG,
+            'exp_value': None,
+        },
         KeyError if TEST_AGAINST_DICT else AttributeError, None, True
     ),
     (
         "Empty dict, with string key and default omitted",
-        dict(
-            obj=NocaseDict(),
-            key='foo',
-            default=_OMIT_ARG,
-            exp_value=None,
-        ),
+        {
+            'obj': NocaseDict(),
+            'key': 'foo',
+            'default': _OMIT_ARG,
+            'exp_value': None,
+        },
         KeyError, None, True
     ),
     (
         "Empty dict, with string key and default specified",
-        dict(
-            obj=NocaseDict(),
-            key='foo',
-            default='Newbie',
-            exp_value='Newbie',
-        ),
+        {
+            'obj': NocaseDict(),
+            'key': 'foo',
+            'default': 'Newbie',
+            'exp_value': 'Newbie',
+        },
         None, None, True
     ),
 
     # Non-empty NocaseDict
     (
         "Non-empty dict, with None key and default omitted",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key=None,
-            default=_OMIT_ARG,
-            exp_value=None,
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': None,
+            'default': _OMIT_ARG,
+            'exp_value': None,
+        },
         KeyError, None, True
     ),
     (
         "Non-empty dict, with non-existing string key and default omitted",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='foo',
-            default=_OMIT_ARG,
-            exp_value=None,
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': 'foo',
+            'default': _OMIT_ARG,
+            'exp_value': None,
+        },
         KeyError, None, True
     ),
     (
         "Non-empty dict, with non-existing string key and default specified",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='foo',
-            default='Newbie',
-            exp_value='Newbie',
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': 'foo',
+            'default': 'Newbie',
+            'exp_value': 'Newbie',
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with existing key in original case and default "
         "omitted",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='Dog',
-            default=_OMIT_ARG,
-            exp_value='Cat',
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': 'Dog',
+            'default': _OMIT_ARG,
+            'exp_value': 'Cat',
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with existing key in original case and default "
         "specified",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='Dog',
-            default='Newbie',
-            exp_value='Cat',
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': 'Dog',
+            'default': 'Newbie',
+            'exp_value': 'Cat',
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with existing key in non-original case and default "
         "omitted (success / not found)",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='doG',
-            default=_OMIT_ARG,
-            exp_value=None if TEST_AGAINST_DICT else 'Cat',
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': 'doG',
+            'default': _OMIT_ARG,
+            'exp_value': None if TEST_AGAINST_DICT else 'Cat',
+        },
         KeyError if TEST_AGAINST_DICT else None, None, True
     ),
     (
         "Non-empty dict, with existing key in non-original case and default "
         "specified",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='doG',
-            default='Newbie',
-            exp_value='Newbie' if TEST_AGAINST_DICT else 'Cat',
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': 'doG',
+            'default': 'Newbie',
+            'exp_value': 'Newbie' if TEST_AGAINST_DICT else 'Cat',
+        },
         None, None, True
     ),
 ]
@@ -1642,26 +1642,26 @@ TESTCASES_NOCASEDICT_POPITEM = [
 
     (
         "Empty dict",
-        dict(
-            obj=NocaseDict(),
-            exp_item=None,
-        ),
+        {
+            'obj': NocaseDict(),
+            'exp_item': None,
+        },
         KeyError, None, True
     ),
     (
         "Dict with one item",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat')]),
-            exp_item=('Dog', 'Cat'),
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat')]),
+            'exp_item': ('Dog', 'Cat'),
+        },
         None, None, True
     ),
     (
         "Dict with two items",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            exp_item=('Budgie', 'Fish'),
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'exp_item': ('Budgie', 'Fish'),
+        },
         None, None, True
     ),
 ]
@@ -1704,156 +1704,156 @@ TESTCASES_NOCASEDICT_SETDEFAULT = [
     # Empty NocaseDict
     (
         "Empty dict, with None key",
-        dict(
-            obj=NocaseDict(),
-            key=None,
-            default=None,
-            exp_value=None,
-        ),
+        {
+            'obj': NocaseDict(),
+            'key': None,
+            'default': None,
+            'exp_value': None,
+        },
         None, None, True
     ),
     (
         "Empty dict, with integer key (no casefold / success)",
-        dict(
-            obj=NocaseDict(),
-            key=1234,
-            default=None,
-            exp_value=None,
-        ),
+        {
+            'obj': NocaseDict(),
+            'key': 1234,
+            'default': None,
+            'exp_value': None,
+        },
         None if TEST_AGAINST_DICT else AttributeError, None, True
     ),
     (
         "Empty dict, with empty string key (defaulted without default)",
-        dict(
-            obj=NocaseDict(),
-            key='',
-            default=None,
-            exp_value=None,
-        ),
+        {
+            'obj': NocaseDict(),
+            'key': '',
+            'default': None,
+            'exp_value': None,
+        },
         None, None, True
     ),
     (
         "Empty dict, with empty string key (defaulted to a value)",
-        dict(
-            obj=NocaseDict(),
-            key='',
-            default='Newbie',
-            exp_value='Newbie',
-        ),
+        {
+            'obj': NocaseDict(),
+            'key': '',
+            'default': 'Newbie',
+            'exp_value': 'Newbie',
+        },
         None, None, True
     ),
     (
         "Empty dict, with non-empty key (defaulted without default)",
-        dict(
-            obj=NocaseDict(),
-            key='Dog',
-            default=None,
-            exp_value=None,
-        ),
+        {
+            'obj': NocaseDict(),
+            'key': 'Dog',
+            'default': None,
+            'exp_value': None,
+        },
         None, None, True
     ),
     (
         "Empty dict, with non-empty key (defaulted to a value)",
-        dict(
-            obj=NocaseDict(),
-            key='Dog',
-            default='Kitten',
-            exp_value='Kitten',
-        ),
+        {
+            'obj': NocaseDict(),
+            'key': 'Dog',
+            'default': 'Kitten',
+            'exp_value': 'Kitten',
+        },
         None, None, True
     ),
 
     # Non-empty NocaseDict
     (
         "Non-empty dict, with None key",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key=None,
-            default=None,
-            exp_value=None,
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': None,
+            'default': None,
+            'exp_value': None,
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with empty string key (defaulted without default)",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='',
-            default=None,
-            exp_value=None,
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': '',
+            'default': None,
+            'exp_value': None,
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with empty string key (defaulted to a value)",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='',
-            default='Newbie',
-            exp_value='Newbie',
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': '',
+            'default': 'Newbie',
+            'exp_value': 'Newbie',
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with non-empty non-existing key (defaulted without "
         "default)",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='invalid',
-            default=None,
-            exp_value=None,
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': 'invalid',
+            'default': None,
+            'exp_value': None,
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with non-empty non-existing key (defaulted to a "
         "value)",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='invalid',
-            default='Newbie',
-            exp_value='Newbie',
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': 'invalid',
+            'default': 'Newbie',
+            'exp_value': 'Newbie',
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with existing key in original case (no default)",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='Dog',
-            default=None,
-            exp_value='Cat',
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': 'Dog',
+            'default': None,
+            'exp_value': 'Cat',
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with existing key in original case (with default)",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='Dog',
-            default='Newbie',
-            exp_value='Cat',
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': 'Dog',
+            'default': 'Newbie',
+            'exp_value': 'Cat',
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with existing key in mixed case (no default)",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='doG',
-            default=None,
-            exp_value=None if TEST_AGAINST_DICT else 'Cat',
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': 'doG',
+            'default': None,
+            'exp_value': None if TEST_AGAINST_DICT else 'Cat',
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with existing key in mixed case (with default)",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            key='doG',
-            default='Newbie',
-            exp_value='Newbie' if TEST_AGAINST_DICT else 'Cat',
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'key': 'doG',
+            'default': 'Newbie',
+            'exp_value': 'Newbie' if TEST_AGAINST_DICT else 'Cat',
+        },
         None, None, True
     ),
 ]
@@ -1894,26 +1894,26 @@ TESTCASES_NOCASEDICT_ITEMS = [
 
     (
         "Empty dict",
-        dict(
-            obj=NocaseDict(),
-            exp_items=[],
-        ),
+        {
+            'obj': NocaseDict(),
+            'exp_items': [],
+        },
         None, None, True
     ),
     (
         "Dict with one item",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat')]),
-            exp_items=[('Dog', 'Cat')],
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat')]),
+            'exp_items': [('Dog', 'Cat')],
+        },
         None, None, True
     ),
     (
         "Dict with two items",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            exp_items=[('Dog', 'Cat'), ('Budgie', 'Fish')],
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'exp_items': [('Dog', 'Cat'), ('Budgie', 'Fish')],
+        },
         None, None, True
     ),
 ]
@@ -2038,7 +2038,7 @@ def test_NocaseDict_iter(testcase, obj, exp_items):
     # The code to be tested
     act_keys = []
     for key in obj:
-        act_keys.append(key)
+        act_keys.append(key)  # noqa: PERF402
 
     # Ensure that exceptions raised in the remainder of this function
     # are not mistaken as expected exceptions
@@ -2062,16 +2062,16 @@ TESTCASES_NOCASEDICT_REPR = [
 
     (
         "Empty dict",
-        dict(
-            obj=NocaseDict(),
-        ),
+        {
+            'obj': NocaseDict(),
+        },
         None, None, True
     ),
     (
         "Dict with two items",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+        },
         None, None, True
     ),
 ]
@@ -2121,136 +2121,136 @@ TESTCASES_NOCASEDICT_UPDATE = [
     # Empty NocaseDict
     (
         "Empty dict, with empty update args + kwargs",
-        dict(
-            obj=NocaseDict(),
-            args=[],
-            kwargs={},
-            exp_obj=NocaseDict(),
-        ),
+        {
+            'obj': NocaseDict(),
+            'args': [],
+            'kwargs': {},
+            'exp_obj': NocaseDict(),
+        },
         None, None, True
     ),
     (
         "Empty dict, with two positional arguments (too many args)",
-        dict(
-            obj=NocaseDict(),
-            args=[dict(a=1), dict(b=2)],
-            kwargs={},
-            exp_obj=None,
-        ),
+        {
+            'obj': NocaseDict(),
+            'args': [{'a': 1}, {'b': 2}],
+            'kwargs': {},
+            'exp_obj': None,
+        },
         TypeError, None, True
     ),
     (
         "Empty dict, with integer key in update args (no casefold / success)",
-        dict(
-            obj=NocaseDict(),
-            args=[[(1234, 'Invalid')]],
-            kwargs={},
-            exp_obj={1234: 'Invalid'} if TEST_AGAINST_DICT else None,
-        ),
+        {
+            'obj': NocaseDict(),
+            'args': [[(1234, 'Invalid')]],
+            'kwargs': {},
+            'exp_obj': {1234: 'Invalid'} if TEST_AGAINST_DICT else None,
+        },
         None if TEST_AGAINST_DICT else AttributeError, None, True
     ),
     (
         "Empty dict, with empty string key in update args+items",
-        dict(
-            obj=NocaseDict(),
-            args=[OrderedDict([('', 'Cat')])],
-            kwargs={},
-            exp_obj=NocaseDict([('', 'Cat')]),
-        ),
+        {
+            'obj': NocaseDict(),
+            'args': [OrderedDict([('', 'Cat')])],
+            'kwargs': {},
+            'exp_obj': NocaseDict([('', 'Cat')]),
+        },
         None, None, True
     ),
     (
         "Empty dict, with empty string key in update args+iter",
-        dict(
-            obj=NocaseDict(),
-            args=[[('', 'Cat')]],
-            kwargs={},
-            exp_obj=NocaseDict([('', 'Cat')]),
-        ),
+        {
+            'obj': NocaseDict(),
+            'args': [[('', 'Cat')]],
+            'kwargs': {},
+            'exp_obj': NocaseDict([('', 'Cat')]),
+        },
         None, None, True
     ),
     (
         "Empty dict, with empty string key in update kwargs",
-        dict(
-            obj=NocaseDict(),
-            args=[],
-            kwargs={'': 'Cat'},
-            exp_obj=NocaseDict([('', 'Cat')]),
-        ),
+        {
+            'obj': NocaseDict(),
+            'args': [],
+            'kwargs': {'': 'Cat'},
+            'exp_obj': NocaseDict([('', 'Cat')]),
+        },
         None, None, True
     ),
     (
         "Empty dict, with non-empty string key in update args+items",
-        dict(
-            obj=NocaseDict(),
-            args=[OrderedDict([('Dog', 'Cat')])],
-            kwargs={},
-            exp_obj=NocaseDict([('Dog', 'Cat')]),
-        ),
+        {
+            'obj': NocaseDict(),
+            'args': [OrderedDict([('Dog', 'Cat')])],
+            'kwargs': {},
+            'exp_obj': NocaseDict([('Dog', 'Cat')]),
+        },
         None, None, True
     ),
     (
         "Empty dict, with non-empty string key in update args+iter",
-        dict(
-            obj=NocaseDict(),
-            args=[[('Dog', 'Cat')]],
-            kwargs={},
-            exp_obj=NocaseDict([('Dog', 'Cat')]),
-        ),
+        {
+            'obj': NocaseDict(),
+            'args': [[('Dog', 'Cat')]],
+            'kwargs': {},
+            'exp_obj': NocaseDict([('Dog', 'Cat')]),
+        },
         None, None, True
     ),
     (
         "Empty dict, with non-empty string key in update kwargs",
-        dict(
-            obj=NocaseDict(),
-            args=[],
-            kwargs={'Dog': 'Cat'},
-            exp_obj=NocaseDict([('Dog', 'Cat')]),
-        ),
+        {
+            'obj': NocaseDict(),
+            'args': [],
+            'kwargs': {'Dog': 'Cat'},
+            'exp_obj': NocaseDict([('Dog', 'Cat')]),
+        },
         None, None, True
     ),
     (
         "Empty dict, with list as positional arg, "
         "whose item has only one item (cannot be unpacked into k,v)",
-        dict(
-            obj=NocaseDict(),
-            args=[[('Dog',)]],
-            kwargs={},
-            exp_obj=None,
-        ),
+        {
+            'obj': NocaseDict(),
+            'args': [[('Dog',)]],
+            'kwargs': {},
+            'exp_obj': None,
+        },
         ValueError, None, True
     ),
     (
         "Empty dict, with list as positional arg, "
         "whose item has too many items (cannot be unpacked into k,v)",
-        dict(
-            obj=NocaseDict(),
-            args=[[('Dog', 'Cat', 'bad')]],
-            kwargs={},
-            exp_obj=None,
-        ),
+        {
+            'obj': NocaseDict(),
+            'args': [[('Dog', 'Cat', 'bad')]],
+            'kwargs': {},
+            'exp_obj': None,
+        },
         ValueError, None, True
     ),
     (
         "Empty dict, with tuple as positional arg, "
         "whose item has only one item (cannot be unpacked into k,v)",
-        dict(
-            obj=NocaseDict(),
-            args=[(('Dog',),)],
-            kwargs={},
-            exp_obj=None,
-        ),
+        {
+            'obj': NocaseDict(),
+            'args': [(('Dog',),)],
+            'kwargs': {},
+            'exp_obj': None,
+        },
         ValueError, None, True
     ),
     (
         "Empty dict, with tuple as positional arg, "
         "whose item has too many items (cannot be unpacked into k,v)",
-        dict(
-            obj=NocaseDict(),
-            args=[(('Dog', 'Cat', 'bad'),)],
-            kwargs={},
-            exp_obj=None,
-        ),
+        {
+            'obj': NocaseDict(),
+            'args': [(('Dog', 'Cat', 'bad'),)],
+            'kwargs': {},
+            'exp_obj': None,
+        },
         ValueError, None, True
     ),
 
@@ -2258,151 +2258,151 @@ TESTCASES_NOCASEDICT_UPDATE = [
     (
         "Non-empty dict, with integer key in update args "
         "(no casefold / success)",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            args=[[(1234, 'Invalid')]],
-            kwargs={},
-            exp_obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish'),
-                                (1234, 'Invalid')])
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'args': [[(1234, 'Invalid')]],
+            'kwargs': {},
+            'exp_obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish'),
+                                   (1234, 'Invalid')])
             if TEST_AGAINST_DICT else None,
-        ),
+        },
         None if TEST_AGAINST_DICT else AttributeError, None, True
     ),
     (
         "Non-empty dict, with new empty string key in update args+items",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            args=[OrderedDict([('', 'Newbie')])],
-            kwargs={},
-            exp_obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish'),
-                                ('', 'Newbie')]),
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'args': [OrderedDict([('', 'Newbie')])],
+            'kwargs': {},
+            'exp_obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish'),
+                                   ('', 'Newbie')]),
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with new empty string key in update args+iter",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            args=[[('', 'Newbie')]],
-            kwargs={},
-            exp_obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish'),
-                                ('', 'Newbie')]),
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'args': [[('', 'Newbie')]],
+            'kwargs': {},
+            'exp_obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish'),
+                                   ('', 'Newbie')]),
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with new empty string key in update kwargs",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            args=[],
-            kwargs={'': 'Newbie'},
-            exp_obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish'),
-                                ('', 'Newbie')]),
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'args': [],
+            'kwargs': {'': 'Newbie'},
+            'exp_obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish'),
+                                   ('', 'Newbie')]),
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with new non-empty string key in update args+items",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            args=[OrderedDict([('New', 'Newbie')])],
-            kwargs={},
-            exp_obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish'),
-                                ('New', 'Newbie')]),
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'args': [OrderedDict([('New', 'Newbie')])],
+            'kwargs': {},
+            'exp_obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish'),
+                                   ('New', 'Newbie')]),
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with new non-empty string key in update args+iter",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            args=[[('New', 'Newbie')]],
-            kwargs={},
-            exp_obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish'),
-                                ('New', 'Newbie')]),
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'args': [[('New', 'Newbie')]],
+            'kwargs': {},
+            'exp_obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish'),
+                                   ('New', 'Newbie')]),
+        },
         None, None, True
     ),
     (
         "Non-empty dict, with new non-empty string key in update kwargs",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            args=[],
-            kwargs={'New': 'Newbie'},
-            exp_obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish'),
-                                ('New', 'Newbie')]),
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'args': [],
+            'kwargs': {'New': 'Newbie'},
+            'exp_obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish'),
+                                   ('New', 'Newbie')]),
+        },
         None, None, True
     ),
 
     # Non-empty NocaseDict, update value of existing key
     (
         "Non-empty dict, updating at existing key in org. case via args+items",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            args=[OrderedDict([('Dog', 'Kitten')])],
-            kwargs={},
-            exp_obj=NocaseDict([('Dog', 'Kitten'), ('Budgie', 'Fish')]),
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'args': [OrderedDict([('Dog', 'Kitten')])],
+            'kwargs': {},
+            'exp_obj': NocaseDict([('Dog', 'Kitten'), ('Budgie', 'Fish')]),
+        },
         None, None, True
     ),
     (
         "Non-empty dict, updating at existing key in org. case via args+iter",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            args=[[('Dog', 'Kitten')]],
-            kwargs={},
-            exp_obj=NocaseDict([('Dog', 'Kitten'), ('Budgie', 'Fish')]),
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'args': [[('Dog', 'Kitten')]],
+            'kwargs': {},
+            'exp_obj': NocaseDict([('Dog', 'Kitten'), ('Budgie', 'Fish')]),
+        },
         None, None, True
     ),
     (
         "Non-empty dict, updating at existing key in org. case via kwargs",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            args=[],
-            kwargs={'Dog': 'Kitten'},
-            exp_obj=NocaseDict([('Dog', 'Kitten'), ('Budgie', 'Fish')]),
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'args': [],
+            'kwargs': {'Dog': 'Kitten'},
+            'exp_obj': NocaseDict([('Dog', 'Kitten'), ('Budgie', 'Fish')]),
+        },
         None, None, True
     ),
     (
         "Non-empty dict, updating at existing key in mixed case via args+items",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            args=[OrderedDict([('doG', 'Kitten')])],
-            kwargs={},
-            exp_obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish'),
-                                ('doG', 'Kitten')])
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'args': [OrderedDict([('doG', 'Kitten')])],
+            'kwargs': {},
+            'exp_obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish'),
+                                   ('doG', 'Kitten')])
             if TEST_AGAINST_DICT else
             NocaseDict([('Dog', 'Kitten'), ('Budgie', 'Fish')]),
-        ),
+        },
         None, None, True
     ),
     (
         "Non-empty dict, updating at existing key in mixed case via args+iter",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            args=[[('doG', 'Kitten')]],
-            kwargs={},
-            exp_obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish'),
-                                ('doG', 'Kitten')])
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'args': [[('doG', 'Kitten')]],
+            'kwargs': {},
+            'exp_obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish'),
+                                   ('doG', 'Kitten')])
             if TEST_AGAINST_DICT else
             NocaseDict([('Dog', 'Kitten'), ('Budgie', 'Fish')]),
-        ),
+        },
         None, None, True
     ),
     (
         "Non-empty dict, updating at existing key in mixed case via kwargs",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            args=[],
-            kwargs={'doG': 'Kitten'},
-            exp_obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish'),
-                                ('doG', 'Kitten')])
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'args': [],
+            'kwargs': {'doG': 'Kitten'},
+            'exp_obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish'),
+                                   ('doG', 'Kitten')])
             if TEST_AGAINST_DICT else
             NocaseDict([('Dog', 'Kitten'), ('Budgie', 'Fish')]),
-        ),
+        },
         None, None, True
     ),
 ]
@@ -2412,8 +2412,7 @@ TESTCASES_NOCASEDICT_UPDATE = [
     "desc, kwargs, exp_exc_types, exp_warn_types, condition",
     TESTCASES_NOCASEDICT_UPDATE)
 @simplified_test_function
-def test_NocaseDict_update(testcase,
-                           obj, args, kwargs, exp_obj):
+def test_NocaseDict_update(testcase, obj, args, kwargs, exp_obj):
     """
     Test function for NocaseDict.update()
     """
@@ -2445,16 +2444,16 @@ TESTCASES_NOCASEDICT_CLEAR = [
 
     (
         "Empty dict",
-        dict(
-            obj=NocaseDict(),
-        ),
+        {
+            'obj': NocaseDict(),
+        },
         None, None, True
     ),
     (
         "Dict with two items",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+        },
         None, None, True
     ),
 ]
@@ -2499,20 +2498,20 @@ TESTCASES_NOCASEDICT_COPY = [
 
     (
         "Empty dict",
-        dict(
-            obj=NocaseDict(),
-            test_key=None,
-            test_value=None,
-        ),
+        {
+            'obj': NocaseDict(),
+            'test_key': None,
+            'test_value': None,
+        },
         None, None, True
     ),
     (
         "Dict with two items",
-        dict(
-            obj=NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
-            test_key='Dog',
-            test_value='Kitten',
-        ),
+        {
+            'obj': NocaseDict([('Dog', 'Cat'), ('Budgie', 'Fish')]),
+            'test_key': 'Dog',
+            'test_value': 'Kitten',
+        },
         None, None, True
     ),
 ]
@@ -2564,219 +2563,219 @@ TESTCASES_NOCASEDICT_EQUAL = [
 
     (
         "Empty dictionary",
-        dict(
-            obj1=NocaseDict([]),
-            obj2=NocaseDict([]),
-            exp_obj_equal=True,
-        ),
+        {
+            'obj1': NocaseDict([]),
+            'obj2': NocaseDict([]),
+            'exp_obj_equal': True,
+        },
         None, None, True
     ),
     (
         "One item, keys and values equal",
-        dict(
-            obj1=NocaseDict([('k1', 'v1')]),
-            obj2=NocaseDict([('k1', 'v1')]),
-            exp_obj_equal=True,
-        ),
+        {
+            'obj1': NocaseDict([('k1', 'v1')]),
+            'obj2': NocaseDict([('k1', 'v1')]),
+            'exp_obj_equal': True,
+        },
         None, None, True
     ),
     (
         "One item, keys equal, values different",
-        dict(
-            obj1=NocaseDict([('k1', 'v1')]),
-            obj2=NocaseDict([('k1', 'v1_x')]),
-            exp_obj_equal=False,
-        ),
+        {
+            'obj1': NocaseDict([('k1', 'v1')]),
+            'obj2': NocaseDict([('k1', 'v1_x')]),
+            'exp_obj_equal': False,
+        },
         None, None, True
     ),
     (
         "One item, keys different, values equal",
-        dict(
-            obj1=NocaseDict([('k1', 'v1')]),
-            obj2=NocaseDict([('k2', 'v1')]),
-            exp_obj_equal=False,
-        ),
+        {
+            'obj1': NocaseDict([('k1', 'v1')]),
+            'obj2': NocaseDict([('k2', 'v1')]),
+            'exp_obj_equal': False,
+        },
         None, None, True
     ),
     (
         "One item, keys equal, values both None",
-        dict(
-            obj1=NocaseDict([('k1', None)]),
-            obj2=NocaseDict([('k1', None)]),
-            exp_obj_equal=True,
-        ),
+        {
+            'obj1': NocaseDict([('k1', None)]),
+            'obj2': NocaseDict([('k1', None)]),
+            'exp_obj_equal': True,
+        },
         None, None, True
     ),
     (
         "One item, keys different lexical case, values equal",
-        dict(
-            obj1=NocaseDict([('K1', 'v1')]),
-            obj2=NocaseDict([('k1', 'v1')]),
-            exp_obj_equal=not TEST_AGAINST_DICT,
-        ),
+        {
+            'obj1': NocaseDict([('K1', 'v1')]),
+            'obj2': NocaseDict([('k1', 'v1')]),
+            'exp_obj_equal': not TEST_AGAINST_DICT,
+        },
         None, None, True
     ),
     (
         "Two equal items, in same order",
-        dict(
-            obj1=NocaseDict([('k1', 'v1'), ('k2', 'v2')]),
-            obj2=NocaseDict([('k1', 'v1'), ('k2', 'v2')]),
-            exp_obj_equal=True,
-        ),
+        {
+            'obj1': NocaseDict([('k1', 'v1'), ('k2', 'v2')]),
+            'obj2': NocaseDict([('k1', 'v1'), ('k2', 'v2')]),
+            'exp_obj_equal': True,
+        },
         None, None, True
     ),
     (
         "Two items, keys different lexical case, in same order",
-        dict(
-            obj1=NocaseDict([('K1', 'v1'), ('k2', 'v2')]),
-            obj2=NocaseDict([('k1', 'v1'), ('K2', 'v2')]),
-            exp_obj_equal=not TEST_AGAINST_DICT,
-        ),
+        {
+            'obj1': NocaseDict([('K1', 'v1'), ('k2', 'v2')]),
+            'obj2': NocaseDict([('k1', 'v1'), ('K2', 'v2')]),
+            'exp_obj_equal': not TEST_AGAINST_DICT,
+        },
         None, None, True
     ),
     (
         "Two equal items, in different order",
-        dict(
-            obj1=NocaseDict([('k1', 'v1'), ('k2', 'v2')]),
-            obj2=NocaseDict([('k2', 'v2'), ('k1', 'v1')]),
-            exp_obj_equal=True,
-        ),
+        {
+            'obj1': NocaseDict([('k1', 'v1'), ('k2', 'v2')]),
+            'obj2': NocaseDict([('k2', 'v2'), ('k1', 'v1')]),
+            'exp_obj_equal': True,
+        },
         None, None, True
     ),
     (
         "Two items, keys different lexical case, in different order",
-        dict(
-            obj1=NocaseDict([('k1', 'v1'), ('K2', 'v2')]),
-            obj2=NocaseDict([('k2', 'v2'), ('K1', 'v1')]),
-            exp_obj_equal=not TEST_AGAINST_DICT,
-        ),
+        {
+            'obj1': NocaseDict([('k1', 'v1'), ('K2', 'v2')]),
+            'obj2': NocaseDict([('k2', 'v2'), ('K1', 'v1')]),
+            'exp_obj_equal': not TEST_AGAINST_DICT,
+        },
         None, None, True
     ),
     (
         "Comparing unicode value with bytes value",
-        dict(
-            obj1=NocaseDict([('k1', b'v1')]),
-            obj2=NocaseDict([('k2', 'v2')]),
-            exp_obj_equal=False,
-        ),
+        {
+            'obj1': NocaseDict([('k1', b'v1')]),
+            'obj2': NocaseDict([('k2', 'v2')]),
+            'exp_obj_equal': False,
+        },
         None, None, True
     ),
     (
         "Matching unicode key with string key",
-        dict(
-            obj1=NocaseDict([('k1', 'v1')]),
-            obj2=NocaseDict([('k2', 'v2')]),
-            exp_obj_equal=False,
-        ),
+        {
+            'obj1': NocaseDict([('k1', 'v1')]),
+            'obj2': NocaseDict([('k2', 'v2')]),
+            'exp_obj_equal': False,
+        },
         None, None, True
     ),
     (
         "Higher key missing",
-        dict(
-            obj1=NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            obj2=NocaseDict([('Budgie', 'Fish')]),
-            exp_obj_equal=False,
-        ),
+        {
+            'obj1': NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'obj2': NocaseDict([('Budgie', 'Fish')]),
+            'exp_obj_equal': False,
+        },
         None, None, True
     ),
     (
         "Lower key missing",
-        dict(
-            obj1=NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            obj2=NocaseDict([('Dog', 'Cat')]),
-            exp_obj_equal=False,
-        ),
+        {
+            'obj1': NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'obj2': NocaseDict([('Dog', 'Cat')]),
+            'exp_obj_equal': False,
+        },
         None, None, True
     ),
     (
         "First non-matching key is less. But longer size!",
-        dict(
-            obj1=NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            obj2=NocaseDict([('Budgie', 'Fish'), ('Curly', 'Snake'),
-                             ('Cozy', 'Dog')]),
-            exp_obj_equal=False,
-        ),
+        {
+            'obj1': NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'obj2': NocaseDict([('Budgie', 'Fish'), ('Curly', 'Snake'),
+                                ('Cozy', 'Dog')]),
+            'exp_obj_equal': False,
+        },
         None, None, True
     ),
     (
         "Only non-matching keys that are less. But longer size!",
-        dict(
-            obj1=NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            obj2=NocaseDict([('Alf', 'F'), ('Anton', 'S'), ('Aussie', 'D')]),
-            exp_obj_equal=False,
-        ),
+        {
+            'obj1': NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'obj2': NocaseDict([('Alf', 'F'), ('Anton', 'S'), ('Aussie', 'D')]),
+            'exp_obj_equal': False,
+        },
         None, None, True
     ),
     (
         "First non-matching key is greater. But shorter size!",
-        dict(
-            obj1=NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            obj2=NocaseDict([('Budgio', 'Fish')]),
-            exp_obj_equal=False,
-        ),
+        {
+            'obj1': NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'obj2': NocaseDict([('Budgio', 'Fish')]),
+            'exp_obj_equal': False,
+        },
         None, None, True
     ),
     (
         "Only non-matching keys that are greater. But shorter size!",
-        dict(
-            obj1=NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            obj2=NocaseDict([('Zoe', 'F')]),
-            exp_obj_equal=False,
-        ),
+        {
+            'obj1': NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'obj2': NocaseDict([('Zoe', 'F')]),
+            'exp_obj_equal': False,
+        },
         None, None, True
     ),
     (
         "Same size. First non-matching key is less",
-        dict(
-            obj1=NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            obj2=NocaseDict([('Budgie', 'Fish'), ('Curly', 'Snake')]),
-            exp_obj_equal=False,
-        ),
+        {
+            'obj1': NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'obj2': NocaseDict([('Budgie', 'Fish'), ('Curly', 'Snake')]),
+            'exp_obj_equal': False,
+        },
         None, None, True
     ),
     (
         "Same size. Only non-matching keys that are less",
-        dict(
-            obj1=NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            obj2=NocaseDict([('Alf', 'F'), ('Anton', 'S')]),
-            exp_obj_equal=False,
-        ),
+        {
+            'obj1': NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'obj2': NocaseDict([('Alf', 'F'), ('Anton', 'S')]),
+            'exp_obj_equal': False,
+        },
         None, None, True
     ),
     (
         "Same size. Only non-matching keys that are greater",
-        dict(
-            obj1=NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            obj2=NocaseDict([('Zoe', 'F'), ('Zulu', 'S')]),
-            exp_obj_equal=False,
-        ),
+        {
+            'obj1': NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'obj2': NocaseDict([('Zoe', 'F'), ('Zulu', 'S')]),
+            'exp_obj_equal': False,
+        },
         None, None, True
     ),
     (
         "Same size, only matching keys. First non-matching value is less",
-        dict(
-            obj1=NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            obj2=NocaseDict([('Budgie', 'Fish'), ('Dog', 'Car')]),
-            exp_obj_equal=False,
-        ),
+        {
+            'obj1': NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'obj2': NocaseDict([('Budgie', 'Fish'), ('Dog', 'Car')]),
+            'exp_obj_equal': False,
+        },
         None, None, True
     ),
     (
         "Same size, only matching keys. First non-matching value is greater",
-        dict(
-            obj1=NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            obj2=NocaseDict([('Budgie', 'Fish'), ('Dog', 'Caz')]),
-            exp_obj_equal=False,
-        ),
+        {
+            'obj1': NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'obj2': NocaseDict([('Budgie', 'Fish'), ('Dog', 'Caz')]),
+            'exp_obj_equal': False,
+        },
         None, None, True
     ),
     (
         "A value raises TypeError when compared (and equal still succeeds)",
-        dict(
-            obj1=NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            obj2=NocaseDict([('Budgie', NonEquatable()), ('Dog', 'Cat')]),
-            exp_obj_equal=False,
-        ),
+        {
+            'obj1': NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'obj2': NocaseDict([('Budgie', NonEquatable()), ('Dog', 'Cat')]),
+            'exp_obj_equal': False,
+        },
         TypeError if TEST_AGAINST_DICT else None, None, True
     ),
 ]
@@ -2850,168 +2849,168 @@ TESTCASES_NOCASEDICT_ORDERING = [
     # Empty dicts
     (
         "Empty dicts with >",
-        dict(
-            obj1=NocaseDict(),
-            obj2=NocaseDict(),
-            op='>',
-            exp_result=False,
-        ),
+        {
+            'obj1': NocaseDict(),
+            'obj2': NocaseDict(),
+            'op': '>',
+            'exp_result': False,
+        },
         TypeError, None, True
     ),
     (
         "Empty dicts with >=",
-        dict(
-            obj1=NocaseDict(),
-            obj2=NocaseDict(),
-            op='>=',
-            exp_result=True,
-        ),
+        {
+            'obj1': NocaseDict(),
+            'obj2': NocaseDict(),
+            'op': '>=',
+            'exp_result': True,
+        },
         TypeError, None, True
     ),
     (
         "Empty dicts with <",
-        dict(
-            obj1=NocaseDict(),
-            obj2=NocaseDict(),
-            op='<',
-            exp_result=False,
-        ),
+        {
+            'obj1': NocaseDict(),
+            'obj2': NocaseDict(),
+            'op': '<',
+            'exp_result': False,
+        },
         TypeError, None, True
     ),
     (
         "Empty dicts with <=",
-        dict(
-            obj1=NocaseDict(),
-            obj2=NocaseDict(),
-            op='<=',
-            exp_result=True,
-        ),
+        {
+            'obj1': NocaseDict(),
+            'obj2': NocaseDict(),
+            'op': '<=',
+            'exp_result': True,
+        },
         TypeError, None, True
     ),
 
     # Equal dicts
     (
         "Equal dicts with >",
-        dict(
-            obj1=NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            obj2=NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            op='>',
-            exp_result=False,
-        ),
+        {
+            'obj1': NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'obj2': NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'op': '>',
+            'exp_result': False,
+        },
         TypeError, None, True
     ),
     (
         "Equal dicts with >=",
-        dict(
-            obj1=NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            obj2=NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            op='>=',
-            exp_result=True,
-        ),
+        {
+            'obj1': NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'obj2': NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'op': '>=',
+            'exp_result': True,
+        },
         TypeError, None, True
     ),
     (
         "Equal dicts with <",
-        dict(
-            obj1=NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            obj2=NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            op='<',
-            exp_result=False,
-        ),
+        {
+            'obj1': NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'obj2': NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'op': '<',
+            'exp_result': False,
+        },
         TypeError, None, True
     ),
     (
         "Equal dicts with <=",
-        dict(
-            obj1=NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            obj2=NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            op='<=',
-            exp_result=True,
-        ),
+        {
+            'obj1': NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'obj2': NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'op': '<=',
+            'exp_result': True,
+        },
         TypeError, None, True
     ),
 
     # Dicts that compare less (obj1 < obj2)
     (
         "Less-comparing dicts with >",
-        dict(
-            obj1=NocaseDict([('Budgie', 'Fish')]),
-            obj2=NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            op='>',
-            exp_result=False,
-        ),
+        {
+            'obj1': NocaseDict([('Budgie', 'Fish')]),
+            'obj2': NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'op': '>',
+            'exp_result': False,
+        },
         TypeError, None, True
     ),
     (
         "Less-comparing dicts with >=",
-        dict(
-            obj1=NocaseDict([('Budgie', 'Fish')]),
-            obj2=NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            op='>=',
-            exp_result=False,
-        ),
+        {
+            'obj1': NocaseDict([('Budgie', 'Fish')]),
+            'obj2': NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'op': '>=',
+            'exp_result': False,
+        },
         TypeError, None, True
     ),
     (
         "Less-comparing dicts with <",
-        dict(
-            obj1=NocaseDict([('Budgie', 'Fish')]),
-            obj2=NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            op='<',
-            exp_result=True,
-        ),
+        {
+            'obj1': NocaseDict([('Budgie', 'Fish')]),
+            'obj2': NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'op': '<',
+            'exp_result': True,
+        },
         TypeError, None, True
     ),
     (
         "Less-comparing dicts with <=",
-        dict(
-            obj1=NocaseDict([('Budgie', 'Fish')]),
-            obj2=NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            op='<=',
-            exp_result=True,
-        ),
+        {
+            'obj1': NocaseDict([('Budgie', 'Fish')]),
+            'obj2': NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'op': '<=',
+            'exp_result': True,
+        },
         TypeError, None, True
     ),
 
     # Dicts that compare greater (obj1 > obj2)
     (
         "Greater-comparing dicts with >",
-        dict(
-            obj1=NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            obj2=NocaseDict([('Budgie', 'Fish')]),
-            op='>',
-            exp_result=True,
-        ),
+        {
+            'obj1': NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'obj2': NocaseDict([('Budgie', 'Fish')]),
+            'op': '>',
+            'exp_result': True,
+        },
         TypeError, None, True
     ),
     (
         "Greater-comparing dicts with >=",
-        dict(
-            obj1=NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            obj2=NocaseDict([('Budgie', 'Fish')]),
-            op='>=',
-            exp_result=True,
-        ),
+        {
+            'obj1': NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'obj2': NocaseDict([('Budgie', 'Fish')]),
+            'op': '>=',
+            'exp_result': True,
+        },
         TypeError, None, True
     ),
     (
         "Greater-comparing dicts with <",
-        dict(
-            obj1=NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            obj2=NocaseDict([('Budgie', 'Fish')]),
-            op='<',
-            exp_result=False,
-        ),
+        {
+            'obj1': NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'obj2': NocaseDict([('Budgie', 'Fish')]),
+            'op': '<',
+            'exp_result': False,
+        },
         TypeError, None, True
     ),
     (
         "Greater-comparing dicts with <=",
-        dict(
-            obj1=NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            obj2=NocaseDict([('Budgie', 'Fish')]),
-            op='<=',
-            exp_result=False,
-        ),
+        {
+            'obj1': NocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'obj2': NocaseDict([('Budgie', 'Fish')]),
+            'op': '<=',
+            'exp_result': False,
+        },
         TypeError, None, True
     ),
 
@@ -3151,7 +3150,7 @@ TESTCASES_NOCASEDICT_OR_ROR = [
         NocaseDict([('k1', 'v1')]),
         NocaseDict([('K1', 'v1_x')]),
         NocaseDict([('K1', 'v1_x')]) if not TEST_AGAINST_DICT else
-        dict([('k1', 'v1'), ('K1', 'v1_x')]),
+        {'k1': 'v1', 'K1': 'v1_x'},
         None, None, TESTDICT_SUPPORTS_UNION
     ),
 
@@ -3159,89 +3158,89 @@ TESTCASES_NOCASEDICT_OR_ROR = [
     (
         "Empty NocaseDict and empty dict",
         NocaseDict([]),
-        dict([]),
+        {},
         NocaseDict([]),
         None, None, TESTDICT_SUPPORTS_UNION
     ),
     (
         "Non-empty NocaseDict and empty dict",
         NocaseDict([('k1', 'v1')]),
-        dict([]),
+        {},
         NocaseDict([('k1', 'v1')]),
         None, None, TESTDICT_SUPPORTS_UNION
     ),
     (
         "Empty NocaseDict and non-empty dict",
         NocaseDict([]),
-        dict([('k1', 'v1')]),
+        {'k1': 'v1'},
         NocaseDict([('k1', 'v1')]),
         None, None, TESTDICT_SUPPORTS_UNION
     ),
     (
         "NocaseDict and dict with distinct keys",
         NocaseDict([('k1', 'v1')]),
-        dict([('k2', 'v2')]),
+        {'k2': 'v2'},
         NocaseDict([('k1', 'v1'), ('k2', 'v2')]),
         None, None, TESTDICT_SUPPORTS_UNION
     ),
     (
         "NocaseDict and dict with equal keys in same case",
         NocaseDict([('k1', 'v1')]),
-        dict([('k1', 'v1_x')]),
+        {'k1': 'v1_x'},
         NocaseDict([('k1', 'v1_x')]),
         None, None, TESTDICT_SUPPORTS_UNION
     ),
     (
         "NocaseDict and dict with equal keys in different case",
         NocaseDict([('k1', 'v1')]),
-        dict([('K1', 'v1_x')]),
+        {'K1': 'v1_x'},
         NocaseDict([('K1', 'v1_x')]) if not TEST_AGAINST_DICT else
-        dict([('k1', 'v1'), ('K1', 'v1_x')]),
+        {'k1': 'v1', 'K1': 'v1_x'},
         None, None, TESTDICT_SUPPORTS_UNION
     ),
 
     # dict and NocaseDict objects
     (
         "Empty dict and empty NocaseDict",
-        dict([]),
+        {},
         NocaseDict([]),
         NocaseDict([]),
         None, None, TESTDICT_SUPPORTS_UNION
     ),
     (
         "Non-empty dict and empty NocaseDict",
-        dict([('k1', 'v1')]),
+        {'k1': 'v1'},
         NocaseDict([]),
         NocaseDict([('k1', 'v1')]),
         None, None, TESTDICT_SUPPORTS_UNION
     ),
     (
         "Empty dict and non-empty NocaseDict",
-        dict([]),
+        {},
         NocaseDict([('k1', 'v1')]),
         NocaseDict([('k1', 'v1')]),
         None, None, TESTDICT_SUPPORTS_UNION
     ),
     (
         "dict and NocaseDict with distinct keys",
-        dict([('k1', 'v1')]),
+        {'k1': 'v1'},
         NocaseDict([('k2', 'v2')]),
         NocaseDict([('k1', 'v1'), ('k2', 'v2')]),
         None, None, TESTDICT_SUPPORTS_UNION
     ),
     (
         "dict and NocaseDict with equal keys in same case",
-        dict([('k1', 'v1')]),
+        {'k1': 'v1'},
         NocaseDict([('k1', 'v1_x')]),
         NocaseDict([('k1', 'v1_x')]),
         None, None, TESTDICT_SUPPORTS_UNION
     ),
     (
         "dict and NocaseDict with equal keys in different case",
-        dict([('k1', 'v1')]),
+        {'k1': 'v1'},
         NocaseDict([('K1', 'v1_x')]),
         NocaseDict([('K1', 'v1_x')]) if not TEST_AGAINST_DICT else
-        dict([('k1', 'v1'), ('K1', 'v1_x')]),
+        {'k1': 'v1', 'K1': 'v1_x'},
         None, None, TESTDICT_SUPPORTS_UNION
     ),
 ]
@@ -3334,7 +3333,7 @@ TESTCASES_NOCASEDICT_IOR = [
         NocaseDict([('k1', 'v1')]),
         NocaseDict([('K1', 'v1_x')]),
         NocaseDict([('K1', 'v1_x')]) if not TEST_AGAINST_DICT else
-        dict([('k1', 'v1'), ('K1', 'v1_x')]),
+        {'k1': 'v1', 'K1': 'v1_x'},
         None, None, TESTDICT_SUPPORTS_UNION
     ),
 
@@ -3342,81 +3341,81 @@ TESTCASES_NOCASEDICT_IOR = [
     (
         "Empty NocaseDict and empty dict",
         NocaseDict([]),
-        dict([]),
+        {},
         NocaseDict([]),
         None, None, TESTDICT_SUPPORTS_UNION
     ),
     (
         "Non-empty NocaseDict and empty dict",
         NocaseDict([('k1', 'v1')]),
-        dict([]),
+        {},
         NocaseDict([('k1', 'v1')]),
         None, None, TESTDICT_SUPPORTS_UNION
     ),
     (
         "Empty NocaseDict and non-empty dict",
         NocaseDict([]),
-        dict([('k1', 'v1')]),
+        {'k1': 'v1'},
         NocaseDict([('k1', 'v1')]),
         None, None, TESTDICT_SUPPORTS_UNION
     ),
     (
         "NocaseDict and dict with distinct keys",
         NocaseDict([('k1', 'v1')]),
-        dict([('k2', 'v2')]),
+        {'k2': 'v2'},
         NocaseDict([('k1', 'v1'), ('k2', 'v2')]),
         None, None, TESTDICT_SUPPORTS_UNION
     ),
     (
         "NocaseDict and dict with equal keys in same case",
         NocaseDict([('k1', 'v1')]),
-        dict([('k1', 'v1_x')]),
+        {'k1': 'v1_x'},
         NocaseDict([('k1', 'v1_x')]),
         None, None, TESTDICT_SUPPORTS_UNION
     ),
     (
         "NocaseDict and dict with equal keys in different case",
         NocaseDict([('k1', 'v1')]),
-        dict([('K1', 'v1_x')]),
+        {'K1': 'v1_x'},
         NocaseDict([('K1', 'v1_x')]) if not TEST_AGAINST_DICT else
-        dict([('k1', 'v1'), ('K1', 'v1_x')]),
+        {'k1': 'v1', 'K1': 'v1_x'},
         None, None, TESTDICT_SUPPORTS_UNION
     ),
 
     # dict and NocaseDict objects
     (
         "Empty dict and empty NocaseDict",
-        dict([]),
+        {},
         NocaseDict([]),
-        dict([]),
+        {},
         None, None, TESTDICT_SUPPORTS_UNION
     ),
     (
         "Non-empty dict and empty NocaseDict",
-        dict([('k1', 'v1')]),
+        {'k1': 'v1'},
         NocaseDict([]),
-        dict([('k1', 'v1')]),
+        {'k1': 'v1'},
         None, None, TESTDICT_SUPPORTS_UNION
     ),
     (
         "Empty dict and non-empty NocaseDict",
-        dict([]),
+        {},
         NocaseDict([('k1', 'v1')]),
-        dict([('k1', 'v1')]),
+        {'k1': 'v1'},
         None, None, TESTDICT_SUPPORTS_UNION
     ),
     (
         "dict and NocaseDict with distinct keys",
-        dict([('k1', 'v1')]),
+        {'k1': 'v1'},
         NocaseDict([('k2', 'v2')]),
-        dict([('k1', 'v1'), ('k2', 'v2')]),
+        {'k1': 'v1', 'k2': 'v2'},
         None, None, TESTDICT_SUPPORTS_UNION
     ),
     (
         "dict and NocaseDict with equal keys in same case",
-        dict([('k1', 'v1')]),
+        {'k1': 'v1'},
         NocaseDict([('k1', 'v1_x')]),
-        dict([('k1', 'v1_x')]),
+        {'k1': 'v1_x'},
         None, None, TESTDICT_SUPPORTS_UNION
     ),
     (
@@ -3426,10 +3425,10 @@ TESTCASES_NOCASEDICT_IOR = [
         # testdict  3.8     dict        No   N/A
         # testdict  3.9     dict        Yes  dict(k1, K1)
         "dict and NocaseDict with equal keys in different case",
-        dict([('k1', 'v1')]),
+        {'k1': 'v1'},
         NocaseDict([('K1', 'v1_x')]),
         NocaseDict([('K1', 'v1_x')]) if PY38 else
-        dict([('k1', 'v1'), ('K1', 'v1_x')]),
+        {'k1': 'v1', 'K1': 'v1_x'},
         None, None, TESTDICT_SUPPORTS_UNION
     ),
 ]

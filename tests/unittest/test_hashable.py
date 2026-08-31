@@ -62,219 +62,220 @@ TESTCASES_HASHABLEMIXIN_HASH = [
 
     (
         "Empty dictionary",
-        dict(
-            obj1=MyNocaseDict([]),
-            obj2=MyNocaseDict([]),
-            exp_obj_equal=True,
-        ),
+        {
+            'obj1': MyNocaseDict([]),
+            'obj2': MyNocaseDict([]),
+            'exp_obj_equal': True,
+        },
         None, None, True
     ),
     (
         "One item, keys and values equal",
-        dict(
-            obj1=MyNocaseDict([('k1', 'v1')]),
-            obj2=MyNocaseDict([('k1', 'v1')]),
-            exp_obj_equal=True,
-        ),
+        {
+            'obj1': MyNocaseDict([('k1', 'v1')]),
+            'obj2': MyNocaseDict([('k1', 'v1')]),
+            'exp_obj_equal': True,
+        },
         None, None, True
     ),
     (
         "One item, keys equal, values different",
-        dict(
-            obj1=MyNocaseDict([('k1', 'v1')]),
-            obj2=MyNocaseDict([('k1', 'v1_x')]),
-            exp_obj_equal=False,
-        ),
+        {
+            'obj1': MyNocaseDict([('k1', 'v1')]),
+            'obj2': MyNocaseDict([('k1', 'v1_x')]),
+            'exp_obj_equal': False,
+        },
         None, None, True
     ),
     (
         "One item, keys different, values equal",
-        dict(
-            obj1=MyNocaseDict([('k1', 'v1')]),
-            obj2=MyNocaseDict([('k2', 'v1')]),
-            exp_obj_equal=False,
-        ),
+        {
+            'obj1': MyNocaseDict([('k1', 'v1')]),
+            'obj2': MyNocaseDict([('k2', 'v1')]),
+            'exp_obj_equal': False,
+        },
         None, None, True
     ),
     (
         "One item, keys equal, values both None",
-        dict(
-            obj1=MyNocaseDict([('k1', None)]),
-            obj2=MyNocaseDict([('k1', None)]),
-            exp_obj_equal=True,
-        ),
+        {
+            'obj1': MyNocaseDict([('k1', None)]),
+            'obj2': MyNocaseDict([('k1', None)]),
+            'exp_obj_equal': True,
+        },
         None, None, True
     ),
     (
         "One item, keys different lexical case, values equal",
-        dict(
-            obj1=MyNocaseDict([('K1', 'v1')]),
-            obj2=MyNocaseDict([('k1', 'v1')]),
-            exp_obj_equal=not TEST_AGAINST_DICT,
-        ),
+        {
+            'obj1': MyNocaseDict([('K1', 'v1')]),
+            'obj2': MyNocaseDict([('k1', 'v1')]),
+            'exp_obj_equal': not TEST_AGAINST_DICT,
+        },
         None, None, True
     ),
     (
         "Two equal items, in same order",
-        dict(
-            obj1=MyNocaseDict([('k1', 'v1'), ('k2', 'v2')]),
-            obj2=MyNocaseDict([('k1', 'v1'), ('k2', 'v2')]),
-            exp_obj_equal=True,
-        ),
+        {
+            'obj1': MyNocaseDict([('k1', 'v1'), ('k2', 'v2')]),
+            'obj2': MyNocaseDict([('k1', 'v1'), ('k2', 'v2')]),
+            'exp_obj_equal': True,
+        },
         None, None, True
     ),
     (
         "Two items, keys different lexical case, in same order",
-        dict(
-            obj1=MyNocaseDict([('K1', 'v1'), ('k2', 'v2')]),
-            obj2=MyNocaseDict([('k1', 'v1'), ('K2', 'v2')]),
-            exp_obj_equal=not TEST_AGAINST_DICT,
-        ),
+        {
+            'obj1': MyNocaseDict([('K1', 'v1'), ('k2', 'v2')]),
+            'obj2': MyNocaseDict([('k1', 'v1'), ('K2', 'v2')]),
+            'exp_obj_equal': not TEST_AGAINST_DICT,
+        },
         None, None, True
     ),
     (
         "Two equal items, in different order",
-        dict(
-            obj1=MyNocaseDict([('k1', 'v1'), ('k2', 'v2')]),
-            obj2=MyNocaseDict([('k2', 'v2'), ('k1', 'v1')]),
-            exp_obj_equal=True,
-        ),
+        {
+            'obj1': MyNocaseDict([('k1', 'v1'), ('k2', 'v2')]),
+            'obj2': MyNocaseDict([('k2', 'v2'), ('k1', 'v1')]),
+            'exp_obj_equal': True,
+        },
         None, None, True
     ),
     (
         "Two items, keys different lexical case, in different order",
-        dict(
-            obj1=MyNocaseDict([('k1', 'v1'), ('K2', 'v2')]),
-            obj2=MyNocaseDict([('k2', 'v2'), ('K1', 'v1')]),
-            exp_obj_equal=not TEST_AGAINST_DICT,
-        ),
+        {
+            'obj1': MyNocaseDict([('k1', 'v1'), ('K2', 'v2')]),
+            'obj2': MyNocaseDict([('k2', 'v2'), ('K1', 'v1')]),
+            'exp_obj_equal': not TEST_AGAINST_DICT,
+        },
         None, None, True
     ),
     (
         "Comparing unicode value with bytes value",
-        dict(
-            obj1=MyNocaseDict([('k1', b'v1')]),
-            obj2=MyNocaseDict([('k2', 'v2')]),
-            exp_obj_equal=False,
-        ),
+        {
+            'obj1': MyNocaseDict([('k1', b'v1')]),
+            'obj2': MyNocaseDict([('k2', 'v2')]),
+            'exp_obj_equal': False,
+        },
         None, None, True
     ),
     (
         "Matching unicode key with string key",
-        dict(
-            obj1=MyNocaseDict([('k1', 'v1')]),
-            obj2=MyNocaseDict([('k2', 'v2')]),
-            exp_obj_equal=False,
-        ),
+        {
+            'obj1': MyNocaseDict([('k1', 'v1')]),
+            'obj2': MyNocaseDict([('k2', 'v2')]),
+            'exp_obj_equal': False,
+        },
         None, None, True
     ),
     (
         "Higher key missing",
-        dict(
-            obj1=MyNocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            obj2=MyNocaseDict([('Budgie', 'Fish')]),
-            exp_obj_equal=False,
-        ),
+        {
+            'obj1': MyNocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'obj2': MyNocaseDict([('Budgie', 'Fish')]),
+            'exp_obj_equal': False,
+        },
         None, None, True
     ),
     (
         "Lower key missing",
-        dict(
-            obj1=MyNocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            obj2=MyNocaseDict([('Dog', 'Cat')]),
-            exp_obj_equal=False,
-        ),
+        {
+            'obj1': MyNocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'obj2': MyNocaseDict([('Dog', 'Cat')]),
+            'exp_obj_equal': False,
+        },
         None, None, True
     ),
     (
         "First non-matching key is less. But longer size!",
-        dict(
-            obj1=MyNocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            obj2=MyNocaseDict([('Budgie', 'Fish'), ('Curly', 'Snake'),
-                               ('Cozy', 'Dog')]),
-            exp_obj_equal=False,
-        ),
+        {
+            'obj1': MyNocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'obj2': MyNocaseDict([('Budgie', 'Fish'), ('Curly', 'Snake'),
+                                  ('Cozy', 'Dog')]),
+            'exp_obj_equal': False,
+        },
         None, None, True
     ),
     (
         "Only non-matching keys that are less. But longer size!",
-        dict(
-            obj1=MyNocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            obj2=MyNocaseDict([('Alf', 'F'), ('Anton', 'S'), ('Aussie', 'D')]),
-            exp_obj_equal=False,
-        ),
+        {
+            'obj1': MyNocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'obj2': MyNocaseDict([('Alf', 'F'), ('Anton', 'S'),
+                                  ('Aussie', 'D')]),
+            'exp_obj_equal': False,
+        },
         None, None, True
     ),
     (
         "First non-matching key is greater. But shorter size!",
-        dict(
-            obj1=MyNocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            obj2=MyNocaseDict([('Budgio', 'Fish')]),
-            exp_obj_equal=False,
-        ),
+        {
+            'obj1': MyNocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'obj2': MyNocaseDict([('Budgio', 'Fish')]),
+            'exp_obj_equal': False,
+        },
         None, None, True
     ),
     (
         "Only non-matching keys that are greater. But shorter size!",
-        dict(
-            obj1=MyNocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            obj2=MyNocaseDict([('Zoe', 'F')]),
-            exp_obj_equal=False,
-        ),
+        {
+            'obj1': MyNocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'obj2': MyNocaseDict([('Zoe', 'F')]),
+            'exp_obj_equal': False,
+        },
         None, None, True
     ),
     (
         "Same size. First non-matching key is less",
-        dict(
-            obj1=MyNocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            obj2=MyNocaseDict([('Budgie', 'Fish'), ('Curly', 'Snake')]),
-            exp_obj_equal=False,
-        ),
+        {
+            'obj1': MyNocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'obj2': MyNocaseDict([('Budgie', 'Fish'), ('Curly', 'Snake')]),
+            'exp_obj_equal': False,
+        },
         None, None, True
     ),
     (
         "Same size. Only non-matching keys that are less",
-        dict(
-            obj1=MyNocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            obj2=MyNocaseDict([('Alf', 'F'), ('Anton', 'S')]),
-            exp_obj_equal=False,
-        ),
+        {
+            'obj1': MyNocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'obj2': MyNocaseDict([('Alf', 'F'), ('Anton', 'S')]),
+            'exp_obj_equal': False,
+        },
         None, None, True
     ),
     (
         "Same size. Only non-matching keys that are greater",
-        dict(
-            obj1=MyNocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            obj2=MyNocaseDict([('Zoe', 'F'), ('Zulu', 'S')]),
-            exp_obj_equal=False,
-        ),
+        {
+            'obj1': MyNocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'obj2': MyNocaseDict([('Zoe', 'F'), ('Zulu', 'S')]),
+            'exp_obj_equal': False,
+        },
         None, None, True
     ),
     (
         "Same size, only matching keys. First non-matching value is less",
-        dict(
-            obj1=MyNocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            obj2=MyNocaseDict([('Budgie', 'Fish'), ('Dog', 'Car')]),
-            exp_obj_equal=False,
-        ),
+        {
+            'obj1': MyNocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'obj2': MyNocaseDict([('Budgie', 'Fish'), ('Dog', 'Car')]),
+            'exp_obj_equal': False,
+        },
         None, None, True
     ),
     (
         "Same size, only matching keys. First non-matching value is greater",
-        dict(
-            obj1=MyNocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            obj2=MyNocaseDict([('Budgie', 'Fish'), ('Dog', 'Caz')]),
-            exp_obj_equal=False,
-        ),
+        {
+            'obj1': MyNocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'obj2': MyNocaseDict([('Budgie', 'Fish'), ('Dog', 'Caz')]),
+            'exp_obj_equal': False,
+        },
         None, None, True
     ),
     (
         "A value raises TypeError when compared (and hash fails)",
-        dict(
-            obj1=MyNocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
-            obj2=MyNocaseDict([('Budgie', NonHashable()), ('Dog', 'Cat')]),
-            exp_obj_equal=False,
-        ),
+        {
+            'obj1': MyNocaseDict([('Budgie', 'Fish'), ('Dog', 'Cat')]),
+            'obj2': MyNocaseDict([('Budgie', NonHashable()), ('Dog', 'Cat')]),
+            'exp_obj_equal': False,
+        },
         TypeError, None, True
     ),
 ]

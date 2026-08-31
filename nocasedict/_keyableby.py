@@ -4,12 +4,10 @@ class NocaseDict.
 """
 
 
-from typing import Type
-
 __all__ = ['KeyableByMixin']
 
 
-def KeyableByMixin(key_attr: str) -> Type:
+def KeyableByMixin(key_attr: str) -> type:
     # pylint: disable=invalid-name
     """
     A generator function returning a mixin class that adds the ability to the

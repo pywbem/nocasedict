@@ -31,9 +31,10 @@ The only class exposed by this package is :class:`nocasedict.NocaseDict`.
 """
 
 
-import os
-from collections.abc import MutableMapping, KeysView, ValuesView, ItemsView
-from typing import Any, AnyStr, NoReturn, Optional, Iterator, Tuple, Dict
+from collections.abc import MutableMapping, KeysView, ValuesView, ItemsView, \
+    Iterator
+from typing import Any, AnyStr, NoReturn, Optional
+from typing_extensions import Self
 
 __all__ = ['NocaseDict']
 
@@ -42,11 +43,6 @@ __all__ = ['NocaseDict']
 # an ordered dict is needed.
 
 Key = Optional[AnyStr]
-
-# This env var is set when building the docs. It causes the methods
-# that are supposed to exist only in a particular Python version, not to be
-# removed, so they appear in the docs.
-BUILDING_DOCS = os.environ.get('BUILDING_DOCS', False)
 
 # Used as default value for parameters to detect that they have not been
 # specified as an argument. Idea from CPython's datetime.timezone.
@@ -253,7 +249,7 @@ class NocaseDict(MutableMapping):
 
         # The internal dictionary, with casefolded keys. An item in this dict
         # is the tuple (original key, value).
-        self._data: Dict[Key, Any] = {}
+        self._data: dict[Key, Any] = {}
 
         self.update(*args, **kwargs)
 
@@ -428,7 +424,7 @@ class NocaseDict(MutableMapping):
                 return default
             raise
 
-    def popitem(self) -> Tuple[Key, Any]:
+    def popitem(self) -> tuple[Key, Any]:
         """
         Remove the last dictionary item (in iteration order) and return it as a
         tuple (key, value).
@@ -591,7 +587,8 @@ class NocaseDict(MutableMapping):
             other = args[0]
             try:
                 # Try mapping / dictionary
-                for key in other.keys():
+                # We need to use keys() to test whether it is a dict.
+                for key in other.keys():  # noqa: SIM118
                     self[key] = other[key]
             except AttributeError:
                 # Expecting an iterable
@@ -644,7 +641,7 @@ class NocaseDict(MutableMapping):
         result._data = self._data.copy()  # pylint: disable=protected-access
         return result
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any) -> bool:  # noqa: PYI032
         """
         Return a boolean indicating whether the dictionary and the other
         dictionary are equal, by matching items (case-insensitively) based on
@@ -672,7 +669,7 @@ class NocaseDict(MutableMapping):
                 return False  # not comparable -> considered not equal
         return len(self) == len(other)
 
-    def __ne__(self, other: Any) -> bool:
+    def __ne__(self, other: Any) -> bool:  # noqa: PYI032
         """
         Return a boolean indicating whether the dictionary and the other
         dictionary are not equal, by negating the equality test.
@@ -737,7 +734,7 @@ class NocaseDict(MutableMapping):
         result.update(self)
         return result
 
-    def __ior__(self, other: Any) -> 'NocaseDict':
+    def __ior__(self, other: Any) -> Self:
         """
         Update the dictionary from the other dictionary.
 
