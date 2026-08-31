@@ -15,6 +15,27 @@ Change log
    .. include:: tmp_changes.rst
 
 .. towncrier start
+nocasedict 2.2.1
+----------------
+
+Released: 2026-08-31
+
+**Bug fixes:**
+
+* Fixed safety issues up to 2026-08-23.
+
+* Dev: Fixed link to change log on GitHub release page.
+
+* Development: Tolerate premature deletion of local release/start branches.
+
+* Docs: Migrated from our own support for generating summary tables in the
+  documentation to using autodocsumm to fix an import error with Sphinx 9.
+
+**Cleanup:**
+
+* Development: Upgraded GitHub Actions plugins to versions that use node.js 24.
+
+
 nocasedict 2.2.0
 ----------------
 
