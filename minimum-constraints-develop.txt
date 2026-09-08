@@ -103,11 +103,12 @@ importlib-metadata==4.8.3
 mypy==1.17.1
 
 # Package dependency management tools
-pipdeptree==2.24.0
-pip-check-reqs==2.5.1
+pipdeptree==2.28.0
+pip-check-reqs==2.5.6; python_version == '3.9'
+pip-check-reqs==3.0.0; python_version >= '3.10'
 
 # packaging (used by pytest, safety)
-packaging==24.2
+packaging==26.2
 
 # pytz (used by TBD)
 pytz==2019.1
