@@ -52,20 +52,20 @@ security:
             reason: Fixed requests version 2.33.0 requires Python>=3.10 and is used there
         96886:
             reason: Fixed urllib3 version 2.7.0 requires Python>=3.10 and is used there
-        SFTY-20260218-01424:
-            reason: Fixed nltk version 3.9.3 requires Python>=3.10 and is used there
         SFTY-20260122-20373:
             reason: Fixed pytest version 9.0.3 requires Python>=3.10 and is used there
-        SFTY-20260318-30374:
+        SFTY-20260218-01424:
             reason: Fixed nltk version 3.9.3 requires Python>=3.10 and is used there
-        SFTY-20260511-47957:
-          reason: Fixed urllib3 version 2.7.0 requires Python>=3.10 and is used there
         SFTY-20260304-49322:
             reason: Fixed nltk version 3.9.3 requires Python>=3.10 and is used there
         SFTY-20260309-65600:
             reason: Fixed nltk version 3.9.3 requires Python>=3.10 and is used there
+        SFTY-20260318-30374:
+            reason: Fixed nltk version 3.9.3 requires Python>=3.10 and is used there
         SFTY-20260320-58622:
             reason: Fixed nltk version 3.9.4 requires Python>=3.10 and is used there
+        SFTY-20260511-47957:
+          reason: Fixed urllib3 version 2.7.0 requires Python>=3.10 and is used there
         SFTY-20260616-58930:
             reason: Fixed nltk version 3.10.0 requires Python>=3.10 and is used there
         SFTY-20260725-27090:
@@ -77,6 +77,8 @@ security:
         SFTY-20260731-78787:
             reason: Fixed nltk version 3.10.0 requires Python>=3.10 and is used there
         SFTY-20260731-83123:
+            reason: Fixed nltk version 3.10.0 requires Python>=3.10 and is used there
+        SFTY-20260813-62140:
             reason: Fixed nltk version 3.10.0 requires Python>=3.10 and is used there
 
     # Continue with exit code 0 when vulnerabilities are found.
