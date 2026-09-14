@@ -1,0 +1,1 @@
+Added Ruff checker and fixed all issues it found.

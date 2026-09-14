@@ -157,6 +157,9 @@ mypy_opts := --follow-imports skip
 # Flake8 config file
 flake8_rc_file := .flake8
 
+# Ruff config file
+ruff_rc_file := .ruff.toml
+
 # Safety policy files
 safety_install_policy_file := .safety-policy-install.yml
 safety_develop_policy_file := .safety-policy-develop.yml
@@ -219,6 +222,7 @@ help:
 	@echo "  build      - Build the distribution archive files in: $(dist_dir)"
 	@echo "  builddoc   - Build documentation in: $(doc_build_dir)"
 	@echo "  check      - Run Flake8 on Python sources"
+	@echo "  ruff       - Run Ruff (an alternate lint tool) on sources"
 	@echo "  pylint     - Run PyLint on Python sources"
 	@echo "  mypy       - Run Mypy on Python sources"
 	@echo "  safety     - Run safety on Python sources"
@@ -313,6 +317,10 @@ builddoc: $(doc_build_dir)/html/docs/index.html
 check: $(done_dir)/flake8_$(pymn)_$(PACKAGE_LEVEL).done
 	@echo "Makefile: $@ done."
 
+.PHONY: ruff
+ruff: $(done_dir)/ruff_$(pymn)_$(PACKAGE_LEVEL).done
+	@echo "Makefile: $@ done."
+
 .PHONY: pylint
 pylint: $(done_dir)/pylint_$(pymn)_$(PACKAGE_LEVEL).done
 	@echo "Makefile: $@ done."
@@ -322,7 +330,7 @@ mypy: $(done_dir)/mypy_$(pymn)_$(PACKAGE_LEVEL).done
 	@echo "Makefile: $@ done."
 
 .PHONY: all
-all: install develop check_reqs build builddoc check pylint mypy installtest test testdict doclinkcheck authors
+all: install develop check_reqs build builddoc check ruff pylint mypy installtest test testdict doclinkcheck authors
 	@echo "Makefile: $@ done."
 
 .PHONY: release_branch
@@ -431,6 +439,7 @@ clean:
 	@echo "Makefile: Removing temporary build products"
 	find . -type f -name '*.pyc' -delete
 	find . -type d -name '__pycache__' | xargs -n 1 rm -rf
+	find . -type d -name '.ruff_cache' | xargs -n 1 rm -rf
 	find . -type f -name '*~' -delete
 	find . -type f -name '.*~' -delete
 	rm -f MANIFEST MANIFEST.in parser.out .coverage $(package_name)/parser.out
@@ -540,6 +549,14 @@ $(done_dir)/flake8_$(pymn)_$(PACKAGE_LEVEL).done: $(done_dir)/develop_$(pymn)_$(
 	flake8 --version
 	flake8 --statistics --config=$(flake8_rc_file) --filename='*' $(check_py_files)
 	@echo "Makefile: Done running Flake8"
+	echo "done" >$@
+
+$(done_dir)/ruff_$(pymn)_$(PACKAGE_LEVEL).done: $(done_dir)/develop_$(pymn)_$(PACKAGE_LEVEL).done Makefile $(ruff_rc_file) $(check_py_files)
+	@echo "Makefile: Running Ruff"
+	rm -f $@
+	ruff --version
+	ruff check --config $(ruff_rc_file) $(check_py_files)
+	@echo "Makefile: Done running Ruff"
 	echo "done" >$@
 
 $(done_dir)/pylint_$(pymn)_$(PACKAGE_LEVEL).done: $(done_dir)/develop_$(pymn)_$(PACKAGE_LEVEL).done Makefile $(pylint_rc_file) $(check_py_files)

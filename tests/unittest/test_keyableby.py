@@ -88,22 +88,22 @@ TESTCASES_KEYABLEBYMIXIN_INIT = [
 
     (
         "Iterable with two keyable objects",
-        dict(
-            ncd_class=MyKey_NocaseDict,
-            init_arg=[MyKey_Object('Dog'), MyKey_Object('Cat')],
-            exp_tuples=[('Dog', MyKey_Object('Dog')),
-                        ('Cat', MyKey_Object('Cat'))]
-        ),
+        {
+            'ncd_class': MyKey_NocaseDict,
+            'init_arg': [MyKey_Object('Dog'), MyKey_Object('Cat')],
+            'exp_tuples': [('Dog', MyKey_Object('Dog')),
+                           ('Cat', MyKey_Object('Cat'))]
+        },
         None, None, True
     ),
     (
         "Iterable with one key,value tuple and one keyable object",
-        dict(
-            ncd_class=MyKey_NocaseDict,
-            init_arg=[('Dog', 42), MyKey_Object('Cat')],
-            exp_tuples=[('Dog', 42),
-                        ('Cat', MyKey_Object('Cat'))]
-        ),
+        {
+            'ncd_class': MyKey_NocaseDict,
+            'init_arg': [('Dog', 42), MyKey_Object('Cat')],
+            'exp_tuples': [('Dog', 42),
+                           ('Cat', MyKey_Object('Cat'))]
+        },
         None, None, True
     ),
 ]
