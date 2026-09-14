@@ -381,7 +381,7 @@ class NocaseDict(MutableMapping):
         return reversed(self.keys())
 
     @classmethod
-    def fromkeys(cls, iterable, value=None) -> 'NocaseDict':
+    def fromkeys(cls, iterable, value=None) -> Self:
         """
         Return a new :class:`NocaseDict` object with keys from the specified
         iterable of keys, and values all set to the specified value.
@@ -507,7 +507,7 @@ class NocaseDict(MutableMapping):
 
         Invoked when using: ``for key in ncd``
         """
-        for k in self._data:
+        for k in self._data:  # pylint: disable=consider-using-dict-items
             yield self._data[k][0]
 
     # Other stuff
@@ -624,7 +624,7 @@ class NocaseDict(MutableMapping):
         """
         self._data.clear()
 
-    def copy(self) -> 'NocaseDict':
+    def copy(self) -> Self:
         """
         Return a copy of the dictionary.
 
@@ -637,7 +637,7 @@ class NocaseDict(MutableMapping):
         :func:`py:copy.deepcopy` can be used to create completely shallow or
         completely deep copies of objects of this class.
         """
-        result = NocaseDict()
+        result = type(self)()
         result._data = self._data.copy()  # pylint: disable=protected-access
         return result
 
@@ -706,9 +706,10 @@ class NocaseDict(MutableMapping):
     def __le__(self, other: Any) -> NoReturn:
         self._raise_ordering_not_supported(other, '<=')
 
-    def __or__(self, other: Any) -> 'NocaseDict':
+    def __or__(self, other: Any) -> Self:
         """
-        Return the union of this dictionary and the other dictionary.
+        Return the union of this dictionary (or a subclass) and the other
+        dictionary.
 
         This operation is not commutative: If a key from the other dictionary
         is already present in this dictionary (looked up case-insensitively),
@@ -725,12 +726,12 @@ class NocaseDict(MutableMapping):
         Raises:
           AttributeError: The key does not have the casefold method.
         """
-        result = NocaseDict(self)
+        result = type(self)(self)
         result.update(other)
         return result
 
-    def __ror__(self, other: Any) -> 'NocaseDict':
-        result = NocaseDict(other)
+    def __ror__(self, other: Any) -> Self:
+        result = type(self)(other)
         result.update(self)
         return result
 
